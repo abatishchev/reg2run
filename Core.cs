@@ -15,19 +15,9 @@ namespace Reg2Run
 {
 	static class Core
 	{
-		//TODO:
-		static Context context;
 		static ParameterContainer container;
 
 		static string copyright, title;
-
-		#region Enums
-		public enum Context
-		{
-			Console,
-			Windows
-		}
-		#endregion
 
 		#region Properties
 		public static string ApplicationCopyright
@@ -82,27 +72,17 @@ namespace Reg2Run
 
 		}
 
-		public static Context CurrentContext
+		public static bool IsConsole
 		{
-			get
-			{
-				return context;
-			}
 			set
 			{
-				context = value;
-				switch (context)
+				if (value)
 				{
-					case Context.Console:
-						{
-							//ManualConsole.Create();
-							break;
-						}
-					case Context.Windows:
-						{
-							//ManualConsole.Hide();
-							break;
-						}
+					ManualConsole.Create();
+				}
+				else
+				{
+					//ManualConsole.Hide();
 				}
 			}
 		}

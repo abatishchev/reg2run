@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{88F4B783-3F65-43C2-BE95-226B595C0A87}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Reg2Run</RootNamespace>
     <AssemblyName>Reg2Run</AssemblyName>
@@ -41,7 +41,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Console.cs" />
+    <Compile Include="ManualConsole.cs" />
     <Compile Include="ConsoleStub.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Errors.cs" />

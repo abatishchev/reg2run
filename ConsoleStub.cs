@@ -19,8 +19,7 @@ namespace Reg2Run
 			Core.Init();
 			if (args.Length == 0)
 			{
-				//TODO:
-				Core.CurrentContext = Core.Context.Windows;
+				Core.IsConsole = false;
 				try
 				{
 					OpenFileDialog dialog = new OpenFileDialog();
@@ -67,8 +66,7 @@ namespace Reg2Run
 			}
 			else
 			{
-				//TODO:
-				Core.CurrentContext = Core.Context.Console;
+				Core.IsConsole = true;
 				if (args.Length >= 1 & args.Length <= 7)
 				{
 					Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion));
