@@ -21,20 +21,10 @@ namespace Reg2Run.Errors
 
 	#region Parameters
 	[Serializable]
-	public class ParameterAlreadySetException : ParameterException
-	{
-		public ParameterAlreadySetException(ParameterRole role) :
-			base(String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was already specified", Core.ParameterContainer[role].Name))
-		{
-			//
-		}
-	}
-
-	[Serializable]
 	public class ParameterMissedException : ParameterException
 	{
-		public ParameterMissedException(ParameterRole role)
-			: base(String.Format(CultureInfo.CurrentCulture, "Value for required parameter '{0}' was not specified", Core.ParameterContainer[role].Name))
+		public ParameterMissedException(string name)
+			: base(String.Format(CultureInfo.CurrentCulture, "Value for required parameter '{0}' was not specified", name))
 		{
 			//
 		}
@@ -43,8 +33,8 @@ namespace Reg2Run.Errors
 	[Serializable]
 	public class ParameterNotSetException : ParameterException
 	{
-		public ParameterNotSetException(ParameterRole role)
-			: base(String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", Core.ParameterContainer[role].Name))
+		public ParameterNotSetException(string name)
+			: base(String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", name))
 		{
 			//
 		}

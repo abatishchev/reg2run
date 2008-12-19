@@ -15,7 +15,6 @@ namespace Reg2Run
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Core.Init();
 			if (args.Length == 0)
 			{
 				Core.IsConsole = false;
@@ -75,7 +74,7 @@ namespace Reg2Run
 					{
 						Core.ParameterContainer.Parse(args);
 
-						object tempUsage = Core.ParameterContainer.ReadParameter(ParameterRole.Usage);
+						object tempUsage = Core.ParameterContainer[ParameterRole.Usage];
 						if (tempUsage != null && (bool)tempUsage)
 						{
 							PrintUsage();
@@ -119,14 +118,19 @@ namespace Reg2Run
 
 		static void PrintUsage()
 		{
-			Console.WriteLine("Usage: reg2run [-r [PARAM]] [-n NAME] [-w DIR] -p PATH");
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Usage: reg2run -p PATH [-n NAME] [-w DIR] [-r [PARAM]] | -? | -s"));
 			Console.WriteLine();
 			Console.WriteLine("Options:");
-
-			foreach (Parameter p in Core.ParameterContainer.Values)
-			{
-				Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", p.ArgumentSwitch, p.Description));
-			}
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-?", "Print usage help"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-p", "Add file located in PATH to the registry"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-n", "Save under given NAME"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-w", "Set working directory to DIR"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-r", "Run file after import with PARAM as argument"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-s", "Add tool itself to the registry"));
+			Console.WriteLine();
+			Console.WriteLine("Remarks:");
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' must be specified at the end."));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "If parameter '-?' or '-s' is specified, all other would be ignored"));
 		}
 	}
 }

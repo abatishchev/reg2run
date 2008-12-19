@@ -6,9 +6,13 @@ Reg2Run Tool Changelog
 [+] -r parameter now can be set either as flag and value.
 Flag indicates to start specified application on successful import; value will be passed as argument to starting application.
 
-[~] Command line arguments parsing moved to ParameterContainer.Parse()
-[~] Reading parameter's value by role moved to ParameterContainer.ReadParameter()
-[~] ImportObject creation based on given parameters moved to static ImportObject.Parse()
+[~] Command line arguments parsing is moved to ParameterContainer.Parse()
+[~] Reading parameter's value by role is moved to ParameterContainer.ReadParameter()
+[~] ImportObject creation based on given parameters is moved to static ImportObject.Parse()
+[~] Parameters name and description are removed from constructor
+
+[-] ParameterContainer now is a Dictionary<ParameterROle, object>
+[-] Removed all Parameter and all inherited classes
 
 2.0.1.0 (2008.12.13)
 

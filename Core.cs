@@ -13,7 +13,7 @@ namespace Reg2Run
 {
 	abstract class Core
 	{
-		static ParameterContainer container;
+		static ParameterContainer container = new ParameterContainer();
 
 		static string copyright, title;
 
@@ -95,17 +95,6 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		public static void Init()
-		{
-			container = new ParameterContainer();
-			container.AddParameter(new FileNameParameter());
-			container.AddParameter(new FilePathParameter());
-			container.AddParameter(new FileWorkingDiretoryParameter());
-			container.AddParameter(new RunParameter());
-			container.AddParameter(new SelfParameter());
-			container.AddParameter(new UsageParameter());
-		}
-
 		public static void Import(ImportObject obj)
 		{
 			RegistryKey registry = Registry.LocalMachine
