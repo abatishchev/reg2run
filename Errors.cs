@@ -72,8 +72,8 @@ namespace Reg2Run.Errors
 
 	public class ExternalCallException : Exception
 	{
-		public ExternalCallException(string method)
-			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while call of external method '{0}' ", method))
+		public ExternalCallException(string name)
+			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while call of external method '{0}' ", name))
 		{
 			//			
 		}
@@ -88,10 +88,10 @@ namespace Reg2Run.Errors
 		}
 	}
 
-	public class NotExecatableExecption : Exception
+	public class NotExecutableExecption : Exception
 	{
-		public NotExecatableExecption(string file)
-			: base(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' is not an executable", file))
+		public NotExecutableExecption(string name)
+			: base(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' is not an executable", name))
 		{
 			//
 		}
