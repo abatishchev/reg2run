@@ -88,6 +88,7 @@ namespace Reg2Run
 					return;
 				}
 			}
+			Console.ReadKey(true);
 		}
 
 		static void ProcessParameters()
