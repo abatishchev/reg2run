@@ -103,29 +103,26 @@ namespace Reg2Run
 		public static ImportObject Parse(ParameterContainer container)
 		{
 			string path = container[ParameterRole.FilePath] as string;
-			if (String.IsNullOrEmpty(path))
+			if (!String.IsNullOrEmpty(path))
 			{
-				if (path != null)
+				try
 				{
-					try
+					FileInfo info = new FileInfo(path);
+					if (info.Exists)
 					{
-						FileInfo info = new FileInfo(path);
-						if (info.Exists)
+						if (!String.Equals(info.Extension, ".exe"))
 						{
-							if (!String.Equals(info.Extension, ".exe"))
-							{
-								throw new NotExecutableException(path);
-							}
-						}
-						else
-						{
-							throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+							throw new NotExecutableException(path);
 						}
 					}
-					catch (ArgumentException)
+					else
 					{
 						throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
 					}
+				}
+				catch (ArgumentException)
+				{
+					throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
 				}
 			}
 			else

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using Reg2Run.Errors;
 
@@ -19,6 +20,18 @@ namespace Reg2Run.Parameters
 
 	class ParameterContainer : Dictionary<ParameterRole, object>
 	{
+		#region Operators
+		public new object this[ParameterRole role]
+		{
+			get
+			{
+				object value;
+				this.TryGetValue(role, out value);
+				return value;
+			}
+		}
+		#endregion
+
 		#region Methods
 		public void Parse(string[] args)
 		{
