@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Reg2Run</RootNamespace>
-    <AssemblyName>Reg2Run</AssemblyName>
+    <AssemblyName>reg2run</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>Reg2Run.ConsoleStub</StartupObject>
