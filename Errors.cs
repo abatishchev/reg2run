@@ -2,12 +2,15 @@
 
 using System;
 using System.Globalization;
+using System.Security.Permissions;
+using System.Runtime.Serialization;
 
 using Reg2Run.Parameters;
 
 namespace Reg2Run.Errors
 {
-	public abstract class ParameterException : Exception
+	[Serializable]
+	public class ParameterException : Exception
 	{
 		public ParameterException(string message)
 			: base(message)
@@ -17,6 +20,7 @@ namespace Reg2Run.Errors
 	}
 
 	#region Parameters
+	[Serializable]
 	public class ParameterAlreadySetException : ParameterException
 	{
 		public ParameterAlreadySetException(ParameterRole role) :
@@ -26,6 +30,7 @@ namespace Reg2Run.Errors
 		}
 	}
 
+	[Serializable]
 	public class ParameterMissedException : ParameterException
 	{
 		public ParameterMissedException(ParameterRole role)
@@ -35,6 +40,7 @@ namespace Reg2Run.Errors
 		}
 	}
 
+	[Serializable]
 	public class ParameterNotSetException : ParameterException
 	{
 		public ParameterNotSetException(ParameterRole role)
@@ -44,22 +50,37 @@ namespace Reg2Run.Errors
 		}
 	}
 
+	[Serializable]
 	public class UnknownParameterException : Exception
 	{
 		string parameterName;
 
-		public UnknownParameterException(string param)
+		public UnknownParameterException(string name)
 			: base("Unknown parameter '{0}' was specified")
 		{
-			this.parameterName = param;
+			this.parameterName = name;
 		}
 
 		public string ParameterName
 		{
 			get { return parameterName; }
 		}
+
+		[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			if (ParameterName != null)
+			{
+				info.AddValue("name", ParameterName);
+			}
+			else
+			{
+				throw new ArgumentNullException("name");
+			}
+		}
 	}
 
+	[Serializable]
 	public class TooManyParametersException : Exception
 	{
 		public TooManyParametersException()
@@ -70,6 +91,7 @@ namespace Reg2Run.Errors
 	}
 	#endregion
 
+	[Serializable]
 	public class ExternalCallException : Exception
 	{
 		public ExternalCallException(string name)
@@ -79,6 +101,7 @@ namespace Reg2Run.Errors
 		}
 	}
 
+	[Serializable]
 	public class ImportCanceledException : Exception
 	{
 		public ImportCanceledException()
@@ -88,9 +111,10 @@ namespace Reg2Run.Errors
 		}
 	}
 
-	public class NotExecutableExecption : Exception
+	[Serializable]
+	public class NotExecutableException : Exception
 	{
-		public NotExecutableExecption(string name)
+		public NotExecutableException(string name)
 			: base(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' is not an executable", name))
 		{
 			//

@@ -13,7 +13,7 @@ using Reg2Run.Parameters;
 
 namespace Reg2Run
 {
-	static class Core
+	abstract class Core
 	{
 		static ParameterContainer container;
 
@@ -78,11 +78,11 @@ namespace Reg2Run
 			{
 				if (value)
 				{
-					ManualConsole.Create();
+					//ManualConsole.Create();
 				}
 				else
 				{
-					//ManualConsole.Hide();
+					ManualConsole.Hide();
 				}
 			}
 		}

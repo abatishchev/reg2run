@@ -16,16 +16,9 @@ namespace Reg2Run.Parameters
 		Usage
 	}
 
-	public enum ParameterType
-	{
-		Flag,
-		Value
-	}
-
 	public abstract class Parameter
 	{
 		ParameterRole role;
-		ParameterType type;
 
 		string name, description, argumentSwitch;
 		object value;
@@ -33,13 +26,11 @@ namespace Reg2Run.Parameters
 		#region Constructor
 		protected Parameter(
 			ParameterRole role,
-			ParameterType type,
 			string name,
 			string description,
 			string argumentSwitch)
 		{
 			this.role = role;
-			this.type = type;
 			this.name = name;
 			this.description = description;
 			this.argumentSwitch = argumentSwitch;
@@ -72,11 +63,6 @@ namespace Reg2Run.Parameters
 			get { return this.role; }
 		}
 
-		public ParameterType Type
-		{
-			get { return type; }
-		}
-
 		public object Value
 		{
 			get { return this.value; }
@@ -91,7 +77,6 @@ namespace Reg2Run.Parameters
 		public FileNameParameter()
 			: base(
 			ParameterRole.FileName,
-			ParameterType.Value,
 			"Name",
 			"Save under given NAME",
 			"-n"
@@ -106,7 +91,6 @@ namespace Reg2Run.Parameters
 		public FilePathParameter()
 			: base(
 			ParameterRole.FilePath,
-			ParameterType.Value,
 			"Path",
 			"Add file located in PATH to the registry",
 			"-p"
@@ -116,11 +100,10 @@ namespace Reg2Run.Parameters
 		}
 	}
 
-	class FileWorkingDiretoryParameter : Parameter 
+	class FileWorkingDiretoryParameter : Parameter
 	{
-		public FileWorkingDiretoryParameter() 
+		public FileWorkingDiretoryParameter()
 			: base(ParameterRole.FileWorkingDir,
-			ParameterType.Value,
 			"Working directory",
 			"Set working directory to DIR",
 			"-w")
@@ -134,7 +117,6 @@ namespace Reg2Run.Parameters
 		public RunParameter()
 			: base(
 			ParameterRole.Run,
-			ParameterType.Flag,
 			"Run",
 			"Run file after import",
 			"-r"
@@ -149,7 +131,6 @@ namespace Reg2Run.Parameters
 		public SelfParameter()
 			: base(
 			ParameterRole.Self,
-			ParameterType.Flag,
 			"Self",
 			"Add tool itself to the registry",
 			"-s"
@@ -164,7 +145,6 @@ namespace Reg2Run.Parameters
 		public UsageParameter()
 			: base(
 			ParameterRole.Usage,
-			ParameterType.Flag,
 			"Help",
 			"Print usage help",
 			"-?"

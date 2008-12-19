@@ -67,7 +67,7 @@ namespace Reg2Run
 			else
 			{
 				Core.IsConsole = true;
-				if (args.Length >= 1 & args.Length <= 7)
+				if (args.Length >= 1 & args.Length <= 8)
 				{
 					Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion));
 					Console.WriteLine(Core.ApplicationCopyright);
@@ -94,37 +94,35 @@ namespace Reg2Run
 		static void ProcessParameters()
 		{
 			ImportObject obj = null;
-			object temp = null;
 
 			bool self = false;
-			bool run = false;
+			bool runFlag = false;
+			string runArg = null;
 
-			temp = ReadParameter(ParameterRole.Usage);
-			if (temp != null)
+			object tempUsage = ReadParameter(ParameterRole.Usage);
+			if (tempUsage != null)
 			{
-				bool showUsage = (bool)temp;
-				if (showUsage)
+				if ((bool)tempUsage)
 				{
 					PrintUsage();
 					return;
 				}
 			}
 
-			temp = ReadParameter(ParameterRole.Self);
-			if (temp != null)
+			object tempSelf = ReadParameter(ParameterRole.Self);
+			if (tempSelf != null)
 			{
-				self = (bool)temp;
+				self = (bool)tempSelf;
 				obj = new ImportObject(Core.Assembly.Location);
 			}
 
 			if (!self)
 			{
-				temp = ReadParameter(ParameterRole.FilePath);
-				if (temp != null && !String.IsNullOrEmpty((string)temp))
+				string path = ReadParameter(ParameterRole.FilePath) as string;
+				if (path != null)
 				{
 					if (!self)
 					{
-						string path = (string)temp;
 						try
 						{
 							FileInfo info = new FileInfo(path);
@@ -136,7 +134,7 @@ namespace Reg2Run
 								}
 								else
 								{
-									throw new NotExecatableExecption(path);
+									throw new NotExecutableException(path);
 								}
 							}
 							else
@@ -150,50 +148,51 @@ namespace Reg2Run
 						}
 					}
 
-					temp = ReadParameter(ParameterRole.FileName);
-					if (temp != null)
+					string name = ReadParameter(ParameterRole.FileName) as string;
+					if (name != null)
 					{
-						string name = (string)temp;
 						if (String.IsNullOrEmpty(new FileInfo(name).Extension))
 						{
 							name = name + ".exe";
 						}
 						else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
 						{
-							throw new NotExecatableExecption(name);
+							throw new NotExecutableException(name);
 						}
 						obj.NewName = name;
 					}
 
-					temp = ReadParameter(ParameterRole.FileWorkingDir);
+					string dir = ReadParameter(ParameterRole.FileWorkingDir) as string;
+					if (dir != null)
 					{
-						if (temp != null)
+						try
 						{
-							string dir = (string)temp;
-							try
+							DirectoryInfo info = new DirectoryInfo(dir);
+							if (info.Exists)
 							{
-								DirectoryInfo info = new DirectoryInfo(dir);
-								if (info.Exists)
-								{
-									obj.WorkingDirectory = info.FullName;
-								}
-								else
-								{
-									throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-
-								}
+								obj.WorkingDirectory = info.FullName;
 							}
-							catch (ArgumentException)
+							else
 							{
 								throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
+
 							}
+						}
+						catch (ArgumentException)
+						{
+							throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
 						}
 					}
 
-					temp = ReadParameter(ParameterRole.Run);
-					if (temp != null)
+					object tempRun = ReadParameter(ParameterRole.Run);
+					runArg = tempRun as string;
+					if (runArg != null)
 					{
-						run = (bool)temp;
+						runFlag = true;
+					}
+					else if (tempRun is bool)
+					{
+						runFlag = (bool)tempRun;
 					}
 				}
 				else
@@ -208,10 +207,10 @@ namespace Reg2Run
 					Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FileName));
 					Core.Import(obj);
 					Console.WriteLine("Done!");
-					if (run)
+					if (runFlag)
 					{
 						Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FileName));
-						Process.Start(obj.FullPath);
+						Process.Start(obj.FullPath, runArg);
 					}
 				}
 				catch (Exception ex)
@@ -226,31 +225,73 @@ namespace Reg2Run
 		{
 			for (int i = 0; i < args.Length; i++)
 			{
-				foreach (Parameter p in Core.ParameterContainer.Values)
+				string arg = args[i];
+				switch (arg)
 				{
-					if (String.Equals(args[i], p.ArgumentSwitch))
-					{
-						switch (p.Type)
+					case "-?":
 						{
-							case ParameterType.Flag:
-								{
-									Core.ParameterContainer[p.Role].Value = true;
-									break;
-								}
-							case ParameterType.Value:
-								{
-									try
-									{
-										Core.ParameterContainer[p.Role].Value = args.GetValue(++i);
-									}
-									catch (IndexOutOfRangeException)
-									{
-										throw new ParameterNotSetException(p.Role);
-									}
-									break;
-								}
+							Core.ParameterContainer[ParameterRole.Usage].Value = true;
+							break;
 						}
-					}
+					case "-n":
+						{
+							try
+							{
+								Core.ParameterContainer[ParameterRole.FileName].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FileName);
+							}
+							break;
+						}
+					case "-p":
+						{
+							try
+							{
+								Core.ParameterContainer[ParameterRole.FilePath].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FilePath);
+							}
+							break;
+						}
+					case "-r":
+						{
+							object run;
+							try
+							{
+								run = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								run = true;
+							}
+							Core.ParameterContainer[ParameterRole.Run].Value = run;
+							break;
+						}
+					case "-s":
+						{
+							Core.ParameterContainer[ParameterRole.Self].Value = true;
+							break;
+						}
+					case "-w":
+						{
+							try
+							{
+								Core.ParameterContainer[ParameterRole.FileWorkingDir].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FileWorkingDir);
+							}
+							break;
+						}
+					default:
+						{
+							throw new UnknownParameterException(arg);
+						}
 				}
 			}
 		}
@@ -267,7 +308,7 @@ namespace Reg2Run
 
 		static void PrintUsage()
 		{
-			Console.WriteLine("Usage: reg2run [-r] [-n NAME] [-w DIR] -p PATH");
+			Console.WriteLine("Usage: reg2run [-r [PARAM]] [-n NAME] [-w DIR] -p PATH");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
 			foreach (Parameter p in Core.ParameterContainer.Values)

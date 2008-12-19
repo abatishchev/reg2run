@@ -1,5 +1,15 @@
 Reg2Run Tool Changelog
 
-2.0.1.0 (13.12.2008)
+2.0.2.0 (-)
+
+[+] Exception serialization
+[+] -r parameter now can be set either as flag and value.
+Flag indicates to start specified application on successful import; value will be passed as argument to starting application.
+
+[~] External DllImport call of Process32First replaced with managed alternative
+
+[-] Removed unsued external DllImport calls
+
+2.0.1.0 (2008.12.13)
 
 [+] Initial public release
