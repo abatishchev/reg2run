@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using Reg2Run.Errors;
+
 namespace Reg2Run.Parameters
 {
 	public enum ParameterRole
@@ -186,6 +188,91 @@ namespace Reg2Run.Parameters
 		public bool Contains(ParameterRole role)
 		{
 			return Dictionary.Contains(role);
+		}
+
+		public void Parse(string[] args)
+		{
+			for (int i = 0; i < args.Length; i++)
+			{
+				string arg = args[i];
+				switch (arg)
+				{
+					case "-?":
+						{
+							this[ParameterRole.Usage].Value = true;
+							break;
+						}
+					case "-n":
+						{
+							try
+							{
+								this[ParameterRole.FileName].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FileName);
+							}
+							break;
+						}
+					case "-p":
+						{
+							try
+							{
+								this[ParameterRole.FilePath].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FilePath);
+							}
+							break;
+						}
+					case "-r":
+						{
+							object run;
+							try
+							{
+								run = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								run = true;
+							}
+							this[ParameterRole.Run].Value = run;
+							break;
+						}
+					case "-s":
+						{
+							this[ParameterRole.Self].Value = true;
+							break;
+						}
+					case "-w":
+						{
+							try
+							{
+								this[ParameterRole.FileWorkingDir].Value = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException(ParameterRole.FileWorkingDir);
+							}
+							break;
+						}
+					default:
+						{
+							throw new UnknownParameterException(arg);
+						}
+				}
+			}
+		}
+
+		public object ReadParameter(ParameterRole role)
+		{
+			object value = null;
+			if (this.Contains(role))
+			{
+				value = this[role].Value;
+			}
+			return value;
 		}
 		#endregion
 	}

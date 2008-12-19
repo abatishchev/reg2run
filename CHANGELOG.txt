@@ -6,9 +6,8 @@ Reg2Run Tool Changelog
 [+] -r parameter now can be set either as flag and value.
 Flag indicates to start specified application on successful import; value will be passed as argument to starting application.
 
-[~] External DllImport call of Process32First replaced with managed alternative
-
-[-] Removed unsued external DllImport calls
+[~] Reading parameter's value by role moved to ParameterContainer.ReadParameter()
+[~] ImportObject creation based on given parameters moved to static ImportObject.Parse()
 
 2.0.1.0 (2008.12.13)
 

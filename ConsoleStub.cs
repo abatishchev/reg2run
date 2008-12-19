@@ -41,7 +41,7 @@ namespace Reg2Run
 							{
 								ImportObject obj = new ImportObject(dialog.FileName);
 								dialog.Dispose();
-								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullName), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 								if (result == DialogResult.Yes)
 								{
 									Core.Import(obj);
@@ -74,8 +74,38 @@ namespace Reg2Run
 					Console.WriteLine();
 					try
 					{
-						ReadParameters(args);
-						ProcessParameters();
+
+						object tempUsage = Core.ParameterContainer.ReadParameter(ParameterRole.Usage);
+						if (tempUsage != null)
+						{
+							if ((bool)tempUsage)
+							{
+								PrintUsage();
+								return;
+							}
+						}
+
+						Core.ParameterContainer.Parse(args);
+						ImportObject obj = ImportObject.Parse();
+						if (obj != null)
+						{
+							try
+							{
+								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FileName));
+								Core.Import(obj);
+								Console.WriteLine("Done!");
+								if (obj.Run)
+								{
+									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FileName));
+									Process.Start(obj.FullName, obj.RunArg);
+								}
+							}
+							catch (Exception ex)
+							{
+								Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Error! '{0}'..", ex.Message));
+								return;
+							}
+						}
 					}
 					catch (Exception ex)
 					{
@@ -88,222 +118,7 @@ namespace Reg2Run
 					return;
 				}
 			}
-			Console.ReadKey(true);
-		}
-
-		static void ProcessParameters()
-		{
-			ImportObject obj = null;
-
-			bool self = false;
-			bool runFlag = false;
-			string runArg = null;
-
-			object tempUsage = ReadParameter(ParameterRole.Usage);
-			if (tempUsage != null)
-			{
-				if ((bool)tempUsage)
-				{
-					PrintUsage();
-					return;
-				}
-			}
-
-			object tempSelf = ReadParameter(ParameterRole.Self);
-			if (tempSelf != null)
-			{
-				self = (bool)tempSelf;
-				obj = new ImportObject(Core.Assembly.Location);
-			}
-
-			if (!self)
-			{
-				string path = ReadParameter(ParameterRole.FilePath) as string;
-				if (path != null)
-				{
-					if (!self)
-					{
-						try
-						{
-							FileInfo info = new FileInfo(path);
-							if (info.Exists)
-							{
-								if (String.Equals(info.Extension, ".exe"))
-								{
-									obj = new ImportObject(path);
-								}
-								else
-								{
-									throw new NotExecutableException(path);
-								}
-							}
-							else
-							{
-								throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
-							}
-						}
-						catch (ArgumentException)
-						{
-							throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
-						}
-					}
-
-					string name = ReadParameter(ParameterRole.FileName) as string;
-					if (name != null)
-					{
-						if (String.IsNullOrEmpty(new FileInfo(name).Extension))
-						{
-							name = name + ".exe";
-						}
-						else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
-						{
-							throw new NotExecutableException(name);
-						}
-						obj.NewName = name;
-					}
-
-					string dir = ReadParameter(ParameterRole.FileWorkingDir) as string;
-					if (dir != null)
-					{
-						try
-						{
-							DirectoryInfo info = new DirectoryInfo(dir);
-							if (info.Exists)
-							{
-								obj.WorkingDirectory = info.FullName;
-							}
-							else
-							{
-								throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-
-							}
-						}
-						catch (ArgumentException)
-						{
-							throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-						}
-					}
-
-					object tempRun = ReadParameter(ParameterRole.Run);
-					runArg = tempRun as string;
-					if (runArg != null)
-					{
-						runFlag = true;
-					}
-					else if (tempRun is bool)
-					{
-						runFlag = (bool)tempRun;
-					}
-				}
-				else
-				{
-					throw new ParameterMissedException(ParameterRole.FilePath);
-				}
-			}
-			if (obj != null)
-			{
-				try
-				{
-					Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FileName));
-					Core.Import(obj);
-					Console.WriteLine("Done!");
-					if (runFlag)
-					{
-						Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FileName));
-						Process.Start(obj.FullPath, runArg);
-					}
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Error! '{0}'..", ex.Message));
-					return;
-				}
-			}
-		}
-
-		static void ReadParameters(string[] args)
-		{
-			for (int i = 0; i < args.Length; i++)
-			{
-				string arg = args[i];
-				switch (arg)
-				{
-					case "-?":
-						{
-							Core.ParameterContainer[ParameterRole.Usage].Value = true;
-							break;
-						}
-					case "-n":
-						{
-							try
-							{
-								Core.ParameterContainer[ParameterRole.FileName].Value = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException(ParameterRole.FileName);
-							}
-							break;
-						}
-					case "-p":
-						{
-							try
-							{
-								Core.ParameterContainer[ParameterRole.FilePath].Value = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException(ParameterRole.FilePath);
-							}
-							break;
-						}
-					case "-r":
-						{
-							object run;
-							try
-							{
-								run = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								run = true;
-							}
-							Core.ParameterContainer[ParameterRole.Run].Value = run;
-							break;
-						}
-					case "-s":
-						{
-							Core.ParameterContainer[ParameterRole.Self].Value = true;
-							break;
-						}
-					case "-w":
-						{
-							try
-							{
-								Core.ParameterContainer[ParameterRole.FileWorkingDir].Value = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException(ParameterRole.FileWorkingDir);
-							}
-							break;
-						}
-					default:
-						{
-							throw new UnknownParameterException(arg);
-						}
-				}
-			}
-		}
-
-		static object ReadParameter(ParameterRole role)
-		{
-			object value = null;
-			if (Core.ParameterContainer.Contains(role))
-			{
-				value = Core.ParameterContainer[role].Value;
-			}
-			return value;
+			//Console.ReadKey(true);
 		}
 
 		static void PrintUsage()

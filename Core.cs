@@ -117,7 +117,7 @@ namespace Reg2Run
 				.CreateSubKey("CurrentVersion")
 				.CreateSubKey("App Paths");
 			RegistryKey key = registry.CreateSubKey(obj.NewName);
-			key.SetValue("", obj.FullPath);
+			key.SetValue("", obj.FullName);
 			key.SetValue("Path", obj.WorkingDirectory);
 			key.Flush();
 		}
