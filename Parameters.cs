@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using Reg2Run.Errors;
 
@@ -120,7 +119,7 @@ namespace Reg2Run.Parameters
 			: base(
 			ParameterRole.Run,
 			"Run",
-			"Run file after import",
+			"Run file after import with PARAM as command line argument",
 			"-r"
 			)
 		{

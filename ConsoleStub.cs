@@ -3,7 +3,6 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Windows.Forms;
 
 using Reg2Run.Errors;
@@ -74,19 +73,16 @@ namespace Reg2Run
 					Console.WriteLine();
 					try
 					{
+						Core.ParameterContainer.Parse(args);
 
 						object tempUsage = Core.ParameterContainer.ReadParameter(ParameterRole.Usage);
-						if (tempUsage != null)
+						if (tempUsage != null && (bool)tempUsage)
 						{
-							if ((bool)tempUsage)
-							{
-								PrintUsage();
-								return;
-							}
+							PrintUsage();
+							return;
 						}
 
-						Core.ParameterContainer.Parse(args);
-						ImportObject obj = ImportObject.Parse();
+						ImportObject obj = ImportObject.Parse(Core.ParameterContainer);
 						if (obj != null)
 						{
 							try
@@ -126,6 +122,7 @@ namespace Reg2Run
 			Console.WriteLine("Usage: reg2run [-r [PARAM]] [-n NAME] [-w DIR] -p PATH");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
+
 			foreach (Parameter p in Core.ParameterContainer.Values)
 			{
 				Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", p.ArgumentSwitch, p.Description));

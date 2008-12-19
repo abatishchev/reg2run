@@ -100,9 +100,9 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		public static ImportObject Parse()
+		public static ImportObject Parse(ParameterContainer container)
 		{
-			string path = Core.ParameterContainer.ReadParameter(ParameterRole.FilePath) as string;
+			string path = container.ReadParameter(ParameterRole.FilePath) as string;
 			if (String.IsNullOrEmpty(path))
 			{
 				if (path != null)
@@ -130,7 +130,7 @@ namespace Reg2Run
 			}
 			else
 			{
-				object tempSelf = Core.ParameterContainer.ReadParameter(ParameterRole.Self);
+				object tempSelf = container.ReadParameter(ParameterRole.Self);
 				if (tempSelf != null)
 				{
 					if ((bool)tempSelf)
@@ -146,7 +146,7 @@ namespace Reg2Run
 
 			ImportObject obj = new ImportObject(path);
 
-			string name = Core.ParameterContainer.ReadParameter(ParameterRole.FileName) as string;
+			string name = container.ReadParameter(ParameterRole.FileName) as string;
 			if (name != null)
 			{
 				if (String.IsNullOrEmpty(new FileInfo(name).Extension))
@@ -160,7 +160,7 @@ namespace Reg2Run
 				obj.NewName = name;
 			}
 
-			string dir = Core.ParameterContainer.ReadParameter(ParameterRole.FileWorkingDir) as string;
+			string dir = container.ReadParameter(ParameterRole.FileWorkingDir) as string;
 			if (dir != null)
 			{
 				try
@@ -182,7 +182,7 @@ namespace Reg2Run
 				}
 			}
 
-			object tempRun = Core.ParameterContainer.ReadParameter(ParameterRole.Run);
+			object tempRun = container.ReadParameter(ParameterRole.Run);
 			string runArg = tempRun as string;
 			if (runArg != null)
 			{

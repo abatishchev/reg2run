@@ -1,9 +1,7 @@
 // Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
 using Microsoft.Win32;

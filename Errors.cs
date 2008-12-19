@@ -56,7 +56,7 @@ namespace Reg2Run.Errors
 		string parameterName;
 
 		public UnknownParameterException(string name)
-			: base("Unknown parameter '{0}' was specified")
+			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name))
 		{
 			this.parameterName = name;
 		}
