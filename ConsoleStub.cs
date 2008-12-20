@@ -86,12 +86,12 @@ namespace Reg2Run
 						{
 							try
 							{
-								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FileName));
+								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullName));
 								Core.Import(obj);
 								Console.WriteLine("Done!");
 								if (obj.Run)
 								{
-									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FileName));
+									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FullName));
 									Process.Start(obj.FullName, obj.RunArg);
 								}
 							}

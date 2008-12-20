@@ -9,7 +9,8 @@ Flag indicates to start specified application on successful import; value will b
 [~] Command line arguments parsing is moved to ParameterContainer.Parse()
 [~] Reading parameter's value by role is moved to ParameterContainer.ReadParameter()
 [~] ImportObject creation based on given parameters is moved to static ImportObject.Parse()
-[~] Parameters name and description are removed from constructor
+[~] Parameters name and description are removed from class constructor
+[~] Adding and running now are commented with full path
 
 [-] ParameterContainer now is a Dictionary<ParameterROle, object>
 [-] Removed all Parameter and all inherited classes
