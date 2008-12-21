@@ -123,14 +123,13 @@ namespace Reg2Run
 			Console.WriteLine("Options:");
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-?", "Print usage help"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-p", "Add file located in PATH to the registry"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-n", "Save under given NAME"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-n", "Save as NAME"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-w", "Set working directory to DIR"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-r", "Run file after import with PARAM as argument"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-r", "Run file after import, PARAM as argument if specified"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-s", "Add tool itself to the registry"));
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' must be specified at the end."));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "If parameter '-?' or '-s' is specified, all other would be ignored"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' as flag must be specified at the end, otherwise next parameter would be recognize as it's value"));
 		}
 	}
 }
