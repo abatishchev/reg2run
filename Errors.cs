@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Security.Permissions;
 using System.Runtime.Serialization;
 
-using Reg2Run.Parameters;
+using Reg2Run.Settings;
 
 namespace Reg2Run.Errors
 {

@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 using Reg2Run.Errors;
 
-namespace Reg2Run.Parameters
+namespace Reg2Run.Settings
 {
 	public enum ParameterRole
 	{
@@ -41,6 +41,7 @@ namespace Reg2Run.Parameters
 				switch (arg)
 				{
 					case "-?":
+					case "/?":
 						{
 							this.Add(ParameterRole.Usage, true);
 							break;

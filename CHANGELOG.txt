@@ -11,6 +11,7 @@ Reg2Run Tool Changelog
 [~] Parameter properties Name and Description are removed from class constructor
 [~] Adding and running notifications now contains full path
 [~] ParameterContainer now is a Dictionary<ParameterRole, object>
+[~] Namespace Reg2Run.Parameters renamed to Settings
 
 [-] Removed Parameter and all inherited classes
 

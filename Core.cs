@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 using Reg2Run.Errors;
-using Reg2Run.Parameters;
+using Reg2Run.Settings;
 
 namespace Reg2Run
 {
