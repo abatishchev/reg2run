@@ -105,9 +105,9 @@ namespace Reg2Run
 			string path = container[ParameterRole.FilePath] as string;
 			if (!String.IsNullOrEmpty(path))
 			{
+				FileInfo info = new FileInfo(path);
 				try
 				{
-					FileInfo info = new FileInfo(path);
 					if (info.Exists)
 					{
 						if (!String.Equals(info.Extension, ".exe"))
@@ -117,7 +117,15 @@ namespace Reg2Run
 					}
 					else
 					{
-						throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+						string pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
+						if (new FileInfo(pathGuess).Exists)
+						{
+							path = pathGuess;
+						}
+						else
+						{
+							throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+						}
 					}
 				}
 				catch (ArgumentException)
@@ -143,52 +151,58 @@ namespace Reg2Run
 
 			ImportObject obj = new ImportObject(path);
 
-			string name = container[ParameterRole.FileName] as string;
-			if (name != null)
 			{
-				if (String.IsNullOrEmpty(new FileInfo(name).Extension))
+				string name = container[ParameterRole.FileName] as string;
+				if (name != null)
 				{
-					name = String.Concat(name, ".exe");
+					if (String.IsNullOrEmpty(new FileInfo(name).Extension))
+					{
+						name = String.Concat(name, ".exe");
+					}
+					else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
+					{
+						throw new NotExecutableException(name);
+					}
+					obj.NewName = name;
 				}
-				else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
-				{
-					throw new NotExecutableException(name);
-				}
-				obj.NewName = name;
 			}
 
-			string dir = container[ParameterRole.FileWorkingDir] as string;
-			if (dir != null)
 			{
-				try
+				string dir = container[ParameterRole.FileWorkingDir] as string;
+				if (dir != null)
 				{
-					DirectoryInfo info = new DirectoryInfo(dir);
-					if (info.Exists)
+					try
 					{
-						obj.WorkingDirectory = info.FullName;
+						DirectoryInfo info = new DirectoryInfo(dir);
+						if (info.Exists)
+						{
+							obj.WorkingDirectory = info.FullName;
+						}
+						else
+						{
+							throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
+
+						}
 					}
-					else
+					catch (ArgumentException)
 					{
 						throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-
 					}
 				}
-				catch (ArgumentException)
-				{
-					throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-				}
 			}
 
-			object tempRun = container[ParameterRole.Run];
-			string runArg = tempRun as string;
-			if (runArg != null)
 			{
-				obj.Run = true;
-				obj.RunArg = runArg;
-			}
-			else if (tempRun is bool)
-			{
-				obj.Run = (bool)tempRun;
+				object tempRun = container[ParameterRole.Run];
+				string runArg = tempRun as string;
+				if (runArg != null)
+				{
+					obj.Run = true;
+					obj.RunArg = runArg;
+				}
+				else if (tempRun is bool)
+				{
+					obj.Run = (bool)tempRun;
+				}
 			}
 			return obj;
 		}
