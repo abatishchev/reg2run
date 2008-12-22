@@ -2,7 +2,7 @@ rem Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev a
 
 set PATH=%PATH%;%PROGRAMFILES%\WinRar;%PROGRAMFILES%\PuTTY
 
-set CMD=A -afzip -o+ -s -ibck -t
+set CMD=A -afzip -o+ -s -ibck -t -m5
 
 set FILES=CHANGELOG.txt ConsoleStub.cs Core.cs Errors.cs ImportObject.cs LICENSE.txt ManualConsole.cs Reg2Run.csproj Reg2Run.sln Settings.cs Properties\AssemblyInfo.cs
 set BINARY=bin\Release\reg2run.exe
