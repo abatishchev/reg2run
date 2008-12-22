@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
-source='CHANGELOG.txt ConsoleStub.cs Core.cs Errors.cs ImportObject.cs LICENSE.txt ManualConsole.cs Parameters.cs Reg2Run.csproj Reg2Run.sln Properties/AssemblyInfo.cs'
+source='CHANGELOG.txt ConsoleStub.cs Core.cs Errors.cs ImportObject.cs LICENSE.txt ManualConsole.cs Reg2Run.csproj Reg2Run.sln Settings.cs Properties/AssemblyInfo.cs'
 
 release='bin/Release'
 binary='reg2run.exe'
