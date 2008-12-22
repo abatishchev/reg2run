@@ -25,9 +25,14 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				object value;
-				this.TryGetValue(role, out value);
-				return value;
+				if (base.ContainsKey(role))
+				{
+					return base[role];
+				}
+				else
+				{
+					return null; ;
+				}
 			}
 		}
 		#endregion
