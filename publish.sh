@@ -10,11 +10,11 @@ batch='batch'
 rm -f $batch
 echo 'cd uploads' >> $batch
 
-name='reg2run-2.0.2-source.tar.bz'
+name='reg2run-2.0.2-source.tar.bz2'
 tar cfjv $name $source
 echo 'put '$name >> $batch
 
-name='reg2run-2.0.2-binary.tar.bz'
+name='reg2run-2.0.2-binary.tar.bz2'
 tar cfjv $name -C $release $binary
 echo 'put '$name >> $batch
 
@@ -25,5 +25,5 @@ rm $batch
 dist='../release/2.0.2'
 
 mkdir -p $dist
-mv -f reg2run-2.0.2-source.tar.bz $dist
-mv -f reg2run-2.0.2-binary.tar.bz $dist
+mv -f reg2run-2.0.2-source.tar.bz2 $dist
+mv -f reg2run-2.0.2-binary.tar.bz2 $dist
