@@ -21,7 +21,7 @@ set NAME=reg2run-2.0.%BUILD%.$WCREV$-binary.zip
 call winrar.exe -ep %CMD% %NAME% %BINARY%
 echo put %NAME% >> %BATCH%
 
-call psftp.exe -b %BATCH% abatishchev@web.sourceforge.net
+call psftp.exe -b %BATCH% abatishchev@frs.sourceforge.net
 
 del %BATCH%
 
