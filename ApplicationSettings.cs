@@ -205,7 +205,7 @@ namespace Reg2Run.Settings
 				}
 				else
 				{
-					return null; ;
+					return null;
 				}
 			}
 			set
