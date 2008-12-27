@@ -112,10 +112,6 @@ namespace Reg2Run
 					return;
 				}
 			}
-			if (Core.KeepConsole)
-			{
-				Console.ReadKey(true);
-			}
 		}
 
 		static void PrintUsage()

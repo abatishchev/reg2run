@@ -1,7 +1,6 @@
 // Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -17,7 +16,6 @@ namespace Reg2Run
 		static ApplicationSettings settings;
 
 		static string copyright, title;
-		static bool keepConsole;
 
 		#region Properties
 		public static string ApplicationCopyright
@@ -78,29 +76,12 @@ namespace Reg2Run
 			{
 				if (value)
 				{
-					keepConsole = (String.Equals(Core.ParentProcess.ProcessName, "explorer.exe") || String.Equals(Core.ParentProcess.ProcessName, "rundll32.exe"));
+					//ManualConsole.Create();					
 				}
 				else
 				{
 					ManualConsole.Hide();
 				}
-			}
-		}
-
-		public static bool KeepConsole
-		{
-			get
-			{
-				return keepConsole;
-			}
-		}
-
-		public static Process ParentProcess
-		{
-			get
-			{
-				PerformanceCounter pc = new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName);
-				return Process.GetProcessById((int)pc.NextValue());
 			}
 		}
 

@@ -82,9 +82,9 @@ namespace Reg2Run.Errors
 	#endregion
 
 	[Serializable]
-	public class ExternalCallException : Exception
+	public class PInvokeException : Exception
 	{
-		public ExternalCallException(string name)
+		public PInvokeException(string name)
 			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while call of external method '{0}' ", name))
 		{
 			//			
