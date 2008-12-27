@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -72,13 +71,5 @@ namespace Reg2Run
 				throw new ExternalCallException("FreeConsole");
 			}
 		}
-
-		/*
-		static Process GetParentProc()
-		{
-			PerformanceCounter pc = new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName);
-			return Process.GetProcessById((int)pc.NextValue());
-		}
-		*/
 	}
 }

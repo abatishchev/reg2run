@@ -11,7 +11,7 @@ namespace Reg2Run
 {
 	class ImportObject
 	{
-		string fileName, filePath, fullName, newName, workingDir, runArg;
+		string fileName, fullPath, workingDir, runArg;
 		bool runFlag;
 
 		#region Constructor
@@ -19,8 +19,7 @@ namespace Reg2Run
 		{
 			FileInfo info = new FileInfo(fileName);
 			this.fileName = info.Name;
-			this.filePath = info.Directory.FullName;
-			this.fullName = info.FullName;
+			this.fullPath = info.FullName;
 		}
 
 		#endregion
@@ -34,27 +33,11 @@ namespace Reg2Run
 			}
 		}
 
-		public string FullName
+		public string FullPath
 		{
 			get
 			{
-				return this.fullName;
-			}
-		}
-
-		public string NewName
-		{
-			get
-			{
-				if (String.IsNullOrEmpty(this.newName))
-				{
-					this.newName = this.fileName;
-				}
-				return this.newName;
-			}
-			set
-			{
-				this.newName = value;
+				return this.fullPath;
 			}
 		}
 
@@ -88,7 +71,7 @@ namespace Reg2Run
 			{
 				if (String.IsNullOrEmpty(this.workingDir))
 				{
-					this.workingDir = this.filePath;
+					this.workingDir = new FileInfo(this.fullPath).Directory.FullName;
 				}
 				return workingDir;
 			}
@@ -100,9 +83,9 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		public static ImportObject Parse(ParameterContainer container)
+		public static ImportObject Parse(ApplicationSettings settings)
 		{
-			string path = container[ParameterRole.FilePath] as string;
+			string path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
 				FileInfo info = new FileInfo(path);
@@ -135,13 +118,9 @@ namespace Reg2Run
 			}
 			else
 			{
-				object tempSelf = container[ParameterRole.Self];
-				if (tempSelf != null)
+				if (settings.SelfFlag)
 				{
-					if ((bool)tempSelf)
-					{
-						path = Core.Assembly.Location;
-					}
+					path = Core.Assembly.Location;
 				}
 				else
 				{
@@ -152,8 +131,8 @@ namespace Reg2Run
 			ImportObject obj = new ImportObject(path);
 
 			{
-				string name = container[ParameterRole.FileName] as string;
-				if (name != null)
+				string name = settings.FileName;
+				if (!String.IsNullOrEmpty(name))
 				{
 					if (String.IsNullOrEmpty(new FileInfo(name).Extension))
 					{
@@ -163,13 +142,13 @@ namespace Reg2Run
 					{
 						throw new NotExecutableException(name);
 					}
-					obj.NewName = name;
+					obj.fileName = name;
 				}
 			}
 
 			{
-				string dir = container[ParameterRole.FileWorkingDir] as string;
-				if (dir != null)
+				string dir = settings.FileWorkingDirectory;
+				if (!String.IsNullOrEmpty(dir))
 				{
 					try
 					{
@@ -192,16 +171,10 @@ namespace Reg2Run
 			}
 
 			{
-				object tempRun = container[ParameterRole.Run];
-				string runArg = tempRun as string;
-				if (runArg != null)
+				if (settings.RunFlag)
 				{
 					obj.Run = true;
-					obj.RunArg = runArg;
-				}
-				else if (tempRun is bool)
-				{
-					obj.Run = (bool)tempRun;
+					obj.RunArg = settings.RunString;
 				}
 			}
 			return obj;

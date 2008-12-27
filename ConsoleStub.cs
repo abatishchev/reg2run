@@ -26,7 +26,7 @@ namespace Reg2Run
 					dialog.DefaultExt = "exe";
 					dialog.DereferenceLinks = true;
 					dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
-					dialog.FilterIndex = 2;
+					dialog.FilterIndex = 1;
 					dialog.InitialDirectory = Application.StartupPath;
 					dialog.Multiselect = false;
 					dialog.ReadOnlyChecked = true;
@@ -39,7 +39,7 @@ namespace Reg2Run
 							{
 								ImportObject obj = new ImportObject(dialog.FileName);
 								dialog.Dispose();
-								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullName), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 								if (result == DialogResult.Yes)
 								{
 									Core.Import(obj);
@@ -72,27 +72,26 @@ namespace Reg2Run
 					Console.WriteLine();
 					try
 					{
-						Core.ParameterContainer.Parse(args);
+						Core.Settings = ApplicationSettings.Parse(args);
 
-						object tempUsage = Core.ParameterContainer[ParameterRole.Usage];
-						if (tempUsage != null && (bool)tempUsage)
+						if (Core.Settings.UsageFlag)
 						{
 							PrintUsage();
 							return;
 						}
 
-						ImportObject obj = ImportObject.Parse(Core.ParameterContainer);
+						ImportObject obj = ImportObject.Parse(Core.Settings);
 						if (obj != null)
 						{
 							try
 							{
-								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullName));
+								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullPath));
 								Core.Import(obj);
 								Console.WriteLine("Done!");
 								if (obj.Run)
 								{
-									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FullName));
-									Process.Start(obj.FullName, obj.RunArg);
+									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FullPath));
+									Process.Start(obj.FullPath, obj.RunArg);
 								}
 							}
 							catch (Exception ex)
@@ -113,7 +112,10 @@ namespace Reg2Run
 					return;
 				}
 			}
-			//Console.ReadKey(true);
+			if (Core.KeepConsole)
+			{
+				Console.ReadKey(true);
+			}
 		}
 
 		static void PrintUsage()

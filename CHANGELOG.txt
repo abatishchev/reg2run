@@ -3,6 +3,14 @@ Reg2Run Tool Changelog
 2.0.3 (-)
 [+] Additional scopes into ImportObject.Parse() for more memory use optimization
 [+] Now it's possible to specify only application name (without extension indication) for import, i.e. 'reg2run -p foo' while being in foo.exe's root directory
+[+] ParameterContainer is replaced with wrapper class ApplicationSettings, which is a proxy between it and named setting properties
+[+] ParameterContainer operator [] now has proper setter
+[+] If application was opened with Explorer or Run as.. from context menu, console window would not be closed
+
+[~] Release file names now contains revision number
+[~] Default filter into the open file dialog now is *.exe
+[~] Command line arguments parsing is moved to static ApplicationSettings.Parse()
+[~] ImportObject's properties FullName and FilePath was merged
 
 [-] Removed unsed DllImport calls
 

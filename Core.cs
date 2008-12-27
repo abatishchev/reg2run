@@ -1,6 +1,7 @@
 // Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -13,9 +14,10 @@ namespace Reg2Run
 {
 	abstract class Core
 	{
-		static ParameterContainer container = new ParameterContainer();
+		static ApplicationSettings settings;
 
 		static string copyright, title;
+		static bool keepConsole;
 
 		#region Properties
 		public static string ApplicationCopyright
@@ -76,7 +78,7 @@ namespace Reg2Run
 			{
 				if (value)
 				{
-					//ManualConsole.Create();
+					keepConsole = (String.Equals(Core.ParentProcess.ProcessName, "explorer.exe") || String.Equals(Core.ParentProcess.ProcessName, "rundll32.exe"));
 				}
 				else
 				{
@@ -85,11 +87,32 @@ namespace Reg2Run
 			}
 		}
 
-		public static ParameterContainer ParameterContainer
+		public static bool KeepConsole
 		{
 			get
 			{
-				return container;
+				return keepConsole;
+			}
+		}
+
+		public static Process ParentProcess
+		{
+			get
+			{
+				PerformanceCounter pc = new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName);
+				return Process.GetProcessById((int)pc.NextValue());
+			}
+		}
+
+		public static ApplicationSettings Settings
+		{
+			get
+			{
+				return settings;
+			}
+			set
+			{
+				settings = value;
 			}
 		}
 		#endregion
@@ -103,8 +126,8 @@ namespace Reg2Run
 				.CreateSubKey("Windows")
 				.CreateSubKey("CurrentVersion")
 				.CreateSubKey("App Paths");
-			RegistryKey key = registry.CreateSubKey(obj.NewName);
-			key.SetValue("", obj.FullName);
+			RegistryKey key = registry.CreateSubKey(obj.FileName);
+			key.SetValue("", obj.FullPath);
 			key.SetValue("Path", obj.WorkingDirectory);
 			key.Flush();
 		}

@@ -8,14 +8,188 @@ using Reg2Run.Errors;
 
 namespace Reg2Run.Settings
 {
-	public enum ParameterRole
+	enum ParameterRole
 	{
 		FileName,
 		FilePath,
-		FileWorkingDir,
+		FileWorkingDirectory,
 		Run,
 		Self,
 		Usage
+	}
+
+	class ApplicationSettings
+	{
+		ParameterContainer container = new ParameterContainer();
+
+		#region Properties
+		public string FileName
+		{
+			get
+			{
+				return container[ParameterRole.FileName] as string;
+			}
+			set
+			{
+				container[ParameterRole.FileName] = value;
+			}
+		}
+
+		public string FilePath
+		{
+			get
+			{
+				return container[ParameterRole.FilePath] as string;
+			}
+			set
+			{
+				container[ParameterRole.FilePath] = value;
+			}
+		}
+
+		public string FileWorkingDirectory
+		{
+			get
+			{
+				return container[ParameterRole.FileWorkingDirectory] as string;
+			}
+			set
+			{
+				container[ParameterRole.FileWorkingDirectory] = value;
+			}
+		}
+
+		public bool RunFlag
+		{
+			get
+			{
+				object value = container[ParameterRole.Run];
+				return (value as string != null) ? true : (value != null ? (bool)value : false);
+			}
+			set
+			{
+				container[ParameterRole.Run] = value;
+			}
+		}
+
+		public string RunString
+		{
+			get
+			{
+				string value = container[ParameterRole.Run] as string;
+				return (value != null) ? value : String.Empty;
+			}
+			set
+			{
+				container[ParameterRole.Run] = value;
+			}
+		}
+
+		public bool SelfFlag
+		{
+			get
+			{
+				object value = container[ParameterRole.Self];
+				return (value != null) ? (bool)value : false;
+			}
+			set
+			{
+				container[ParameterRole.Self] = value;
+			}
+		}
+
+		public bool UsageFlag
+		{
+			get
+			{
+				object value = container[ParameterRole.Usage];
+				return (value != null) ? (bool)value : false;
+			}
+			set
+			{
+				container[ParameterRole.Usage] = value;
+			}
+		}
+		#endregion
+
+		#region Methods
+		public static ApplicationSettings Parse(string[] args)
+		{
+			ApplicationSettings settings = new ApplicationSettings();
+			for (int i = 0; i < args.Length; i++)
+			{
+				string arg = args[i];
+				switch (arg)
+				{
+					case "-?":
+					case "/?":
+						{
+							settings.UsageFlag = true;
+							break;
+						}
+					case "-n":
+						{
+							try
+							{
+								settings.FileName = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException("File name");
+							}
+							break;
+						}
+					case "-p":
+						{
+							try
+							{
+								settings.FilePath = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException("File path");
+							}
+							break;
+						}
+					case "-r":
+						{
+							try
+							{
+								settings.RunFlag = true;
+								settings.RunString = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								settings.RunFlag = true;
+							}
+							break;
+						}
+					case "-s":
+						{
+							settings.SelfFlag = true;
+							break;
+						}
+					case "-w":
+						{
+							try
+							{
+								settings.FileWorkingDirectory = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException("File working directory");
+							}
+							break;
+						}
+					default:
+						{
+							throw new UnknownParameterException(arg);
+						}
+				}
+			}
+			return settings;
+		}
+		#endregion
 	}
 
 	class ParameterContainer : Dictionary<ParameterRole, object>
@@ -34,82 +208,15 @@ namespace Reg2Run.Settings
 					return null; ;
 				}
 			}
-		}
-		#endregion
-
-		#region Methods
-		public void Parse(string[] args)
-		{
-			for (int i = 0; i < args.Length; i++)
+			set
 			{
-				string arg = args[i];
-				switch (arg)
+				if (base.ContainsKey(role))
 				{
-					case "-?":
-					case "/?":
-						{
-							this.Add(ParameterRole.Usage, true);
-							break;
-						}
-					case "-n":
-						{
-							try
-							{
-								this.Add(ParameterRole.FileName, args.GetValue(++i) as string);
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException("File name");
-							}
-							break;
-						}
-					case "-p":
-						{
-							try
-							{
-								this.Add(ParameterRole.FilePath, args.GetValue(++i) as string);
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException("File path");
-							}
-							break;
-						}
-					case "-r":
-						{
-							object run;
-							try
-							{
-								run = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								run = true;
-							}
-							this.Add(ParameterRole.Run, run);
-							break;
-						}
-					case "-s":
-						{
-							this.Add(ParameterRole.Self, true);
-							break;
-						}
-					case "-w":
-						{
-							try
-							{
-								this.Add(ParameterRole.FileWorkingDir, args.GetValue(++i) as string);
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException("File working directory");
-							}
-							break;
-						}
-					default:
-						{
-							throw new UnknownParameterException(arg);
-						}
+					base[role] = value;
+				}
+				else
+				{
+					base.Add(role, value);
 				}
 			}
 		}
