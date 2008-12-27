@@ -118,8 +118,8 @@ namespace Reg2Run.Settings
 			ApplicationSettings settings = new ApplicationSettings();
 			for (int i = 0; i < args.Length; i++)
 			{
-				string arg = args[i];
-				switch (arg)
+				string name = args[i];
+				switch (name)
 				{
 					case "-?":
 					case "/?":
@@ -183,7 +183,7 @@ namespace Reg2Run.Settings
 						}
 					default:
 						{
-							throw new UnknownParameterException(arg);
+							throw new UnknownParameterException(name);
 						}
 				}
 			}
