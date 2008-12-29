@@ -20,18 +20,19 @@ namespace Reg2Run.Settings
 
 	class ApplicationSettings
 	{
-		ParameterContainer container = new ParameterContainer();
+		string name, path, dir, runStr;
+		bool runFl, self, usage;
 
 		#region Properties
 		public string FileName
 		{
 			get
 			{
-				return container[ParameterRole.FileName] as string;
+				return this.name;
 			}
 			set
 			{
-				container[ParameterRole.FileName] = value;
+				this.name = value;
 			}
 		}
 
@@ -39,11 +40,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return container[ParameterRole.FilePath] as string;
+				return this.path;
 			}
 			set
 			{
-				container[ParameterRole.FilePath] = value;
+				this.path = value;
 			}
 		}
 
@@ -51,11 +52,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return container[ParameterRole.FileWorkingDirectory] as string;
+				return this.dir;
 			}
 			set
 			{
-				container[ParameterRole.FileWorkingDirectory] = value;
+				this.dir = value;
 			}
 		}
 
@@ -63,12 +64,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				object value = container[ParameterRole.Run];
-				return (value as string != null) ? true : (value != null ? (bool)value : false);
+				return this.runFl;
 			}
 			set
 			{
-				container[ParameterRole.Run] = value;
+				this.runFl = value;
 			}
 		}
 
@@ -76,12 +76,12 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				string value = container[ParameterRole.Run] as string;
-				return (value != null) ? value : String.Empty;
+				return this.runStr;
 			}
 			set
 			{
-				container[ParameterRole.Run] = value;
+				this.runFl = !String.IsNullOrEmpty(value);
+				this.runStr = value;
 			}
 		}
 
@@ -89,12 +89,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				object value = container[ParameterRole.Self];
-				return (value != null) ? (bool)value : false;
+				return this.self;
 			}
 			set
 			{
-				container[ParameterRole.Self] = value;
+				this.self = value;
 			}
 		}
 
@@ -102,12 +101,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				object value = container[ParameterRole.Usage];
-				return (value != null) ? (bool)value : false;
+				return this.usage;
 			}
 			set
 			{
-				container[ParameterRole.Usage] = value;
+				this.usage = value;
 			}
 		}
 		#endregion
@@ -188,37 +186,6 @@ namespace Reg2Run.Settings
 				}
 			}
 			return settings;
-		}
-		#endregion
-	}
-
-	class ParameterContainer : Dictionary<ParameterRole, object>
-	{
-		#region Operators
-		public new object this[ParameterRole role]
-		{
-			get
-			{
-				if (base.ContainsKey(role))
-				{
-					return base[role];
-				}
-				else
-				{
-					return null;
-				}
-			}
-			set
-			{
-				if (base.ContainsKey(role))
-				{
-					base[role] = value;
-				}
-				else
-				{
-					base.Add(role, value);
-				}
-			}
 		}
 		#endregion
 	}
