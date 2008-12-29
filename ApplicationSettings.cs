@@ -1,38 +1,26 @@
 ﻿// Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using Reg2Run.Errors;
 
 namespace Reg2Run.Settings
 {
-	enum ParameterRole
-	{
-		FileName,
-		FilePath,
-		FileWorkingDirectory,
-		Run,
-		Self,
-		Usage
-	}
-
 	class ApplicationSettings
 	{
-		string name, path, dir, runStr;
-		bool runFl, self, usage;
+		string fileWorkingDirectory, fileName, filePath, runString;
+		bool runFlag, selfFlag, usageFlag;
 
 		#region Properties
 		public string FileName
 		{
 			get
 			{
-				return this.name;
+				return this.fileName;
 			}
 			set
 			{
-				this.name = value;
+				this.fileName = value;
 			}
 		}
 
@@ -40,11 +28,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.path;
+				return this.filePath;
 			}
 			set
 			{
-				this.path = value;
+				this.filePath = value;
 			}
 		}
 
@@ -52,11 +40,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.dir;
+				return this.fileWorkingDirectory;
 			}
 			set
 			{
-				this.dir = value;
+				this.fileWorkingDirectory = value;
 			}
 		}
 
@@ -64,11 +52,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.runFl;
+				return this.runFlag;
 			}
 			set
 			{
-				this.runFl = value;
+				this.runFlag = value;
 			}
 		}
 
@@ -76,12 +64,12 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.runStr;
+				return this.runString;
 			}
 			set
 			{
-				this.runFl = !String.IsNullOrEmpty(value);
-				this.runStr = value;
+				this.runFlag = !String.IsNullOrEmpty(value);
+				this.runString = value;
 			}
 		}
 
@@ -89,11 +77,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.self;
+				return this.selfFlag;
 			}
 			set
 			{
-				this.self = value;
+				this.selfFlag = value;
 			}
 		}
 
@@ -101,11 +89,11 @@ namespace Reg2Run.Settings
 		{
 			get
 			{
-				return this.usage;
+				return this.usageFlag;
 			}
 			set
 			{
-				this.usage = value;
+				this.usageFlag = value;
 			}
 		}
 		#endregion
