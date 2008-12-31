@@ -111,6 +111,10 @@ namespace Reg2Run
 					Console.WriteLine(new TooManyParametersException().Message);
 					return;
 				}
+				if (Core.KeepConsole)
+				{
+					Console.ReadKey(true);
+				}
 			}
 		}
 
