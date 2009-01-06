@@ -11,7 +11,7 @@ Reg2Run Tool Changelog
 [~] ImportObject's properties FullName and FilePath was merged
 
 [-] Removed unsed DllImport calls
-[-] No more ParameterContainer as proxy between it and named setting properties
+[-] No more ParameterContainer as proxy class for storing and accessing named properties
 
 2.0.2 (2008.12.22)
 

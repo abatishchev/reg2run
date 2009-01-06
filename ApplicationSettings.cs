@@ -8,7 +8,7 @@ namespace Reg2Run.Settings
 {
 	class ApplicationSettings
 	{
-		string fileWorkingDirectory, fileName, filePath, runString;
+		string fileName, filePath, runString, fileWorkingDirectory;
 		bool runFlag, selfFlag, usageFlag;
 
 		#region Properties
