@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -69,7 +68,7 @@ namespace Reg2Run
 		{
 			if (!AllocConsole())
 			{
-				throw new PInvokeException(MethodInfo.GetCurrentMethod().Name);
+				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
 			}
 		}
 		*/
@@ -78,7 +77,7 @@ namespace Reg2Run
 		{
 			if (!CloseHandle(ptr))
 			{
-				throw new PInvokeException(MethodInfo.GetCurrentMethod().Name);
+				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
 			}
 		}
 
@@ -86,7 +85,7 @@ namespace Reg2Run
 		{
 			if (!FreeConsole())
 			{
-				throw new PInvokeException(MethodInfo.GetCurrentMethod().Name);
+				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace Reg2Run
 		{
 			if (!SetStdHandle(-11, ptr))
 			{
-				throw new PInvokeException(MethodInfo.GetCurrentMethod().Name);
+				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
 			}
 		}
 		*/
