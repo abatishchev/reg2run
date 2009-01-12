@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
+﻿// Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
 using System.Reflection;
@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Reg2Run Tool")]
 [assembly: AssemblyCompany("Godfather Software Foundation")]
 [assembly: AssemblyProduct("Reg2Run")]
-[assembly: AssemblyCopyright("Copyright (C) 2005-2008 Alexander M. Batishchev aka Godfather")]
+[assembly: AssemblyCopyright("Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather")]
 
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 
