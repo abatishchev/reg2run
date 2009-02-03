@@ -8,7 +8,7 @@ using Reg2Run.Errors;
 
 namespace Reg2Run
 {
-	public static class ManualConsole
+	static class ManualConsole
 	{
 		#region DllImport
 		/*
@@ -42,7 +42,7 @@ namespace Reg2Run
 
 		#region Managed Methods
 		/*
-		public static void Create()
+		internal static void Create()
 		{
 			IntPtr ptr = GetStdHandle(-11);
 			AllocConsoleManaged();
@@ -55,7 +55,7 @@ namespace Reg2Run
 		}
 		*/
 
-		public static void Hide()
+		internal static void Hide()
 		{
 			IntPtr ptr = GetStdHandle(-11);
 			CloseHandleManaged(ptr);

@@ -1,14 +1,16 @@
 Reg2Run Tool Changelog
 
-2.0.4 (-)
+2.0.4 (2009.02.03)
+[~] Now both keys in HKLM and HKCU are being created on import
+[~] All unnecessary public methods and properties marked as internal
 
 2.0.3 (2009.01.12)
 [+] Additional scopes into ImportObject.Parse() for more memory use optimization
 [+] Now it's possible to specify only application name (without extension indication) for import, i.e. 'reg2run -p foo' while being in foo.exe's root directory
 [+] Console would not be closed if application was called from Windows Explorer, Run As.. or Run menu
 
-[~] Release file names now contains revision number
-[~] Default filter into the open file dialog now is *.exe
+[~] Release file names contains revision number
+[~] Default filter into the open file dialog is *.exe
 [~] Command line arguments parsing is moved to static ApplicationSettings.Parse()
 [~] ImportObject's properties FullName and FilePath was merged
 
@@ -18,18 +20,18 @@ Reg2Run Tool Changelog
 2.0.2 (2008.12.22)
 
 [+] Exceptions serialization
-[+] Parameter '-r' now can be set either as flag or value. Flag indicates to start specified application on successful import; value will be passed as argument to started application
+[+] Parameter '-r' can be set either as flag or value. Flag indicates to start specified application on successful import; value will be passed as argument to started application
 [+] Parameter '/?' means the same as '-?'
 
 [~] Command line arguments parsing is moved to ParameterContainer.Parse()
 [~] Reading parameter's value by role is moved to ParameterContainer.ReadParameter()
 [~] ImportObject creation based on given parameters is moved to static ImportObject.Parse()
 [~] Parameter properties Name and Description are removed from class constructor
-[~] Adding and running notifications now contains full path
-[~] ParameterContainer now is a Dictionary<ParameterRole, object>
+[~] Adding and running notifications contains full path
+[~] ParameterContainer is a Dictionary<ParameterRole, object>
 [~] Namespace Reg2Run.Parameters renamed to Settings
 
-[-] Removed Parameter and all inherited classes
+[-] Removed class Parameter and all inherited classes
 
 2.0.1 (2008.12.13)
 

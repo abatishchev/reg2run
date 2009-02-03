@@ -18,7 +18,7 @@ namespace Reg2Run
 		static bool keepConsole;
 
 		#region Properties
-		public static string ApplicationCopyright
+		internal static string ApplicationCopyright
 		{
 			get
 			{
@@ -31,7 +31,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static string ApplicationName
+		internal static string ApplicationName
 		{
 			get
 			{
@@ -39,7 +39,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static string ApplicationVersion
+		internal static string ApplicationVersion
 		{
 			get
 			{
@@ -47,7 +47,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static string ApplicationTitle
+		internal static string ApplicationTitle
 		{
 			get
 			{
@@ -61,7 +61,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static Assembly Assembly
+		internal static Assembly Assembly
 		{
 			get
 			{
@@ -70,7 +70,7 @@ namespace Reg2Run
 
 		}
 
-		public static bool IsConsole
+		internal static bool IsConsole
 		{
 			set
 			{
@@ -86,7 +86,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static bool KeepConsole
+		internal static bool KeepConsole
 		{
 			get
 			{
@@ -94,7 +94,7 @@ namespace Reg2Run
 			}
 		}
 
-		static Process ParentProcess
+		internal static Process ParentProcess
 		{
 			get
 			{
@@ -103,7 +103,7 @@ namespace Reg2Run
 			}
 		}
 
-		public static ApplicationSettings Settings
+		internal static ApplicationSettings Settings
 		{
 			get
 			{
@@ -119,13 +119,19 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			RegistryKey registry = Registry.LocalMachine
-				.CreateSubKey("Software")
+			SetValue(Registry.LocalMachine, obj);
+			SetValue(Registry.CurrentUser, obj);
+		}
+
+		static void SetValue(RegistryKey hive, ImportObject obj)
+		{
+			RegistryKey appPaths = hive.CreateSubKey("Software")
 				.CreateSubKey("Microsoft")
 				.CreateSubKey("Windows")
 				.CreateSubKey("CurrentVersion")
 				.CreateSubKey("App Paths");
-			RegistryKey key = registry.CreateSubKey(obj.FileName);
+
+			RegistryKey key = appPaths.CreateSubKey(obj.FileName);
 			key.SetValue("", obj.FullPath);
 			key.SetValue("Path", obj.WorkingDirectory);
 			key.Flush();

@@ -77,13 +77,11 @@ namespace Reg2Run
 						if (Core.Settings.UsageFlag)
 						{
 							PrintUsage();
-							return;
 						}
-
-						ImportObject obj = ImportObject.Parse(Core.Settings);
-						if (obj != null)
+						else
 						{
-							try
+							ImportObject obj = ImportObject.Parse(Core.Settings);
+							if (obj != null)
 							{
 								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullPath));
 								Core.Import(obj);
@@ -93,11 +91,6 @@ namespace Reg2Run
 									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FullPath));
 									Process.Start(obj.FullPath, obj.RunArg);
 								}
-							}
-							catch (Exception ex)
-							{
-								Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Error! '{0}'..", ex.Message));
-								return;
 							}
 						}
 					}
@@ -131,7 +124,7 @@ namespace Reg2Run
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-s", "Add tool itself to the registry"));
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' as flag must be specified at the end, otherwise next parameter would be recognize as it's value"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' as flag must be specified in the end, otherwise next parameter would be recognized as it's value"));
 		}
 	}
 }
