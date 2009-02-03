@@ -7,7 +7,7 @@ set CMD=A -afzip -o+ -s -ibck -t -m5
 set FILES=ApplicationSettings.cs CHANGELOG.txt ConsoleStub.cs Core.cs Errors.cs ImportObject.cs LICENSE.txt ManualConsole.cs Reg2Run.csproj Reg2Run.sln Properties\AssemblyInfo.cs
 set BINARY=bin\Release\reg2run.exe
 
-set BUILD=3
+set BUILD=4
 
 set BATCH=batch.txt
 del %BATCH%

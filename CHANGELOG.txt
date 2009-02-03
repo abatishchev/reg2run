@@ -14,7 +14,7 @@ Reg2Run Tool Changelog
 [~] Command line arguments parsing is moved to static ApplicationSettings.Parse()
 [~] ImportObject's properties FullName and FilePath was merged
 
-[-] Removed unsed DllImport calls
+[-] Removed unused DllImport calls
 [-] No more ParameterContainer as proxy class for storing and accessing named properties
 
 2.0.2 (2008.12.22)
