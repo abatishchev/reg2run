@@ -1,5 +1,8 @@
 Reg2Run Tool Changelog
 
+2.0.5(-)
+
+
 2.0.4 (2009.02.03)
 [~] Now both keys in HKLM and HKCU are being created on import
 [~] All unnecessary public methods and properties marked as internal
