@@ -119,17 +119,17 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			SetValue(Registry.LocalMachine, obj);
 			SetValue(Registry.CurrentUser, obj);
+			SetValue(Registry.LocalMachine, obj);
 		}
 
 		static void SetValue(RegistryKey hive, ImportObject obj)
 		{
-			RegistryKey appPaths = hive.CreateSubKey("Software")
-				.CreateSubKey("Microsoft")
-				.CreateSubKey("Windows")
-				.CreateSubKey("CurrentVersion")
-				.CreateSubKey("App Paths");
+			RegistryKey appPaths = hive.OpenSubKey("Software")
+				.OpenSubKey("Microsoft")
+				.OpenSubKey("Windows")
+				.OpenSubKey("CurrentVersion")
+				.OpenSubKey("App Paths", true);
 
 			RegistryKey key = appPaths.CreateSubKey(obj.FileName);
 			key.SetValue("", obj.FullPath);

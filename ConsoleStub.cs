@@ -96,7 +96,8 @@ namespace Reg2Run
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Error! {0}", ex.Message));
+						Console.WriteLine("Error:");
+						Console.WriteLine(ex.Message);
 					}
 				}
 				else
