@@ -73,7 +73,6 @@ namespace Reg2Run
 					try
 					{
 						Core.Settings = ApplicationSettings.Parse(args);
-
 						if (Core.Settings.UsageFlag)
 						{
 							PrintUsage();
