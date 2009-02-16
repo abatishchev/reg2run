@@ -10,10 +10,10 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
-	static class ConsoleStub
+	static class Program
 	{
 		[STAThread]
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
 			if (args.Length == 0)
 			{
@@ -111,7 +111,7 @@ namespace Reg2Run
 			}
 		}
 
-		static void PrintUsage()
+		private static void PrintUsage()
 		{
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Usage: reg2run -p PATH [-n NAME] [-w DIR] [-r [PARAM]] | -? | -s"));
 			Console.WriteLine();

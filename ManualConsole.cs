@@ -14,29 +14,29 @@ namespace Reg2Run
 		/*
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool AllocConsole();
+		private static extern bool AllocConsole();
 		*/
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool CloseHandle(IntPtr handle);
+		private static extern bool CloseHandle(IntPtr handle);
 
 		/*
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		static extern IntPtr CreateFile(string fileName, int desiredAccess, int shareMode, IntPtr securityAttributes, int creationDisposition, int flagsAndAttributes, IntPtr templateFile);
+		private static extern IntPtr CreateFile(string fileName, int desiredAccess, int shareMode, IntPtr securityAttributes, int creationDisposition, int flagsAndAttributes, IntPtr templateFile);
 		*/
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool FreeConsole();
+		private static extern bool FreeConsole();
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		static extern IntPtr GetStdHandle(int nStdHandle);
+		private static extern IntPtr GetStdHandle(int nStdHandle);
 
 		/*
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool SetStdHandle(int nStdHandle, IntPtr handle);
+		private static extern bool SetStdHandle(int nStdHandle, IntPtr handle);
 		*/
 		#endregion
 
@@ -66,7 +66,7 @@ namespace Reg2Run
 
 		#region Unmanaged Methods
 		/*
-		static void AllocConsoleManaged()
+		private static void AllocConsoleManaged()
 		{
 			if (!AllocConsole())
 			{
@@ -75,7 +75,7 @@ namespace Reg2Run
 		}
 		*/
 
-		static void CloseHandleManaged(IntPtr ptr)
+		private static void CloseHandleManaged(IntPtr ptr)
 		{
 			if (!CloseHandle(ptr))
 			{
@@ -83,7 +83,7 @@ namespace Reg2Run
 			}
 		}
 
-		static void FreeConsoleManaged()
+		private static void FreeConsoleManaged()
 		{
 			if (!FreeConsole())
 			{
@@ -92,7 +92,7 @@ namespace Reg2Run
 		}
 
 		/*
-		static void SetStdHandleManaged(IntPtr ptr)
+		private static void SetStdHandleManaged(IntPtr ptr)
 		{
 			if (!SetStdHandle(-11, ptr))
 			{

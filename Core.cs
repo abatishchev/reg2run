@@ -13,9 +13,9 @@ namespace Reg2Run
 {
 	abstract class Core
 	{
-		static ApplicationSettings settings;
-		static string copyright, title;
-		static bool keepConsole;
+		private static ApplicationSettings settings;
+		private static string copyright, title;
+		private static bool keepConsole;
 
 		#region Properties
 		internal static string ApplicationCopyright
@@ -130,7 +130,7 @@ namespace Reg2Run
 			}
 		}
 
-		static void SetValue(RegistryKey hive, ImportObject obj)
+		private static void SetValue(RegistryKey hive, ImportObject obj)
 		{
 			RegistryKey appPaths = hive.OpenSubKey("Software")
 				.OpenSubKey("Microsoft")

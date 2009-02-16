@@ -17,7 +17,6 @@ namespace Reg2Run.Errors
 		}
 	}
 
-	#region Parameters
 	[Serializable]
 	public class ParameterMissedException : ParameterException
 	{
@@ -41,7 +40,7 @@ namespace Reg2Run.Errors
 	[Serializable]
 	public class UnknownParameterException : Exception
 	{
-		string parameterName;
+		private string parameterName;
 
 		public UnknownParameterException(string name)
 			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name))
@@ -77,7 +76,6 @@ namespace Reg2Run.Errors
 			//
 		}
 	}
-	#endregion
 
 	[Serializable]
 	public class PInvokeException : Exception

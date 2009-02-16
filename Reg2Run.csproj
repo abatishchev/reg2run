@@ -12,7 +12,7 @@
     <AssemblyName>reg2run</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>Reg2Run.ConsoleStub</StartupObject>
+    <StartupObject>Reg2Run.Program</StartupObject>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
   </PropertyGroup>
@@ -39,12 +39,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="ManualConsole.cs" />
-    <Compile Include="ConsoleStub.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Errors.cs" />
     <Compile Include="ImportObject.cs" />
+    <Compile Include="ManualConsole.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\CHANGELOG.txt" />
+    <Content Include="docs\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

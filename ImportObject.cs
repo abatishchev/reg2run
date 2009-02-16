@@ -11,17 +11,16 @@ namespace Reg2Run
 {
 	class ImportObject
 	{
-		string fileName, fullPath, workingDir, runArg;
-		bool runFlag;
+		private string fileName, fullPath, workingDir, runArg;
+		private bool runFlag;
 
-		#region Constructor
+		#region Constructors
 		public ImportObject(string fileName)
 		{
 			FileInfo info = new FileInfo(fileName);
 			this.fileName = info.Name;
 			this.fullPath = info.FullName;
 		}
-
 		#endregion
 
 		#region Properties

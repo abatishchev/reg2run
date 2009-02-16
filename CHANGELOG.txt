@@ -4,8 +4,7 @@ Reg2Run Tool Changelog
 [~] Fixed an eror causing UnauthorizedAccessException on HKLM registry hive write
 
 2.0.4 (2009.02.03)
-[~] Now both keys in HKLM and HKCU are being created on import
-[~] All unnecessary public methods and properties marked as internal
+[+] Now both keys in HKLM and HKCU are being created on import
 
 2.0.3 (2009.01.12)
 [+] Additional scopes into ImportObject.Parse() for more memory use optimization
@@ -14,11 +13,8 @@ Reg2Run Tool Changelog
 
 [~] Release file names contains revision number
 [~] Default filter into the open file dialog is *.exe
-[~] Command line arguments parsing is moved to static ApplicationSettings.Parse()
-[~] ImportObject's properties FullName and FilePath was merged
 
 [-] Removed unused DllImport calls
-[-] No more ParameterContainer as proxy class for storing and accessing named properties
 
 2.0.2 (2008.12.22)
 
@@ -26,15 +22,7 @@ Reg2Run Tool Changelog
 [+] Parameter '-r' can be set either as flag or value. Flag indicates to start specified application on successful import; value will be passed as argument to started application
 [+] Parameter '/?' means the same as '-?'
 
-[~] Command line arguments parsing is moved to ParameterContainer.Parse()
-[~] Reading parameter's value by role is moved to ParameterContainer.ReadParameter()
-[~] ImportObject creation based on given parameters is moved to static ImportObject.Parse()
-[~] Parameter properties Name and Description are removed from class constructor
 [~] Adding and running notifications contains full path
-[~] ParameterContainer is a Dictionary<ParameterRole, object>
-[~] Namespace Reg2Run.Parameters renamed to Settings
-
-[-] Removed class Parameter and all inherited classes
 
 2.0.1 (2008.12.13)
 

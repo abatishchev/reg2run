@@ -8,8 +8,8 @@ namespace Reg2Run.Settings
 {
 	class ApplicationSettings
 	{
-		string fileName, filePath, runString, fileWorkingDirectory;
-		bool runFlag, selfFlag, usageFlag;
+		private string fileName, filePath, runString, fileWorkingDirectory;
+		private bool runFlag, selfFlag, usageFlag;
 
 		#region Properties
 		public string FileName
@@ -99,7 +99,7 @@ namespace Reg2Run.Settings
 		#endregion
 
 		#region Methods
-		public static ApplicationSettings Parse(string[] args)
+		internal static ApplicationSettings Parse(string[] args)
 		{
 			ApplicationSettings settings = new ApplicationSettings();
 			for (int i = 0; i < args.Length; i++)
