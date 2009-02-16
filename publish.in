@@ -4,6 +4,8 @@ set PATH=%PATH%;%PROGRAMFILES%\WinRar;%PROGRAMFILES%\PuTTY
 
 set CMD=A -afzip -o+ -s -ibck -t -m5
 
+set PROJECT=reg2run
+
 set FILES=Reg2Run.csproj Reg2Run.sln
 set SOURCES=ApplicationSettings.cs Core.cs Errors.cs ImportObject.cs ManualConsole.cs Program.cs Properties\AssemblyInfo.cs
 set DOCS=CHANGELOG.txt LICENSE.txt
@@ -11,17 +13,18 @@ set FILES=%FILES% %SOURCES% %DOCS%
 
 set BINARY=bin\Release\reg2run.exe
 
-set BUILD=5
+set BUILD=6
+set VERSION=2.0.%BUILD%
 
 set BATCH=batch.txt
 del %BATCH%
 echo cd uploads >> %BATCH%
 
-set NAME=reg2run-2.0.%BUILD%.$WCREV$-source.zip
+set NAME=%PROJECT%-%VERSION%.$WCREV$-source.zip
 winrar.exe %CMD% %NAME% %FILES%
 echo put %NAME% >> %BATCH%
 
-set NAME=reg2run-2.0.%BUILD%.$WCREV$-binary.zip
+set NAME=%PROJECT%-%VERSION%.$WCREV$-binary.zip
 winrar.exe -ep %CMD% %NAME% %BINARY%
 echo put %NAME% >> %BATCH%
 
@@ -32,5 +35,5 @@ del %BATCH%
 set DIST=..\release
 
 mkdir %DIST%
-move /y reg2run-2.0.%BUILD%.$WCREV$-source.zip %DIST%
-move /y reg2run-2.0.%BUILD%.$WCREV$-binary.zip %DIST%
+move /y %PROJECT%-%VERSION%.$WCREV$-source.zip %DIST%
+move /y %PROJECT%-%VERSION%.$WCREV$-binary.zip %DIST%
