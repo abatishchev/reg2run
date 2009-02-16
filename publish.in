@@ -4,7 +4,10 @@ set PATH=%PATH%;%PROGRAMFILES%\WinRar;%PROGRAMFILES%\PuTTY
 
 set CMD=A -afzip -o+ -s -ibck -t -m5
 
-set FILES=ApplicationSettings.cs CHANGELOG.txt ConsoleStub.cs Core.cs Errors.cs ImportObject.cs LICENSE.txt ManualConsole.cs Reg2Run.csproj Reg2Run.sln Properties\AssemblyInfo.cs
+set FILES=ApplicationSettings.cs Core.cs Errors.cs ImportObject.cs ManualConsole.cs Program.cs Properties\AssemblyInfo.cs
+set DOCS=CHANGELOG.txt LICENSE.txt
+set FILE=%FILES;%DOCS%
+
 set BINARY=bin\Release\reg2run.exe
 
 set BUILD=5
