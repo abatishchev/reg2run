@@ -119,15 +119,8 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			try
-			{
-				SetValue(Registry.CurrentUser, obj);
-				SetValue(Registry.LocalMachine, obj);
-			}
-			catch (UnauthorizedAccessException)
-			{
-				// in Windows Vista and later you can't modify HKLM without editing permissions
-			}
+			SetValue(Registry.CurrentUser, obj);
+			SetValue(Registry.LocalMachine, obj);
 		}
 
 		private static void SetValue(RegistryKey hive, ImportObject obj)
