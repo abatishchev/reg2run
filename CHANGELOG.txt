@@ -4,6 +4,8 @@ Reg2Run Tool Changelog
 
 [+] UAC support added
 
+[~] Parameter to set working directory -w renamed to -d
+
 
 2.0.5(2009.02.16)
 

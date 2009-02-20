@@ -113,13 +113,13 @@ namespace Reg2Run
 
 		private static void PrintUsage()
 		{
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Usage: reg2run -p PATH [-n NAME] [-w DIR] [-r [PARAM]] | -? | -s"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Usage: reg2run -p PATH [-n NAME] [-d DIR] [-r [PARAM]] | -? | -s"));
 			Console.WriteLine();
 			Console.WriteLine("Options:");
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-?", "Print usage help"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-p", "Add file located in PATH to the registry"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-n", "Save as NAME"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-w", "Set working directory to DIR"));
+			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-d", "Set working directory to DIR"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-r", "Run file after import, PARAM as argument if specified"));
 			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-s", "Add tool itself to the registry"));
 			Console.WriteLine();
