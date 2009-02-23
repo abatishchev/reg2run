@@ -42,7 +42,7 @@ namespace Reg2Run
 								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 								if (result == DialogResult.Yes)
 								{
-									Core.Import(obj);
+									Core.Import(obj, Core.RegistryHiveWriteFlag.HKCU | Core.RegistryHiveWriteFlag.KHLM);
 									MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 								}
 								else
@@ -83,7 +83,7 @@ namespace Reg2Run
 							if (obj != null)
 							{
 								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullPath));
-								Core.Import(obj);
+								Core.Import(obj, Core.Settings.RegistryHiveWriteMode);
 								Console.WriteLine("Done!");
 								if (obj.Run)
 								{

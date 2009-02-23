@@ -8,58 +8,17 @@ namespace Reg2Run.Settings
 {
 	class ApplicationSettings
 	{
-		private string fileName, filePath, runString, fileWorkingDirectory;
-		private bool runFlag, selfFlag, usageFlag;
+		private string runString;
 
 		#region Properties
-		public string FileName
-		{
-			get
-			{
-				return this.fileName;
-			}
-			set
-			{
-				this.fileName = value;
-			}
-		}
+		public string FileName { get; set; }
 
-		public string FilePath
-		{
-			get
-			{
-				return this.filePath;
-			}
-			set
-			{
-				this.filePath = value;
-			}
-		}
+		public string FilePath { get; set; }
 
-		public string FileWorkingDirectory
-		{
-			get
-			{
-				return this.fileWorkingDirectory;
-			}
-			set
-			{
-				this.fileWorkingDirectory = value;
-			}
-		}
+		public string FileWorkingDirectory { get; set; }
 
-		public bool RunFlag
-		{
-			get
-			{
-				return this.runFlag;
-			}
-			set
-			{
-				this.runFlag = value;
-			}
-		}
-
+		public bool RunFlag { get; set; }
+		
 		public string RunString
 		{
 			get
@@ -68,34 +27,16 @@ namespace Reg2Run.Settings
 			}
 			set
 			{
-				this.runFlag = !String.IsNullOrEmpty(value);
+				this.RunFlag = !String.IsNullOrEmpty(value);
 				this.runString = value;
 			}
 		}
 
-		public bool SelfFlag
-		{
-			get
-			{
-				return this.selfFlag;
-			}
-			set
-			{
-				this.selfFlag = value;
-			}
-		}
+		public bool SelfFlag { get; set; }
 
-		public bool UsageFlag
-		{
-			get
-			{
-				return this.usageFlag;
-			}
-			set
-			{
-				this.usageFlag = value;
-			}
-		}
+		public bool UsageFlag { get; set; }
+
+		public Core.RegistryHiveWriteFlag RegistryHiveWriteMode { get; set; }
 		#endregion
 
 		#region Methods

@@ -11,58 +11,25 @@ namespace Reg2Run
 {
 	class ImportObject
 	{
-		private string fileName, fullPath, workingDir, runArg;
-		private bool runFlag;
+		private string workingDir;
 
 		#region Constructors
 		public ImportObject(string fileName)
 		{
 			FileInfo info = new FileInfo(fileName);
-			this.fileName = info.Name;
-			this.fullPath = info.FullName;
+			this.FileName = info.Name;
+			this.FullPath = info.FullName;
 		}
 		#endregion
 
 		#region Properties
-		public string FileName
-		{
-			get
-			{
-				return this.fileName;
-			}
-		}
+		public string FileName { get; private set; }
 
-		public string FullPath
-		{
-			get
-			{
-				return this.fullPath;
-			}
-		}
+		public string FullPath { get; private set; }
 
-		public bool Run
-		{
-			get
-			{
-				return this.runFlag;
-			}
-			set
-			{
-				this.runFlag = value;
-			}
-		}
+		public bool Run { get; private set; }
 
-		public string RunArg
-		{
-			get
-			{
-				return this.runArg;
-			}
-			set
-			{
-				this.runArg = value;
-			}
-		}
+		public string RunArg { get; private set; }
 
 		public string WorkingDirectory
 		{
@@ -70,7 +37,7 @@ namespace Reg2Run
 			{
 				if (String.IsNullOrEmpty(this.workingDir))
 				{
-					this.workingDir = new FileInfo(this.fullPath).Directory.FullName;
+					this.workingDir = new FileInfo(this.FullPath).Directory.FullName;
 				}
 				return workingDir;
 			}
@@ -141,7 +108,7 @@ namespace Reg2Run
 					{
 						throw new NotExecutableException(name);
 					}
-					obj.fileName = name;
+					obj.FileName = name;
 				}
 			}
 

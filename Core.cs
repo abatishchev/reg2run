@@ -13,9 +13,16 @@ namespace Reg2Run
 {
 	abstract class Core
 	{
-		private static ApplicationSettings settings;
 		private static string copyright, title;
-		private static bool keepConsole;
+
+		#region Enums
+		[Flags]
+		internal enum RegistryHiveWriteFlag
+		{
+			HKCU,
+			KHLM
+		}
+		#endregion
 
 		#region Properties
 		internal static string ApplicationCopyright
@@ -77,7 +84,7 @@ namespace Reg2Run
 				if (value)
 				{
 					string parentProcessName = ParentProcess.ProcessName;
-					keepConsole = String.Equals(parentProcessName, "explorer") || String.Equals(parentProcessName, "rundll32");
+					KeepConsole = String.Equals(parentProcessName, "explorer") || String.Equals(parentProcessName, "rundll32");
 				}
 				else
 				{
@@ -86,13 +93,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static bool KeepConsole
-		{
-			get
-			{
-				return keepConsole;
-			}
-		}
+		internal static bool KeepConsole { get; private set; }
 
 		internal static Process ParentProcess
 		{
@@ -103,21 +104,12 @@ namespace Reg2Run
 			}
 		}
 
-		internal static ApplicationSettings Settings
-		{
-			get
-			{
-				return settings;
-			}
-			set
-			{
-				settings = value;
-			}
-		}
+		internal static ApplicationSettings Settings { get; set; }
+
 		#endregion
 
 		#region Methods
-		public static void Import(ImportObject obj)
+		public static void Import(ImportObject obj, RegistryHiveWriteFlag flag)
 		{
 			SetValue(Registry.CurrentUser, obj);
 			SetValue(Registry.LocalMachine, obj);
