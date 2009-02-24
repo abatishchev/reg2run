@@ -11,6 +11,13 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
+	[Flags]
+	internal enum RegistryHiveWriteFlag
+	{
+		HKCU = 1,
+		HKLM = 2
+	}
+	
 	abstract class Core
 	{
 		private static string copyright, title;
@@ -65,7 +72,6 @@ namespace Reg2Run
 			{
 				return Assembly.GetEntryAssembly();
 			}
-
 		}
 
 		internal static bool IsConsole
@@ -102,8 +108,14 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			SetValue(Registry.CurrentUser, obj);
-			SetValue(Registry.LocalMachine, obj);
+			if ((Settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU)
+			{
+				SetValue(Registry.CurrentUser, obj);
+			}
+			if ((Settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
+			{
+				SetValue(Registry.LocalMachine, obj);
+			}
 		}
 
 		private static void SetValue(RegistryKey hive, ImportObject obj)
