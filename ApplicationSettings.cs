@@ -18,7 +18,7 @@ namespace Reg2Run.Settings
 		public string FileWorkingDirectory { get; set; }
 
 		public bool RunFlag { get; set; }
-		
+
 		public string RunString
 		{
 			get
@@ -42,7 +42,7 @@ namespace Reg2Run.Settings
 		#region Methods
 		internal static ApplicationSettings Parse(string[] args)
 		{
-			ApplicationSettings settings = new ApplicationSettings();
+			var settings = new ApplicationSettings();
 			for (int i = 0; i < args.Length; i++)
 			{
 				string name = args[i];
@@ -52,6 +52,16 @@ namespace Reg2Run.Settings
 					case "/?":
 						{
 							settings.UsageFlag = true;
+							break;
+						}
+					case "--hkcu":
+						{
+							settings.RegistryHiveWriteMode |= Core.RegistryHiveWriteFlag.HKCU;
+							break;
+						}
+					case "--hklm":
+						{
+							settings.RegistryHiveWriteMode |= Core.RegistryHiveWriteFlag.HKLM;
 							break;
 						}
 					case "-n":

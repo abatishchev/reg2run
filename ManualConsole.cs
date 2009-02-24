@@ -44,11 +44,11 @@ namespace Reg2Run
 		/*
 		internal static void Create()
 		{
-			IntPtr ptr = GetStdHandle(-11);
+			var ptr = GetStdHandle(-11);
 			AllocConsoleManaged();
 			ptrNew = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
 			SetStdHandleManaged(ptr);
-			StreamWriter newOut = new StreamWriter(Console.OpenStandardOutput());
+			var newOut = new StreamWriter(Console.OpenStandardOutput());
 			newOut.AutoFlush = true;
 			Console.SetOut(newOut);
 			Console.SetError(newOut);
@@ -57,7 +57,7 @@ namespace Reg2Run
 
 		internal static void Hide()
 		{
-			IntPtr ptr = GetStdHandle(-11);
+			var ptr = GetStdHandle(-11);
 			CloseHandleManaged(ptr);
 			ptr = IntPtr.Zero;
 			FreeConsoleManaged();

@@ -20,7 +20,7 @@ namespace Reg2Run
 				Core.IsConsole = false;
 				try
 				{
-					OpenFileDialog dialog = new OpenFileDialog();
+					var dialog = new OpenFileDialog();
 					dialog.AddExtension = true;
 					dialog.CheckFileExists = true;
 					dialog.DefaultExt = "exe";
@@ -37,12 +37,12 @@ namespace Reg2Run
 					{
 						case DialogResult.OK:
 							{
-								ImportObject obj = new ImportObject(dialog.FileName);
+								var obj = new ImportObject(dialog.FileName);
 								dialog.Dispose();
-								DialogResult result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+								var result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 								if (result == DialogResult.Yes)
 								{
-									Core.Import(obj, Core.RegistryHiveWriteFlag.HKCU | Core.RegistryHiveWriteFlag.KHLM);
+									Core.Import(obj, Core.RegistryHiveWriteFlag.HKCU | Core.RegistryHiveWriteFlag.HKLM);
 									MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 								}
 								else
@@ -79,7 +79,7 @@ namespace Reg2Run
 						}
 						else
 						{
-							ImportObject obj = ImportObject.Parse(Core.Settings);
+							var obj = ImportObject.Parse(Core.Settings);
 							if (obj != null)
 							{
 								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullPath));

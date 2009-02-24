@@ -19,8 +19,8 @@ namespace Reg2Run
 		[Flags]
 		internal enum RegistryHiveWriteFlag
 		{
-			HKCU,
-			KHLM
+			HKCU = 1,
+			HKLM = 2
 		}
 		#endregion
 
@@ -111,19 +111,27 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj, RegistryHiveWriteFlag flag)
 		{
-			SetValue(Registry.CurrentUser, obj);
-			SetValue(Registry.LocalMachine, obj);
+			var hkcu = flag;
+			var hklm = flag;
+			if ((hkcu &= RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU)
+			{
+				SetValue(Registry.CurrentUser, obj);
+			}
+			if ((hklm &= RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
+			{
+				SetValue(Registry.LocalMachine, obj);
+			}
 		}
 
 		private static void SetValue(RegistryKey hive, ImportObject obj)
 		{
-			RegistryKey appPaths = hive.OpenSubKey("Software")
+			var appPaths = hive.OpenSubKey("Software")
 				.OpenSubKey("Microsoft")
 				.OpenSubKey("Windows")
 				.OpenSubKey("CurrentVersion")
 				.OpenSubKey("App Paths", true);
 
-			RegistryKey key = appPaths.CreateSubKey(obj.FileName);
+			var key = appPaths.CreateSubKey(obj.FileName);
 			key.SetValue("", obj.FullPath);
 			key.SetValue("Path", obj.WorkingDirectory);
 			key.Flush();

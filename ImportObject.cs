@@ -51,7 +51,7 @@ namespace Reg2Run
 		#region Methods
 		public static ImportObject Parse(ApplicationSettings settings)
 		{
-			string path = settings.FilePath;
+			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
 				FileInfo info = new FileInfo(path);
@@ -66,7 +66,7 @@ namespace Reg2Run
 					}
 					else
 					{
-						string pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
+						var pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
 						if (new FileInfo(pathGuess).Exists)
 						{
 							path = pathGuess;
@@ -94,10 +94,10 @@ namespace Reg2Run
 				}
 			}
 
-			ImportObject obj = new ImportObject(path);
+			var obj = new ImportObject(path);
 
 			{
-				string name = settings.FileName;
+				var name = settings.FileName;
 				if (!String.IsNullOrEmpty(name))
 				{
 					if (String.IsNullOrEmpty(new FileInfo(name).Extension))
@@ -113,12 +113,12 @@ namespace Reg2Run
 			}
 
 			{
-				string dir = settings.FileWorkingDirectory;
+				var dir = settings.FileWorkingDirectory;
 				if (!String.IsNullOrEmpty(dir))
 				{
 					try
 					{
-						DirectoryInfo info = new DirectoryInfo(dir);
+						var info = new DirectoryInfo(dir);
 						if (info.Exists)
 						{
 							obj.WorkingDirectory = info.FullName;
