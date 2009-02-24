@@ -115,7 +115,7 @@ namespace Reg2Run
 					Console.WriteLine(new TooManyParametersException().Message);
 					return;
 				}
-				if (Core.KeepConsole)
+				//if (Core.KeepConsole)
 				{
 					Console.ReadKey(true);
 				}
@@ -124,25 +124,36 @@ namespace Reg2Run
 
 		private static void Import(ImportObject obj)
 		{
-			Process.Start(new ProcessStartInfo() { FileName = Core.Assembly.Location, Verb = "runas", UseShellExecute = true });
-			//t.InvokeMember("Import", BindingFlags.Default | BindingFlags.InvokeMethod, null, Activator.CreateInstance(t), new object[] { obj });
 			Core.Import(obj);
 		}
 
 		private static void PrintUsage()
 		{
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Usage: reg2run -p PATH [-n NAME] [-d DIR] [-r [PARAM]] | -? | -s"));
+			string format;
+			Console.WriteLine("Usage: reg2run -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] | -s | -?");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-?", "Print usage help"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-p", "Add file located in PATH to the registry"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-n", "Save as NAME"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-d", "Set working directory to DIR"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-r", "Run file after import, PARAM as argument if specified"));
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}\t\t{1}", "-s", "Add tool itself to the registry"));
+			format = "\t{0}\t\t{1}";
+			Console.WriteLine(format, "-?", "Print usage help");
+			Console.WriteLine(format, "-p", "Add file located in PATH to the registry");
+			Console.WriteLine(format, "-n", "Save as NAME");
+			Console.WriteLine(format, "-d", "Set working directory to DIR");
+			Console.WriteLine(format, "-r", "Run file after import, PARAM as argument if specified");
+			Console.WriteLine(format, "-s", "Add tool itself to the registry");
+			Console.WriteLine(format, "--hkcu", "Write into HKEY_CURRENT_USER registry hive");
+			Console.WriteLine(format, "--hklm", "Write into HKEY_LOCAL_MACHINE registry hive");
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
-			Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "\t{0}", "Parameter '-r' as flag must be specified in the end, otherwise next parameter would be recognized as it's value"));
+			format = "\t{0}";
+			Console.WriteLine(format, "Parameter '-r' as flag must be specified in the end, otherwise next parameter will be recognized as it's value");
+			Console.WriteLine(format, "If no registry hive indicated, both are assumed");
+			Console.WriteLine(format, "If no parameter '-?' is specified, all other are ignored");
+			Console.WriteLine();
+			Console.WriteLine("Examples:");
+			Console.WriteLine(format, "reg2run -p \"C:\\Cygwin\\bin\\grep.exe\" -d C:\\");
+			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Internet Explorer\\iexplore.exe\" -n ie");
+			Console.WriteLine(format, "reg2run -p \"D:\\Program Files\\Mozilla Firefox\\firefox.exe\" -n ff -r \"http://reg2run.sf.net\"");
+			Console.WriteLine(format, "reg2run -s -n rr");
 		}
 	}
 }

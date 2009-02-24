@@ -114,7 +114,7 @@ namespace Reg2Run
 			}
 			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKLM) == RegistryWriteFlag.HKLM)
 			{
-				Console.WriteLine("hklm");
+				SetValue(Registry.LocalMachine, obj);
 			}
 		}
 
