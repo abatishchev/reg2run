@@ -12,7 +12,7 @@ using Reg2Run.Settings;
 namespace Reg2Run
 {
 	[Flags]
-	internal enum RegistryHiveWriteFlag
+	internal enum RegistryWriteFlag
 	{
 		HKCU = 1,
 		HKLM = 2
@@ -108,11 +108,11 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			if ((Settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU)
+			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKCU) == RegistryWriteFlag.HKCU)
 			{
 				SetValue(Registry.CurrentUser, obj);
 			}
-			if ((Settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
+			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKLM) == RegistryWriteFlag.HKLM)
 			{
 				Console.WriteLine("hklm");
 			}

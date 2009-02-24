@@ -36,13 +36,13 @@ namespace Reg2Run.Settings
 
 		public bool UsageFlag { get; set; }
 
-		public RegistryHiveWriteFlag RegistryHiveWriteMode { get; set; }
+		public RegistryWriteFlag RegistryWriteMode { get; set; }
 		#endregion
 
 		#region Methods
 		internal static ApplicationSettings Parse(string[] args)
 		{
-			var settings = new ApplicationSettings { RegistryHiveWriteMode = RegistryHiveWriteFlag.HKCU | RegistryHiveWriteFlag.HKLM };
+			var settings = new ApplicationSettings();
 			for (int i = 0; i < args.Length; i++)
 			{
 				string name = args[i];
@@ -51,30 +51,16 @@ namespace Reg2Run.Settings
 					case "-?":
 					case "/?":
 						{
-							return new ApplicationSettings { UsageFlag = true };
+							return new ApplicationSettings { UsageFlag = true }; // stop further parsing and return only meaning flag
 						}
 					case "--hkcu":
 						{
-							if ((settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU && (settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
-							{
-								settings.RegistryHiveWriteMode = RegistryHiveWriteFlag.HKCU;
-							}
-							else
-							{
-								settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKCU;
-							}
+							settings.RegistryWriteMode |= RegistryWriteFlag.HKCU;
 							break;
 						}
 					case "--hklm":
 						{
-							if ((settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU && (settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
-							{
-								settings.RegistryHiveWriteMode = RegistryHiveWriteFlag.HKLM;
-							}
-							else
-							{
-								settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKLM;
-							}
+							settings.RegistryWriteMode |= RegistryWriteFlag.HKLM;
 							break;
 						}
 					case "-n":
@@ -136,6 +122,10 @@ namespace Reg2Run.Settings
 							throw new UnknownParameterException(name);
 						}
 				}
+			}
+			if (settings.RegistryWriteMode == null)
+			{
+				settings.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
 			}
 			return settings;
 		}
