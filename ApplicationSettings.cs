@@ -114,7 +114,7 @@ namespace Reg2Run.Settings
 							}
 							catch (IndexOutOfRangeException)
 							{
-								throw new ParameterNotSetException("File working directory");
+								throw new ParameterNotSetException("Application working directory");
 							}
 							break;
 						}
