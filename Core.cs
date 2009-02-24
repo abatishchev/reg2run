@@ -15,15 +15,6 @@ namespace Reg2Run
 	{
 		private static string copyright, title;
 
-		#region Enums
-		[Flags]
-		internal enum RegistryHiveWriteFlag
-		{
-			HKCU = 1,
-			HKLM = 2
-		}
-		#endregion
-
 		#region Properties
 		internal static string ApplicationCopyright
 		{
@@ -109,18 +100,10 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		public static void Import(ImportObject obj, RegistryHiveWriteFlag flag)
+		public static void Import(ImportObject obj)
 		{
-			var hkcu = flag;
-			var hklm = flag;
-			if ((hkcu &= RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU)
-			{
-				SetValue(Registry.CurrentUser, obj);
-			}
-			if ((hklm &= RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
-			{
-				SetValue(Registry.LocalMachine, obj);
-			}
+			SetValue(Registry.CurrentUser, obj);
+			SetValue(Registry.LocalMachine, obj);
 		}
 
 		private static void SetValue(RegistryKey hive, ImportObject obj)

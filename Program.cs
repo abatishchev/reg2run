@@ -39,15 +39,22 @@ namespace Reg2Run
 							{
 								var obj = new ImportObject(dialog.FileName);
 								dialog.Dispose();
-								var result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-								if (result == DialogResult.Yes)
+								if (obj != null)
 								{
-									Core.Import(obj, Core.RegistryHiveWriteFlag.HKCU | Core.RegistryHiveWriteFlag.HKLM);
-									MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+									var result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+									if (result == DialogResult.Yes)
+									{
+										Import(obj);
+										MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+									}
+									else
+									{
+										throw new ImportCanceledException();
+									}
 								}
 								else
 								{
-									throw new ImportCanceledException();
+									// TODO
 								}
 								break;
 							}
@@ -83,13 +90,17 @@ namespace Reg2Run
 							if (obj != null)
 							{
 								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'.. ", obj.FullPath));
-								Core.Import(obj, Core.Settings.RegistryHiveWriteMode);
+								Import(obj);
 								Console.WriteLine("Done!");
 								if (obj.Run)
 								{
 									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}'..", obj.FullPath));
 									Process.Start(obj.FullPath, obj.RunArg);
 								}
+							}
+							else
+							{
+								//TODO: Console.WriteLine("");
 							}
 						}
 					}
@@ -109,6 +120,13 @@ namespace Reg2Run
 					Console.ReadKey(true);
 				}
 			}
+		}
+
+		private static void Import(ImportObject obj)
+		{
+			Process.Start(new ProcessStartInfo() { FileName = Core.Assembly.Location, Verb = "runas", UseShellExecute = true });
+			//t.InvokeMember("Import", BindingFlags.Default | BindingFlags.InvokeMethod, null, Activator.CreateInstance(t), new object[] { obj });
+			Core.Import(obj);
 		}
 
 		private static void PrintUsage()

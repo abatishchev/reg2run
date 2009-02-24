@@ -36,7 +36,6 @@ namespace Reg2Run.Settings
 
 		public bool UsageFlag { get; set; }
 
-		public Core.RegistryHiveWriteFlag RegistryHiveWriteMode { get; set; }
 		#endregion
 
 		#region Methods
@@ -52,16 +51,6 @@ namespace Reg2Run.Settings
 					case "/?":
 						{
 							settings.UsageFlag = true;
-							break;
-						}
-					case "--hkcu":
-						{
-							settings.RegistryHiveWriteMode |= Core.RegistryHiveWriteFlag.HKCU;
-							break;
-						}
-					case "--hklm":
-						{
-							settings.RegistryHiveWriteMode |= Core.RegistryHiveWriteFlag.HKLM;
 							break;
 						}
 					case "-n":
