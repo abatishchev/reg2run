@@ -17,7 +17,7 @@ namespace Reg2Run
 		HKCU = 1,
 		HKLM = 2
 	}
-	
+
 	abstract class Core
 	{
 		private static string copyright, title;
@@ -114,7 +114,7 @@ namespace Reg2Run
 			}
 			if ((Settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
 			{
-				SetValue(Registry.LocalMachine, obj);
+				Console.WriteLine("hklm");
 			}
 		}
 

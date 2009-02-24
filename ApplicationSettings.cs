@@ -42,7 +42,7 @@ namespace Reg2Run.Settings
 		#region Methods
 		internal static ApplicationSettings Parse(string[] args)
 		{
-			var settings = new ApplicationSettings();
+			var settings = new ApplicationSettings { RegistryHiveWriteMode = RegistryHiveWriteFlag.HKCU | RegistryHiveWriteFlag.HKLM };
 			for (int i = 0; i < args.Length; i++)
 			{
 				string name = args[i];
@@ -51,17 +51,30 @@ namespace Reg2Run.Settings
 					case "-?":
 					case "/?":
 						{
-							settings.UsageFlag = true;
-							break;
+							return new ApplicationSettings { UsageFlag = true };
 						}
 					case "--hkcu":
 						{
-							settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKCU;
+							if ((settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU && (settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
+							{
+								settings.RegistryHiveWriteMode = RegistryHiveWriteFlag.HKCU;
+							}
+							else
+							{
+								settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKCU;
+							}
 							break;
 						}
 					case "--hklm":
 						{
-							settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKLM;
+							if ((settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKCU) == RegistryHiveWriteFlag.HKCU && (settings.RegistryHiveWriteMode & RegistryHiveWriteFlag.HKLM) == RegistryHiveWriteFlag.HKLM)
+							{
+								settings.RegistryHiveWriteMode = RegistryHiveWriteFlag.HKLM;
+							}
+							else
+							{
+								settings.RegistryHiveWriteMode |= RegistryHiveWriteFlag.HKLM;
+							}
 							break;
 						}
 					case "-n":
