@@ -123,7 +123,7 @@ namespace Reg2Run.Settings
 						}
 				}
 			}
-			if (settings.RegistryWriteMode == null)
+			if (settings.RegistryWriteMode == 0)
 			{
 				settings.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
 			}
