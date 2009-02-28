@@ -54,12 +54,12 @@ namespace Reg2Run
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
-				FileInfo info = new FileInfo(path);
+				var info = new FileInfo(path);
 				try
 				{
 					if (info.Exists)
 					{
-						if (!String.Equals(info.Extension, ".exe"))
+						if (!String.Equals(info.Extension.ToLower(CultureInfo.CurrentCulture), ".exe"))
 						{
 							throw new NotExecutableException(path);
 						}
@@ -96,52 +96,46 @@ namespace Reg2Run
 
 			var obj = new ImportObject(path);
 
+			var name = settings.FileName;
+			if (!String.IsNullOrEmpty(name))
 			{
-				var name = settings.FileName;
-				if (!String.IsNullOrEmpty(name))
+				if (String.IsNullOrEmpty(new FileInfo(name).Extension))
 				{
-					if (String.IsNullOrEmpty(new FileInfo(name).Extension))
-					{
-						name = String.Concat(name, ".exe");
-					}
-					else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
-					{
-						throw new NotExecutableException(name);
-					}
-					obj.FileName = name;
+					name = String.Concat(name, ".exe");
 				}
+				else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
+				{
+					throw new NotExecutableException(name);
+				}
+				obj.FileName = name;
 			}
 
+			var dir = settings.FileWorkingDirectory;
+			if (!String.IsNullOrEmpty(dir))
 			{
-				var dir = settings.FileWorkingDirectory;
-				if (!String.IsNullOrEmpty(dir))
+				try
 				{
-					try
+					var info = new DirectoryInfo(dir);
+					if (info.Exists)
 					{
-						var info = new DirectoryInfo(dir);
-						if (info.Exists)
-						{
-							obj.WorkingDirectory = info.FullName;
-						}
-						else
-						{
-							throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-
-						}
+						obj.WorkingDirectory = info.FullName;
 					}
-					catch (ArgumentException)
+					else
 					{
 						throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
+
 					}
+				}
+				catch (ArgumentException)
+				{
+					throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
 				}
 			}
 
+			if (settings.RunFlag)
 			{
-				if (settings.RunFlag)
-				{
-					obj.Run = true;
-					obj.RunArg = settings.RunString;
-				}
+				obj.Run = true;
+				obj.RunArg = settings.RunString;
 			}
 			return obj;
 		}

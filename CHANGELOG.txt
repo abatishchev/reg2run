@@ -3,12 +3,12 @@ Reg2Run Tool Changelog
 2.0.6 (-)
 
 [+] UAC support added
-[+] New parameters added: --hkcu means writing to HKEY_CURRENT_USER registry hive, --hklm to HKEY_LOCAL_MACHINE
+[+] New parameters added: '--hkcu' means writing to HKEY_CURRENT_USER registry hive, '--hklm' to HKEY_LOCAL_MACHINE
 
-[~] Parameter to set working directory -w renamed to -d
+[~] Parameter to set working directory '-w' renamed to '-d'
+[~] Fixed a bug when importing failed if target application extension is written in capital letters
 
-
-2.0.5(2009.02.16)
+2.0.5 (2009.02.16)
 
 [~] Fixed an error causing UnauthorizedAccessException on HKLM registry hive write
 
@@ -18,7 +18,6 @@ Reg2Run Tool Changelog
 
 2.0.3 (2009.01.12)
 
-[+] Additional scopes into ImportObject.Parse() for more memory use optimization
 [+] Now it's possible to specify only application name (without extension indication) for import, i.e. 'reg2run -p foo' while being in foo.exe's root directory
 [+] Console would not be closed if application was called from Windows Explorer, Run As.. or Run menu
 
