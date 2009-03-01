@@ -23,7 +23,7 @@ namespace Reg2Run
 
 		/*
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		private static extern IntPtr CreateFile(string fileName, int desiredAccess, int shareMode, IntPtr securityAttributes, int creationDisposition, int flagsAndAttributes, IntPtr templateFile);
+		private static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPStr)]string fileName, [MarshalAs(UnmanagedType.I4)]int desiredAccess, [MarshalAs(UnmanagedType.I4)]int shareMode, IntPtr securityAttributes, [MarshalAs(UnmanagedType.I4)]int creationDisposition, [MarshalAs(UnmanagedType.I4)]int flagsAndAttributes, IntPtr templateFile);
 		*/
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
@@ -31,7 +31,7 @@ namespace Reg2Run
 		private static extern bool FreeConsole();
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		private static extern IntPtr GetStdHandle(int nStdHandle);
+		private static extern IntPtr GetStdHandle([MarshalAs(UnmanagedType.I4)]int nStdHandle);
 
 		/*
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
@@ -46,7 +46,7 @@ namespace Reg2Run
 		{
 			var ptr = GetStdHandle(-11);
 			AllocConsoleManaged();
-			ptrNew = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
+			ptr = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
 			SetStdHandleManaged(ptr);
 			var newOut = new StreamWriter(Console.OpenStandardOutput());
 			newOut.AutoFlush = true;
