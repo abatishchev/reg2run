@@ -33,35 +33,24 @@ namespace Reg2Run
 					dialog.Title = "Choose a file to import..";
 					dialog.ValidateNames = true;
 
-					switch (dialog.ShowDialog())
+					var dialogResult = dialog.ShowDialog();
+					dialog.Dispose();
+					if (dialogResult == DialogResult.OK)
 					{
-						case DialogResult.OK:
-							{
-								var obj = new ImportObject(dialog.FileName);
-								dialog.Dispose();
-								if (obj != null)
-								{
-									var result = MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-									if (result == DialogResult.Yes)
-									{
-										Import(obj);
-										MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-									}
-									else
-									{
-										throw new ImportCanceledException();
-									}
-								}
-								else
-								{
-									// TODO
-								}
-								break;
-							}
-						case DialogResult.Cancel:
-							{
-								throw new ImportCanceledException();
-							}
+						var obj = new ImportObject(dialog.FileName);
+						if (MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+						{
+							Import(obj);
+							MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+						}
+						else
+						{
+							throw new ImportCanceledException();
+						}
+					}
+					else
+					{
+						throw new ImportCanceledException();
 					}
 				}
 				catch (ImportCanceledException ex)
@@ -113,7 +102,6 @@ namespace Reg2Run
 				else
 				{
 					Console.WriteLine(new TooManyParametersException().Message);
-					return;
 				}
 				if (Core.KeepConsole)
 				{
@@ -150,9 +138,8 @@ namespace Reg2Run
 			Console.WriteLine(format, "If no parameter '-?' is specified, all other are ignored");
 			Console.WriteLine();
 			Console.WriteLine("Examples:");
-			Console.WriteLine(format, "reg2run -p \"C:\\Cygwin\\bin\\grep.exe\" -d C:\\");
-			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Internet Explorer\\iexplore.exe\" -n ie");
-			Console.WriteLine(format, "reg2run -p \"D:\\Program Files\\Mozilla Firefox\\firefox.exe\" -n ff -r \"http://reg2run.sf.net\"");
+			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Far Manager\\far.exe\" -d C:\\");
+			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" -n ff -r \"http://reg2run.sf.net\"");
 			Console.WriteLine(format, "reg2run -s -n rr");
 		}
 	}
