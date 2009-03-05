@@ -78,12 +78,11 @@ namespace Reg2Run
 							var obj = ImportObject.Parse(Core.Settings);
 							if (obj != null)
 							{
-								Console.Write(String.Format(CultureInfo.CurrentCulture, "Adding '{0}'{1}.. ", obj.FullPath, !String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? String.Format(CultureInfo.CurrentCulture, " as '{0}'", obj.FileName) : String.Empty));
+								Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Adding: '{0}'{1}", obj.FullPath, !String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? String.Format(CultureInfo.CurrentCulture, " as '{0}'", obj.FileName) : String.Empty));
 								Import(obj);
-								Console.WriteLine("Done.");
 								if (obj.Run)
 								{
-									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Starting '{0}{1}'..", obj.FullPath, !String.IsNullOrEmpty(obj.RunArg) ? String.Format(CultureInfo.CurrentCulture, " {0}", obj.RunArg) : String.Empty));
+									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Running: '{0}{1}'", obj.FullPath, !String.IsNullOrEmpty(obj.RunArg) ? String.Format(CultureInfo.CurrentCulture, " {0}", obj.RunArg) : String.Empty));
 									Process.Start(obj.FullPath, obj.RunArg);
 								}
 							}
