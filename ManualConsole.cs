@@ -40,14 +40,20 @@ namespace Reg2Run
 		*/
 		#endregion
 
-		#region Managed Methods
+		#region Methods
 		/*
 		internal static void Create()
 		{
 			var ptr = GetStdHandle(-11);
-			AllocConsoleManaged();
+			if (!AllocConsole())
+			{
+				throw new PInvokeException("AllocConsole");
+			}
 			ptr = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
-			SetStdHandleManaged(ptr);
+			if (!SetStdHandle(-11, ptr))
+			{
+				throw new PInvokeException("SetStdHandle");
+			}
 			var newOut = new StreamWriter(Console.OpenStandardOutput());
 			newOut.AutoFlush = true;
 			Console.SetOut(newOut);
@@ -58,48 +64,16 @@ namespace Reg2Run
 		internal static void Hide()
 		{
 			var ptr = GetStdHandle(-11);
-			CloseHandleManaged(ptr);
-			ptr = IntPtr.Zero;
-			FreeConsoleManaged();
-		}
-		#endregion
-
-		#region Unmanaged Methods
-		/*
-		private static void AllocConsoleManaged()
-		{
-			if (!AllocConsole())
-			{
-				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
-			}
-		}
-		*/
-
-		private static void CloseHandleManaged(IntPtr ptr)
-		{
 			if (!CloseHandle(ptr))
 			{
-				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
+				throw new PInvokeException("CloseHandle");
 			}
-		}
-
-		private static void FreeConsoleManaged()
-		{
+			ptr = IntPtr.Zero;
 			if (!FreeConsole())
 			{
-				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
+				throw new PInvokeException("FreeConsole");
 			}
 		}
-
-		/*
-		private static void SetStdHandleManaged(IntPtr ptr)
-		{
-			if (!SetStdHandle(-11, ptr))
-			{
-				throw new PInvokeException(MethodBase.GetCurrentMethod().Name);
-			}
-		}
-		*/
 		#endregion
 	}
 }
