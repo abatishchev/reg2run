@@ -59,7 +59,7 @@ namespace Reg2Run
 				{
 					if (info.Exists)
 					{
-						if (!String.Equals(info.Extension.ToLower(CultureInfo.CurrentCulture), ".exe"))
+						if (!String.Equals(info.Extension, ".exe", StringComparison.OrdinalIgnoreCase))
 						{
 							throw new NotExecutableException(path);
 						}
@@ -99,11 +99,12 @@ namespace Reg2Run
 			var name = settings.FileName;
 			if (!String.IsNullOrEmpty(name))
 			{
-				if (String.IsNullOrEmpty(new FileInfo(name).Extension))
+				var ext = new FileInfo(name).Extension;
+				if (String.IsNullOrEmpty(ext))
 				{
 					name = String.Concat(name, ".exe");
 				}
-				else if (!String.Equals(new FileInfo(name).Extension, ".exe"))
+				else if (!String.Equals(ext, ".exe", StringComparison.OrdinalIgnoreCase))
 				{
 					throw new NotExecutableException(name);
 				}

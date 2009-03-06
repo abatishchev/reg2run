@@ -81,7 +81,7 @@ namespace Reg2Run
 				if (value)
 				{
 					string parentProcessName = ParentProcess.ProcessName;
-					KeepConsole = String.Equals(parentProcessName, "explorer") || String.Equals(parentProcessName, "rundll32");
+					KeepConsole = String.Equals(parentProcessName, "explorer", StringComparison.OrdinalIgnoreCase) || String.Equals(parentProcessName, "rundll32", StringComparison.OrdinalIgnoreCase);
 				}
 				else
 				{

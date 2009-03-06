@@ -1,12 +1,12 @@
 Reg2Run Tool Changelog
 
-2.0.6 (-)
+2.0.6 (2009.03.06)
 
 [+] UAC support added
 [+] New parameters added: '--hkcu' indicates writing to HKEY_CURRENT_USER registry hive, '--hklm' to HKEY_LOCAL_MACHINE
 
 [~] Parameter to set working directory '-w' renamed to '-d'
-[~] Fixed a bug when importing failed if target application extension is written in capital letters
+[~] Fixed a bug when importing failed if target application extension contains capital letters
 [~] Output is more verbose now
 
 2.0.5 (2009.02.16)

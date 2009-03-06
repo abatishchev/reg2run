@@ -13,18 +13,21 @@ set FILES=%FILES% %SOURCES% %DOCS%
 
 set BINARY=bin\Release\reg2run.exe
 
+set MAJOR=2
+set MINOR=0
 set BUILD=6
-set VERSION=2.0.%BUILD%
+set REVISION=$WCREV$
+set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
 
 set BATCH=batch.txt
 del %BATCH%
 echo cd uploads >> %BATCH%
 
-set NAME=%PROJECT%-%VERSION%.$WCREV$-source.zip
+set NAME=%PROJECT%-%VERSION%-source.zip
 winrar.exe %CMD% %NAME% %FILES%
 echo put %NAME% >> %BATCH%
 
-set NAME=%PROJECT%-%VERSION%.$WCREV$-binary.zip
+set NAME=%PROJECT%-%VERSION%-binary.zip
 winrar.exe -ep %CMD% %NAME% %BINARY%
 echo put %NAME% >> %BATCH%
 
@@ -35,5 +38,5 @@ del %BATCH%
 set DIST=..\release
 
 mkdir %DIST%
-move /y %PROJECT%-%VERSION%.$WCREV$-source.zip %DIST%
-move /y %PROJECT%-%VERSION%.$WCREV$-binary.zip %DIST%
+move /y %PROJECT%-%VERSION%-source.zip %DIST%
+move /y %PROJECT%-%VERSION%-binary.zip %DIST%
