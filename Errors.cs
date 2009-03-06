@@ -8,21 +8,14 @@ using System.Runtime.Serialization;
 namespace Reg2Run.Errors
 {
 	[Serializable]
-	public class ParameterException : Exception
-	{
-		public ParameterException(string message)
-			: base(message) { }
-	}
-
-	[Serializable]
-	public class ParameterMissedException : ArgumentOutOfRangeException
+	public class ParameterMissedException : ArgumentNullException
 	{
 		public ParameterMissedException(string name)
 			: base(name, String.Format(CultureInfo.CurrentCulture, "Value for required parameter '{0}' was not specified", name)) { }
 	}
 
 	[Serializable]
-	public class ParameterNotSetException : ArgumentOutOfRangeException
+	public class ParameterNotSetException : ArgumentNullException
 	{
 		public ParameterNotSetException(string name)
 			: base(name, String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", name)) { }
@@ -32,39 +25,14 @@ namespace Reg2Run.Errors
 	public class UnknownParameterException : ArgumentException
 	{
 		public UnknownParameterException(string name)
-			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name))
-		{
-			this.ParameterName = name;
-		}
-
-		public string ParameterName { get; private set; }
-
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			if (ParameterName != null)
-			{
-				info.AddValue("name", ParameterName);
-			}
-			else
-			{
-				throw new ArgumentNullException("name");
-			}
-		}
-	}
-
-	[Serializable]
-	public class TooManyParametersException : ArgumentException
-	{
-		public TooManyParametersException()
-			: base("Too many parameters was specified") { }
+			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name), name) { }
 	}
 
 	[Serializable]
 	public class PInvokeException : Exception
 	{
-		public PInvokeException(string name)
-			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while call of external method '{0}' ", name)) { }
+		public PInvokeException(string methodName)
+			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while external method '{0}' call", methodName)) { }
 	}
 
 	[Serializable]
@@ -77,7 +45,7 @@ namespace Reg2Run.Errors
 	[Serializable]
 	public class NotExecutableException : Exception
 	{
-		public NotExecutableException(string name)
-			: base(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' is not an executable", name)) { }
+		public NotExecutableException(string fileName)
+			: base(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' is not an executable", fileName)) { }
 	}
 }

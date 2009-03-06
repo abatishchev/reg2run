@@ -6,7 +6,7 @@ using Reg2Run.Errors;
 
 namespace Reg2Run.Settings
 {
-	class ApplicationSettings
+	internal class ApplicationSettings
 	{
 		private string runString;
 

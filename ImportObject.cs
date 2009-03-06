@@ -9,7 +9,7 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
-	class ImportObject
+	internal class ImportObject
 	{
 		private string workingDir;
 

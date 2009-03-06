@@ -18,7 +18,7 @@ namespace Reg2Run
 		HKLM = 2
 	}
 
-	abstract class Core
+	internal abstract class Core
 	{
 		private static string copyright, title;
 

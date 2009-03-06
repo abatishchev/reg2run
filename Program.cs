@@ -10,10 +10,10 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
-	static class Program
+	internal static class Program
 	{
 		[STAThread]
-		public static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			if (args.Length == 0)
 			{
@@ -54,42 +54,35 @@ namespace Reg2Run
 			else
 			{
 				Core.IsConsole = true;
-				if (args.Length >= 1 & args.Length <= 8)
+				Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion));
+				Console.WriteLine(Core.ApplicationCopyright);
+				Console.WriteLine();
+				try
 				{
-					Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion));
-					Console.WriteLine(Core.ApplicationCopyright);
-					Console.WriteLine();
-					try
+					Core.Settings = ApplicationSettings.Parse(args);
+					if (Core.Settings.UsageFlag)
 					{
-						Core.Settings = ApplicationSettings.Parse(args);
-						if (Core.Settings.UsageFlag)
+						PrintUsage();
+					}
+					else
+					{
+						var obj = ImportObject.Parse(Core.Settings);
+						if (obj != null)
 						{
-							PrintUsage();
-						}
-						else
-						{
-							var obj = ImportObject.Parse(Core.Settings);
-							if (obj != null)
+							Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Adding: '{0}'{1}", obj.FullPath, !String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? String.Format(CultureInfo.CurrentCulture, " as '{0}'", obj.FileName) : String.Empty));
+							Import(obj);
+							if (obj.Run)
 							{
-								Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Adding: '{0}'{1}", obj.FullPath, !String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? String.Format(CultureInfo.CurrentCulture, " as '{0}'", obj.FileName) : String.Empty));
-								Import(obj);
-								if (obj.Run)
-								{
-									Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Running: '{0}{1}'", obj.FullPath, !String.IsNullOrEmpty(obj.RunArg) ? String.Format(CultureInfo.CurrentCulture, " {0}", obj.RunArg) : String.Empty));
-									Process.Start(obj.FullPath, obj.RunArg);
-								}
+								Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "Running: '{0}{1}'", obj.FullPath, !String.IsNullOrEmpty(obj.RunArg) ? String.Format(CultureInfo.CurrentCulture, " {0}", obj.RunArg) : String.Empty));
+								Process.Start(obj.FullPath, obj.RunArg);
 							}
 						}
 					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error:");
-						Console.WriteLine(ex.Message);
-					}
 				}
-				else
+				catch (Exception ex)
 				{
-					Console.WriteLine(new TooManyParametersException().Message);
+					Console.WriteLine("Error:");
+					Console.WriteLine(ex.Message);
 				}
 				if (Core.KeepConsole)
 				{
