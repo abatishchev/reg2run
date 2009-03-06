@@ -21,17 +21,10 @@ namespace Reg2Run
 				try
 				{
 					var dialog = new OpenFileDialog();
-					dialog.AddExtension = true;
-					dialog.CheckFileExists = true;
 					dialog.DefaultExt = "exe";
-					dialog.DereferenceLinks = true;
 					dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
-					dialog.FilterIndex = 1;
 					dialog.InitialDirectory = Application.StartupPath;
-					dialog.Multiselect = false;
-					dialog.ReadOnlyChecked = true;
 					dialog.Title = "Choose a file to import..";
-					dialog.ValidateNames = true;
 
 					var dialogResult = dialog.ShowDialog();
 					dialog.Dispose();
