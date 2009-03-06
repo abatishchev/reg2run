@@ -43,15 +43,21 @@ namespace Reg2Run.Settings
 		internal static ApplicationSettings Parse(string[] args)
 		{
 			var settings = new ApplicationSettings();
+			if (args.Length == 1 && new System.IO.FileInfo(args[0]).Exists)
+			{
+				settings.FilePath = args[0];
+				return settings;
+			}
 			for (int i = 0; i < args.Length; i++)
 			{
-				string name = args[i];
-				switch (name)
+				var param = args[i];
+				switch (param)
 				{
 					case "-?":
 					case "/?":
 						{
-							return new ApplicationSettings { UsageFlag = true }; // stop further parsing and return only meaning flag
+							settings.UsageFlag = true; // stop further parsing and return only meaning flag
+							return settings;
 						}
 					case "--hkcu":
 						{
@@ -119,7 +125,7 @@ namespace Reg2Run.Settings
 						}
 					default:
 						{
-							throw new UnknownParameterException(name);
+							throw new UnknownParameterException(param);
 						}
 				}
 			}

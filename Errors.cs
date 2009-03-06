@@ -15,21 +15,21 @@ namespace Reg2Run.Errors
 	}
 
 	[Serializable]
-	public class ParameterMissedException : ParameterException
+	public class ParameterMissedException : ArgumentOutOfRangeException
 	{
 		public ParameterMissedException(string name)
-			: base(String.Format(CultureInfo.CurrentCulture, "Value for required parameter '{0}' was not specified", name)) { }
+			: base(name, String.Format(CultureInfo.CurrentCulture, "Value for required parameter '{0}' was not specified", name)) { }
 	}
 
 	[Serializable]
-	public class ParameterNotSetException : ParameterException
+	public class ParameterNotSetException : ArgumentOutOfRangeException
 	{
 		public ParameterNotSetException(string name)
-			: base(String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", name)) { }
+			: base(name, String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", name)) { }
 	}
 
 	[Serializable]
-	public class UnknownParameterException : Exception
+	public class UnknownParameterException : ArgumentException
 	{
 		public UnknownParameterException(string name)
 			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name))
@@ -54,7 +54,7 @@ namespace Reg2Run.Errors
 	}
 
 	[Serializable]
-	public class TooManyParametersException : Exception
+	public class TooManyParametersException : ArgumentException
 	{
 		public TooManyParametersException()
 			: base("Too many parameters was specified") { }
