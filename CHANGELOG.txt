@@ -1,5 +1,7 @@
 Reg2Run Tool Changelog
 
+2.1.7 (-)
+
 2.0.6 (2009.03.06)
 
 [+] UAC support added

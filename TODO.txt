@@ -2,3 +2,4 @@ Reg2Run Tool TODO List
 
 1. Elevate privileges on demand
 2. Examine first parameter being a path to executable even '-p' is not specified
+3. Indicate StringComparison in logging messages on import
