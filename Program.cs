@@ -99,7 +99,7 @@ namespace Reg2Run
 		private static void PrintUsage()
 		{
 			string format;
-			Console.WriteLine("Usage: reg2run -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] | -s | -?");
+			Console.WriteLine("Usage: reg2run [PATH] | -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] | -s | -?");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
 			format = "\t{0}\t\t{1}";
@@ -114,9 +114,10 @@ namespace Reg2Run
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
 			format = "\t{0}";
-			Console.WriteLine(format, "Parameter '-r' as flag must be specified in the end, otherwise next parameter will be recognized as it's value");
+			Console.WriteLine(format, "If single specified parameter is an existed application path, it will be imported, all other parameters are ignored");
 			Console.WriteLine(format, "If no registry hive indicated, both are assumed");
-			Console.WriteLine(format, "If no parameter '-?' is specified, all other are ignored");
+			Console.WriteLine(format, "Parameter '-r' as flag must be specified in the end, otherwise next parameter will be recognized as it's value");
+			Console.WriteLine(format, "If parameter '-?' is specified, all other are ignored");
 			Console.WriteLine();
 			Console.WriteLine("Examples:");
 			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Far Manager\\far.exe\" -d C:\\");
