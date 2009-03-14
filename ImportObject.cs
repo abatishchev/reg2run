@@ -16,9 +16,8 @@ namespace Reg2Run
 		#region Constructors
 		public ImportObject(string fileName)
 		{
-			FileInfo info = new FileInfo(fileName);
-			this.FileName = info.Name;
-			this.FullPath = info.FullName;
+			this.FileName = Path.GetFileName(fileName);
+			this.FullPath = Path.GetFullPath(fileName);
 		}
 		#endregion
 
