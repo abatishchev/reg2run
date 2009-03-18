@@ -54,7 +54,7 @@ namespace Reg2Run
 			else
 			{
 				Core.IsConsole = true;
-				Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion));
+				Console.WriteLine("{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion);
 				Console.WriteLine(Core.ApplicationCopyright);
 				Console.WriteLine();
 				try
@@ -69,11 +69,11 @@ namespace Reg2Run
 						var obj = ImportObject.Parse(Core.Settings);
 						if (obj != null)
 						{
-							Console.WriteLine("Adding: '{0}'{1}", obj.FullPath, !String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? String.Format(CultureInfo.CurrentCulture, " as '{0}'", obj.FileName) : String.Empty);
+							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
 							Import(obj);
 							if (obj.Run)
 							{
-								Console.WriteLine("Running: '{0}{1}'", obj.FullPath, !String.IsNullOrEmpty(obj.RunArg) ? String.Format(CultureInfo.CurrentCulture, " {0}", obj.RunArg) : String.Empty);
+								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
 								Process.Start(obj.FullPath, obj.RunArg);
 							}
 						}
