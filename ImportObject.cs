@@ -36,7 +36,7 @@ namespace Reg2Run
 			{
 				if (String.IsNullOrEmpty(this.workingDir))
 				{
-					this.workingDir = new FileInfo(this.FullPath).Directory.FullName;
+					this.workingDir = Path.GetDirectoryName(this.FullPath);
 				}
 				return workingDir;
 			}
@@ -53,9 +53,9 @@ namespace Reg2Run
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
-				var info = new FileInfo(path);
 				try
 				{
+					var info = new FileInfo(path);
 					if (info.Exists)
 					{
 						if (!String.Equals(info.Extension, ".exe", StringComparison.OrdinalIgnoreCase))
@@ -66,7 +66,7 @@ namespace Reg2Run
 					else
 					{
 						var pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
-						if (new FileInfo(pathGuess).Exists)
+						if (File.Exists(pathGuess))
 						{
 							path = pathGuess;
 						}
@@ -98,7 +98,7 @@ namespace Reg2Run
 			var name = settings.FileName;
 			if (!String.IsNullOrEmpty(name))
 			{
-				var ext = new FileInfo(name).Extension;
+				var ext = Path.GetExtension(name);
 				if (String.IsNullOrEmpty(ext))
 				{
 					name = String.Concat(name, ".exe");
@@ -113,20 +113,11 @@ namespace Reg2Run
 			var dir = settings.FileWorkingDirectory;
 			if (!String.IsNullOrEmpty(dir))
 			{
-				try
+				if (Directory.Exists(dir))
 				{
-					var info = new DirectoryInfo(dir);
-					if (info.Exists)
-					{
-						obj.WorkingDirectory = info.FullName;
-					}
-					else
-					{
-						throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
-
-					}
+					obj.WorkingDirectory = dir;
 				}
-				catch (ArgumentException)
+				else
 				{
 					throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
 				}

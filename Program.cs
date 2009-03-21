@@ -33,6 +33,7 @@ namespace Reg2Run
 						var obj = new ImportObject(dialog.FileName);
 						if (MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 						{
+							Core.Settings = new ApplicationSettings();
 							Import(obj);
 							MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
@@ -123,6 +124,7 @@ namespace Reg2Run
 			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Far Manager\\far.exe\" -d C:\\");
 			Console.WriteLine(format, "reg2run -p \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" -n ff -r \"http://reg2run.sf.net\"");
 			Console.WriteLine(format, "reg2run -s -n rr");
+			Console.WriteLine(format, "reg2run \"C:\\Windows\\reg2run.exe\"");
 		}
 	}
 }

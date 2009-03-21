@@ -10,6 +10,13 @@ namespace Reg2Run.Settings
 	{
 		private string runString;
 
+		#region Constructors
+		public ApplicationSettings()
+		{
+			this.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
+		}
+		#endregion
+
 		#region Properties
 		public string FileName { get; set; }
 
@@ -43,7 +50,7 @@ namespace Reg2Run.Settings
 		internal static ApplicationSettings Parse(string[] args)
 		{
 			var settings = new ApplicationSettings();
-			if (args.Length == 1 && new System.IO.FileInfo(args[0]).Exists)
+			if (args.Length == 1 && (!args[0].StartsWith("/") || !args[0].StartsWith("-")) && System.IO.File.Exists(args[0]))
 			{
 				settings.FilePath = args[0];
 				return settings;
@@ -56,8 +63,19 @@ namespace Reg2Run.Settings
 					case "-?":
 					case "/?":
 						{
-							settings.UsageFlag = true; // stop further parsing and return only meaning flag
-							return settings;
+							return new ApplicationSettings() { UsageFlag = true };  // stop further parsing and return only meaning flag
+						}
+					case "-d":
+						{
+							try
+							{
+								settings.FileWorkingDirectory = args.GetValue(++i) as string;
+							}
+							catch (IndexOutOfRangeException)
+							{
+								throw new ParameterNotSetException("Application working directory");
+							}
+							break;
 						}
 					case "--hkcu":
 						{
@@ -111,27 +129,11 @@ namespace Reg2Run.Settings
 							settings.SelfFlag = true;
 							break;
 						}
-					case "-w":
-						{
-							try
-							{
-								settings.FileWorkingDirectory = args.GetValue(++i) as string;
-							}
-							catch (IndexOutOfRangeException)
-							{
-								throw new ParameterNotSetException("Application working directory");
-							}
-							break;
-						}
 					default:
 						{
 							throw new UnknownParameterException(param);
 						}
 				}
-			}
-			if (settings.RegistryWriteMode == 0)
-			{
-				settings.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
 			}
 			return settings;
 		}
