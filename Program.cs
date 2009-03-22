@@ -72,6 +72,7 @@ namespace Reg2Run
 						{
 							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
 							Import(obj);
+							Console.WriteLine("Done.");
 							if (obj.Run)
 							{
 								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
