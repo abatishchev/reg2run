@@ -1,6 +1,7 @@
 Reg2Run Tool Changelog
 
 2.1.7 (-)
+
 [+] If single specified parameter is an existed application path, it will be imported, all other parameters are ignored
 
 2.0.6 (2009.03.06)
