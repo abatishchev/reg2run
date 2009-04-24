@@ -31,8 +31,11 @@ namespace Reg2Run
 				{
 					try
 					{
-						object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-						copyright = ((AssemblyCopyrightAttribute)customAttributes[0]).Copyright;
+						var customAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+						if (customAttributes != null && customAttributes.Length > 0)
+						{
+							copyright = ((AssemblyCopyrightAttribute)customAttributes[0]).Copyright;
+						}
 					}
 					catch
 					{
@@ -65,15 +68,17 @@ namespace Reg2Run
 			{
 				if (title == null)
 				{
-
 					try
 					{
-						object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-						title = ((AssemblyTitleAttribute)customAttributes[0]).Title;
+						var customAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+						if (customAttributes != null && customAttributes.Length > 0)
+						{
+							title = ((AssemblyTitleAttribute)customAttributes[0]).Title;
+						}
 					}
 					catch
 					{
-						copyright = String.Empty;
+						title = String.Empty;
 					}
 				}
 				return title;
