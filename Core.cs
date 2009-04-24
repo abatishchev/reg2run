@@ -27,10 +27,17 @@ namespace Reg2Run
 		{
 			get
 			{
-				if (String.IsNullOrEmpty(copyright))
+				if (copyright == null)
 				{
-					object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-					copyright = ((AssemblyCopyrightAttribute)customAttributes[0]).Copyright;
+					try
+					{
+						object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+						copyright = ((AssemblyCopyrightAttribute)customAttributes[0]).Copyright;
+					}
+					catch
+					{
+						copyright = String.Empty;
+					}
 				}
 				return copyright;
 			}
@@ -56,11 +63,18 @@ namespace Reg2Run
 		{
 			get
 			{
-				if (String.IsNullOrEmpty(title))
+				if (title == null)
 				{
 
-					object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-					title = ((AssemblyTitleAttribute)customAttributes[0]).Title;
+					try
+					{
+						object[] customAttributes = Assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+						title = ((AssemblyTitleAttribute)customAttributes[0]).Title;
+					}
+					catch
+					{
+						copyright = String.Empty;
+					}
 				}
 				return title;
 			}
