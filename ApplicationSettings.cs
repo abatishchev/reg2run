@@ -6,10 +6,8 @@ using Reg2Run.Errors;
 
 namespace Reg2Run.Settings
 {
-	internal class ApplicationSettings
+	class ApplicationSettings
 	{
-		private string runString;
-
 		#region Constructors
 		public ApplicationSettings()
 		{
@@ -26,18 +24,7 @@ namespace Reg2Run.Settings
 
 		public bool RunFlag { get; set; }
 
-		public string RunString
-		{
-			get
-			{
-				return this.runString;
-			}
-			set
-			{
-				this.RunFlag = !String.IsNullOrEmpty(value);
-				this.runString = value;
-			}
-		}
+		public string RunString { get; set; }
 
 		public bool SelfFlag { get; set; }
 
@@ -47,7 +34,7 @@ namespace Reg2Run.Settings
 		#endregion
 
 		#region Methods
-		internal static ApplicationSettings Parse(string[] args)
+		public static ApplicationSettings Parse(string[] args)
 		{
 			var settings = new ApplicationSettings();
 			if (args.Length == 1 && (!args[0].StartsWith("/") || !args[0].StartsWith("-")) && System.IO.File.Exists(args[0]))

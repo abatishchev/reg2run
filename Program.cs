@@ -10,7 +10,7 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
-	internal static class Program
+	static class Program
 	{
 		[STAThread]
 		private static void Main(string[] args)
@@ -86,7 +86,8 @@ namespace Reg2Run
 					Console.WriteLine("Error:");
 					Console.WriteLine(ex.Message);
 				}
-				if (Core.KeepConsole)
+				// TODO: fix an issue with new windows while run with elevated privileges
+				// if (Core.KeepConsole)
 				{
 					Console.ReadKey(true);
 				}

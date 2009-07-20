@@ -9,7 +9,7 @@ using Reg2Run.Settings;
 
 namespace Reg2Run
 {
-	internal class ImportObject
+	public class ImportObject
 	{
 		private string workingDir;
 
@@ -48,7 +48,7 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		public static ImportObject Parse(ApplicationSettings settings)
+		internal static ImportObject Parse(ApplicationSettings settings)
 		{
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))

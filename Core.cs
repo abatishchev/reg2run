@@ -12,18 +12,18 @@ using Reg2Run.Settings;
 namespace Reg2Run
 {
 	[Flags]
-	internal enum RegistryWriteFlag
+	enum RegistryWriteFlag
 	{
 		HKCU = 1,
 		HKLM = 2
 	}
 
-	internal abstract class Core
+	public abstract class Core
 	{
 		private static string copyright, title;
 
 		#region Properties
-		internal static string ApplicationCopyright
+		public static string ApplicationCopyright
 		{
 			get
 			{
@@ -46,7 +46,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static string ApplicationName
+		public static string ApplicationName
 		{
 			get
 			{
@@ -54,7 +54,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static string ApplicationVersion
+		public static string ApplicationVersion
 		{
 			get
 			{
@@ -62,7 +62,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static string ApplicationTitle
+		public static string ApplicationTitle
 		{
 			get
 			{
@@ -85,7 +85,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static Assembly Assembly
+		public static Assembly Assembly
 		{
 			get
 			{
@@ -93,7 +93,7 @@ namespace Reg2Run
 			}
 		}
 
-		internal static bool IsConsole
+		public static bool IsConsole
 		{
 			set
 			{
@@ -109,9 +109,9 @@ namespace Reg2Run
 			}
 		}
 
-		internal static bool KeepConsole { get; private set; }
+		public static bool KeepConsole { get; private set; }
 
-		internal static Process ParentProcess
+		public static Process ParentProcess
 		{
 			get
 			{
@@ -121,7 +121,6 @@ namespace Reg2Run
 		}
 
 		internal static ApplicationSettings Settings { get; set; }
-
 		#endregion
 
 		#region Methods
