@@ -28,6 +28,8 @@ namespace Reg2Run.Settings
 
 		public bool SelfFlag { get; set; }
 
+		public bool SkipExistenceCheck { get; set; }
+
 		public bool UsageFlag { get; set; }
 
 		public RegistryWriteFlag RegistryWriteMode { get; set; }
@@ -62,6 +64,11 @@ namespace Reg2Run.Settings
 							{
 								throw new ParameterNotSetException("Application working directory");
 							}
+							break;
+						}
+					case "-f":
+						{
+							settings.SkipExistenceCheck = true;
 							break;
 						}
 					case "--hkcu":

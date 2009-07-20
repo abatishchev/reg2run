@@ -53,24 +53,27 @@ namespace Reg2Run
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
-				var info = new FileInfo(path);
-				if (info.Exists)
+				if (!settings.SkipExistenceCheck)
 				{
-					if (!String.Equals(info.Extension, ".exe", StringComparison.OrdinalIgnoreCase))
+					var info = new FileInfo(path);
+					if (info.Exists)
 					{
-						throw new NotExecutableException(path);
-					}
-				}
-				else
-				{
-					var pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
-					if (File.Exists(pathGuess))
-					{
-						path = pathGuess;
+						if (!String.Equals(info.Extension, ".exe", StringComparison.OrdinalIgnoreCase))
+						{
+							throw new NotExecutableException(path);
+						}
 					}
 					else
 					{
-						throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+						var pathGuess = String.Concat(Path.Combine(info.Directory.FullName, info.Name), ".exe");
+						if (File.Exists(pathGuess))
+						{
+							path = pathGuess;
+						}
+						else
+						{
+							throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+						}
 					}
 				}
 			}
