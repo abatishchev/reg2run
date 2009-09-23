@@ -18,9 +18,15 @@ namespace Reg2Run
 		HKLM = 2
 	}
 
-	public abstract class Core
+	public static class Core
 	{
 		private static string copyright, title;
+
+		private static System.Collections.Generic.HashSet<string> setProcess = new System.Collections.Generic.HashSet<string>
+		{
+			"explorer",
+			"rundll32"
+		};
 
 		#region Properties
 		public static string ApplicationCopyright
@@ -99,8 +105,19 @@ namespace Reg2Run
 			{
 				if (value)
 				{
-					string parentProcessName = ParentProcess.ProcessName;
-					KeepConsole = String.Equals(parentProcessName, "explorer", StringComparison.OrdinalIgnoreCase) || String.Equals(parentProcessName, "rundll32", StringComparison.OrdinalIgnoreCase);
+					switch (Environment.OSVersion.Version.Major)
+					{
+						case 5: // windows xp, windows server 2003
+							{
+								KeepConsole = setProcess.Contains(ParentProcess.ProcessName.ToLower());
+								break;
+							}
+						case 6: // windiows vista, windows server 2008, windows 7
+							{
+								KeepConsole = true;
+								break;
+							}
+					}
 				}
 				else
 				{
