@@ -34,7 +34,7 @@ namespace Reg2Run
 						if (MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 						{
 							Core.Settings = new ApplicationSettings();
-							Import(obj);
+							Core.Import(obj);
 							MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
 						else
@@ -47,7 +47,7 @@ namespace Reg2Run
 						throw new ImportCanceledException();
 					}
 				}
-				catch (ImportCanceledException ex)
+				catch (Exception ex)
 				{
 					MessageBox.Show(ex.Message, Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
@@ -71,7 +71,7 @@ namespace Reg2Run
 						if (obj != null)
 						{
 							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
-							Import(obj);
+							Core.Import(obj);
 							Console.WriteLine("Done.");
 							if (obj.Run)
 							{
@@ -92,11 +92,6 @@ namespace Reg2Run
 					Console.ReadKey(true);
 				}
 			}
-		}
-
-		private static void Import(ImportObject obj)
-		{
-			Core.Import(obj);
 		}
 
 		private static void PrintUsage()

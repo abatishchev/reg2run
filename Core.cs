@@ -145,11 +145,25 @@ namespace Reg2Run
 		{
 			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKCU) == RegistryWriteFlag.HKCU)
 			{
-				SetValue(Registry.CurrentUser, obj);
+				try
+				{
+					SetValue(Registry.CurrentUser, obj);
+				}
+				catch
+				{
+					// do nothing; just skip
+				}
 			}
 			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKLM) == RegistryWriteFlag.HKLM)
 			{
-				SetValue(Registry.LocalMachine, obj);
+				try
+				{
+					SetValue(Registry.LocalMachine, obj);
+				}
+				catch
+				{
+					// do nothing; just skip
+				}
 			}
 		}
 
