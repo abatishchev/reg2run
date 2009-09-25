@@ -48,6 +48,7 @@
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Errors.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="ImportObject.cs" />
     <Compile Include="ManualConsole.cs" />
     <Compile Include="Program.cs" />

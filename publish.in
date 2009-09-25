@@ -7,7 +7,7 @@ set CMD=A -afzip -o+ -s -ibck -t -m5
 set PROJECT=reg2run
 
 set FILES=Reg2Run.csproj Reg2Run.sln App.manifest
-set SOURCES=ApplicationSettings.cs Core.cs Errors.cs ImportObject.cs ManualConsole.cs Program.cs Properties\AssemblyInfo.cs
+set SOURCES=ApplicationSettings.cs Core.cs Errors.cs Extensions.cs ImportObject.cs ManualConsole.cs Program.cs Properties\AssemblyInfo.cs
 set DOCS=CHANGELOG.txt LICENSE.txt
 set FILES=%FILES% %SOURCES% %DOCS%
 

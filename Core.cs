@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -143,42 +144,31 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKCU) == RegistryWriteFlag.HKCU)
-			{
-				try
-				{
-					SetValue(Registry.CurrentUser, obj);
-				}
-				catch
-				{
-					// do nothing; just skip
-				}
-			}
-			if ((Settings.RegistryWriteMode & RegistryWriteFlag.HKLM) == RegistryWriteFlag.HKLM)
-			{
-				try
-				{
-					SetValue(Registry.LocalMachine, obj);
-				}
-				catch
-				{
-					// do nothing; just skip
-				}
-			}
+			new RegistryWriteFlag[] { RegistryWriteFlag.HKCU, RegistryWriteFlag.HKLM }.ForEach(f => SetValue(Registry.LocalMachine, f, obj));
 		}
 
-		private static void SetValue(RegistryKey hive, ImportObject obj)
+		private static void SetValue(RegistryKey hive, RegistryWriteFlag flag, ImportObject obj)
 		{
-			var appPaths = hive.OpenSubKey("Software")
-				.OpenSubKey("Microsoft")
-				.OpenSubKey("Windows")
-				.OpenSubKey("CurrentVersion")
-				.OpenSubKey("App Paths", true);
+			try
+			{
+				if ((Settings.RegistryWriteMode & flag) == flag)
+				{
+					var appPaths = hive.OpenSubKey("Software")
+						.OpenSubKey("Microsoft")
+						.OpenSubKey("Windows")
+						.OpenSubKey("CurrentVersion")
+						.OpenSubKey("App Paths", true);
 
-			var key = appPaths.CreateSubKey(obj.FileName);
-			key.SetValue("", obj.FullPath);
-			key.SetValue("Path", obj.WorkingDirectory);
-			key.Flush();
+					var key = appPaths.CreateSubKey(obj.FileName);
+					key.SetValue(String.Empty, obj.FullPath);
+					key.SetValue("Path", obj.WorkingDirectory);
+					key.Flush();
+				}
+			}
+			catch
+			{
+				// do nothing; just skip
+			}
 		}
 		#endregion
 	}
