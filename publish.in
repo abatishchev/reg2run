@@ -1,6 +1,6 @@
 rem Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
-set PATH=%PATH%;%PROGRAMFILES%\WinRar;%PROGRAMFILES%\PuTTY
+set PATH=%PATH%;%WINDIR%\Microsoft.NET\Framework\v3.5;%PROGRAMFILES%\WinRar;
 
 set CMD=A -afzip -o+ -s -ibck -t -m5
 
@@ -19,24 +19,16 @@ set BUILD=8
 set REVISION=$WCREV$
 set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
 
-set BATCH=batch.txt
-del %BATCH%
-echo cd uploads >> %BATCH%
+set DIST=..\release
+mkdir %DIST%
+
+msbuild /nologo %PROJECT%.sln /t:Clean /p:Configuration=Release
+msbuild /nologo %PROJECT%.sln /t:Build /p:Configuration=Release
 
 set NAME=%PROJECT%-%VERSION%-source.zip
 winrar.exe %CMD% %NAME% %FILES%
-echo put %NAME% >> %BATCH%
+move /y %NAME% %DIST%
 
 set NAME=%PROJECT%-%VERSION%-binary.zip
 winrar.exe -ep %CMD% %NAME% %BINARY%
-echo put %NAME% >> %BATCH%
-
-psftp.exe -b %BATCH% abatishchev@frs.sourceforge.net
-
-del %BATCH%
-
-set DIST=..\release
-
-mkdir %DIST%
-move /y %PROJECT%-%VERSION%-source.zip %DIST%
-move /y %PROJECT%-%VERSION%-binary.zip %DIST%
+move /y %NAME% %DIST%
