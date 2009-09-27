@@ -1,11 +1,9 @@
 ﻿// Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.Globalization;
 using System.IO;
 
 using Reg2Run.Errors;
-using Reg2Run.Settings;
 
 namespace Reg2Run
 {
@@ -72,7 +70,7 @@ namespace Reg2Run
 						}
 						else
 						{
-							throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
+							throw new FileNotFoundException(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Specified file '{0}' doesn't exists", path));
 						}
 					}
 				}
@@ -115,7 +113,7 @@ namespace Reg2Run
 				}
 				else
 				{
-					throw new DirectoryNotFoundException(String.Format(CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
+					throw new DirectoryNotFoundException(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
 				}
 			}
 

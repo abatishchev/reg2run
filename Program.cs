@@ -1,12 +1,7 @@
 // Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Windows.Forms;
-
-using Reg2Run.Errors;
-using Reg2Run.Settings;
 
 namespace Reg2Run
 {
@@ -31,7 +26,7 @@ namespace Reg2Run
 					if (dialogResult == DialogResult.OK)
 					{
 						var obj = new ImportObject(dialog.FileName);
-						if (MessageBox.Show(String.Format(CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+						if (MessageBox.Show(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 						{
 							Core.Settings = new ApplicationSettings();
 							Core.Import(obj);
@@ -39,12 +34,12 @@ namespace Reg2Run
 						}
 						else
 						{
-							throw new ImportCanceledException();
+							throw new Errors.ImportCanceledException();
 						}
 					}
 					else
 					{
-						throw new ImportCanceledException();
+						throw new Errors.ImportCanceledException();
 					}
 				}
 				catch (Exception ex)
@@ -76,7 +71,7 @@ namespace Reg2Run
 							if (obj.Run)
 							{
 								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
-								Process.Start(obj.FullPath, obj.RunArg);
+								System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
 							}
 						}
 					}

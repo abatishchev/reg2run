@@ -4,11 +4,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 
 using Microsoft.Win32;
-
-using Reg2Run.Settings;
 
 namespace Reg2Run
 {
@@ -57,7 +54,7 @@ namespace Reg2Run
 		{
 			get
 			{
-				return Application.ProductName;
+				return System.Windows.Forms.Application.ProductName;
 			}
 		}
 
@@ -65,7 +62,7 @@ namespace Reg2Run
 		{
 			get
 			{
-				return Application.ProductVersion;
+				return System.Windows.Forms.Application.ProductVersion;
 			}
 		}
 
@@ -108,12 +105,12 @@ namespace Reg2Run
 				{
 					switch (Environment.OSVersion.Version.Major)
 					{
-						case 5: // windows xp, windows server 2003
+						case 5: // windows xp, server 2003
 							{
 								KeepConsole = setProcess.Contains(ParentProcess.ProcessName.ToLower());
 								break;
 							}
-						case 6: // windiows vista, windows server 2008, windows 7
+						case 6: // windows vista, windows server 2008, 7
 							{
 								KeepConsole = true;
 								break;
@@ -133,8 +130,7 @@ namespace Reg2Run
 		{
 			get
 			{
-				PerformanceCounter pc = new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName);
-				return Process.GetProcessById((int)pc.NextValue());
+				return Process.GetProcessById((int)new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName).NextValue());
 			}
 		}
 

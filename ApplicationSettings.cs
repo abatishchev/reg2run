@@ -4,7 +4,7 @@ using System;
 
 using Reg2Run.Errors;
 
-namespace Reg2Run.Settings
+namespace Reg2Run
 {
 	class ApplicationSettings
 	{
