@@ -1,6 +1,6 @@
 rem Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
-set PATH=%PATH%;%WINDIR%\Microsoft.NET\Framework\v3.5;%PROGRAMFILES%\WinRar;
+set PATH=%PATH%;%WINDIR%\Microsoft.NET\Framework\v3.5;%PROGRAMFILES%\WinRar
 
 set RARCMD=A -afzip -o+ -s -ibck -t -m5
 
