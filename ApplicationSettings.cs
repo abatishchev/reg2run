@@ -59,6 +59,7 @@ namespace Reg2Run
 						}
 					case "--add":
 						{
+							settings.ActionTypeMode |= ActionTypeFlag.Add;
 							break;
 						}
 					case "-d":
@@ -127,6 +128,7 @@ namespace Reg2Run
 						}
 					case "--remove":
 						{
+							settings.ActionTypeMode |= ActionTypeFlag.Remove;
 							break;
 						}
 					case "-s":

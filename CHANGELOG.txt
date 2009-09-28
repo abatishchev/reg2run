@@ -2,7 +2,7 @@ Reg2Run Tool Changelog
 
 2.1.9 (?)
 
-[+] New parameters added: '--add' indicates writing to registry, '--remove' - deleting from registry
+[+] New parameters added: '--add' indicates writing to registry, '--remove' - removing from registry
 
 [~] Minor perfomance impovement
 [~] Code tree refactoring

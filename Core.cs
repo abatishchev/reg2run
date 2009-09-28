@@ -136,6 +136,12 @@ namespace Reg2Run
 			new RegistryWriteFlag[] { RegistryWriteFlag.HKCU, RegistryWriteFlag.HKLM }.ForEach(f => SetValue(Registry.LocalMachine, f, obj));
 		}
 
+		public static void Remove(ImportObject obj)
+		{
+			// TODO: implement
+			throw new NotImplementedException();
+		}
+
 		private static void SetValue(RegistryKey hive, RegistryWriteFlag flag, ImportObject obj)
 		{
 			try

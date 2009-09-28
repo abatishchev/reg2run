@@ -62,28 +62,34 @@ namespace Reg2Run
 					}
 					else
 					{
-						// deleting from registry
+						var obj = ImportObject.Parse(Core.Settings);
+						// removing from registry
 						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Remove) == ActionTypeFlag.Remove)
 						{
+							Console.WriteLine("Deleting: '{0}'", obj.FileName);
+							Core.Remove(obj);
+							Console.WriteLine("Done.");
 						}
 
 						// adding to registry
 						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Add) == ActionTypeFlag.Add)
 						{
-							var obj = ImportObject.Parse(Core.Settings);
-							if (obj != null)
+
+							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
+							Core.Import(obj);
+							Console.WriteLine("Done.");
+							if (obj.Run)
 							{
-								Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
-								Core.Import(obj);
-								Console.WriteLine("Done.");
-								if (obj.Run)
-								{
-									Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
-									System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
-								}
+								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
+								System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
 							}
 						}
 					}
+				}
+				// TODO: test
+				catch (NullReferenceException)
+				{
+					throw new Exception("No object to import");
 				}
 				catch (Exception ex)
 				{
