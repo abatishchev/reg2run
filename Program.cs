@@ -34,12 +34,12 @@ namespace Reg2Run
 						}
 						else
 						{
-							throw new Errors.ImportCanceledException();
+							throw new ImportCanceledException();
 						}
 					}
 					else
 					{
-						throw new Errors.ImportCanceledException();
+						throw new ImportCanceledException();
 					}
 				}
 				catch (Exception ex)
@@ -62,16 +62,25 @@ namespace Reg2Run
 					}
 					else
 					{
-						var obj = ImportObject.Parse(Core.Settings);
-						if (obj != null)
+						// deleting from registry
+						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Remove) == ActionTypeFlag.Remove)
 						{
-							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
-							Core.Import(obj);
-							Console.WriteLine("Done.");
-							if (obj.Run)
+						}
+
+						// adding to registry
+						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Add) == ActionTypeFlag.Add)
+						{
+							var obj = ImportObject.Parse(Core.Settings);
+							if (obj != null)
 							{
-								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
-								System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
+								Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
+								Core.Import(obj);
+								Console.WriteLine("Done.");
+								if (obj.Run)
+								{
+									Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
+									System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
+								}
 							}
 						}
 					}
@@ -81,8 +90,7 @@ namespace Reg2Run
 					Console.WriteLine("Error:");
 					Console.WriteLine(ex.Message);
 				}
-				// TODO: fix an issue with new windows while run with elevated privileges
-				// if (Core.KeepConsole)
+				if (Core.KeepConsole)
 				{
 					Console.ReadKey(true);
 				}

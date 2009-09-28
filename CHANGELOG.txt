@@ -1,5 +1,12 @@
 Reg2Run Tool Changelog
 
+2.1.9 (?)
+
+[+] New parameters added: '--add' indicates writing to registry, '--remove' - deleting from registry
+
+[~] Minor perfomance impovement
+[~] Code tree refactoring
+
 2.1.8 (2009.09.27)
 
 [~] Major bug fixed

@@ -2,7 +2,7 @@
 
 using System;
 
-using Reg2Run.Errors;
+using Reg2Run;
 
 namespace Reg2Run
 {
@@ -11,16 +11,21 @@ namespace Reg2Run
 		#region Constructors
 		public ApplicationSettings()
 		{
+			this.ActionTypeMode = ActionTypeFlag.Add;
 			this.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
 		}
 		#endregion
 
 		#region Properties
+		public ActionTypeFlag ActionTypeMode { get; set; }
+
 		public string FileName { get; set; }
 
 		public string FilePath { get; set; }
 
-		public string FileWorkingDirectory { get; set; }
+		public bool Force { get; set; }
+
+		public RegistryWriteFlag RegistryWriteMode { get; set; }
 
 		public bool RunFlag { get; set; }
 
@@ -28,11 +33,9 @@ namespace Reg2Run
 
 		public bool SelfFlag { get; set; }
 
-		public bool SkipExistenceCheck { get; set; }
-
 		public bool UsageFlag { get; set; }
 
-		public RegistryWriteFlag RegistryWriteMode { get; set; }
+		public string WorkingDirectory { get; set; }
 		#endregion
 
 		#region Methods
@@ -54,11 +57,15 @@ namespace Reg2Run
 						{
 							return new ApplicationSettings() { UsageFlag = true };  // stop further parsing and return only meaning flag
 						}
+					case "--add":
+						{
+							break;
+						}
 					case "-d":
 						{
 							try
 							{
-								settings.FileWorkingDirectory = args.GetValue(++i) as string;
+								settings.WorkingDirectory = args.GetValue(++i) as string;
 							}
 							catch (IndexOutOfRangeException)
 							{
@@ -68,7 +75,7 @@ namespace Reg2Run
 						}
 					case "-f":
 						{
-							settings.SkipExistenceCheck = true;
+							settings.Force = true;
 							break;
 						}
 					case "--hkcu":
@@ -116,6 +123,10 @@ namespace Reg2Run
 							{
 								settings.RunFlag = true;
 							}
+							break;
+						}
+					case "--remove":
+						{
 							break;
 						}
 					case "-s":

@@ -45,14 +45,21 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionTypeFlag.cs" />
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="Errors.cs" />
+    <Compile Include="Errors\ImportCanceledException.cs" />
+    <Compile Include="Errors\NotExecutableException.cs" />
+    <Compile Include="Errors\ParameterMissedException.cs" />
+    <Compile Include="Errors\ParameterNotSetException.cs" />
+    <Compile Include="Errors\PInvokeException.cs" />
+    <Compile Include="Errors\UnknownParameterException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ImportObject.cs" />
     <Compile Include="ManualConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistryWriteFlag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.manifest" />

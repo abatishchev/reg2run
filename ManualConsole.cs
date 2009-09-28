@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using Reg2Run.Errors;
+using Reg2Run;
 
 namespace Reg2Run
 {

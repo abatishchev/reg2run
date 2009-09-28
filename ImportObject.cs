@@ -3,14 +3,12 @@
 using System;
 using System.IO;
 
-using Reg2Run.Errors;
+using Reg2Run;
 
 namespace Reg2Run
 {
 	public class ImportObject
 	{
-		private string workingDir;
-
 		#region Constructors
 		public ImportObject(string fileName)
 		{
@@ -28,21 +26,7 @@ namespace Reg2Run
 
 		public string RunArg { get; private set; }
 
-		public string WorkingDirectory
-		{
-			get
-			{
-				if (String.IsNullOrEmpty(this.workingDir))
-				{
-					this.workingDir = Path.GetDirectoryName(this.FullPath);
-				}
-				return workingDir;
-			}
-			set
-			{
-				this.workingDir = value;
-			}
-		}
+		public string WorkingDirectory { get; private set; }
 		#endregion
 
 		#region Methods
@@ -51,7 +35,7 @@ namespace Reg2Run
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))
 			{
-				if (!settings.SkipExistenceCheck)
+				if (!settings.Force)
 				{
 					var info = new FileInfo(path);
 					if (info.Exists)
@@ -104,16 +88,16 @@ namespace Reg2Run
 				obj.FileName = name;
 			}
 
-			var dir = settings.FileWorkingDirectory;
+			var dir = settings.WorkingDirectory;
 			if (!String.IsNullOrEmpty(dir))
 			{
-				if (Directory.Exists(dir))
+				if (!Directory.Exists(dir) && !settings.Force)
 				{
-					obj.WorkingDirectory = dir;
+					throw new DirectoryNotFoundException(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
 				}
 				else
 				{
-					throw new DirectoryNotFoundException(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Specified directory '{0}' doesn't exists", dir));
+					obj.WorkingDirectory = dir;
 				}
 			}
 

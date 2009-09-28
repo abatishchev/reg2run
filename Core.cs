@@ -9,13 +9,6 @@ using Microsoft.Win32;
 
 namespace Reg2Run
 {
-	[Flags]
-	enum RegistryWriteFlag
-	{
-		HKCU = 1,
-		HKLM = 2
-	}
-
 	public static class Core
 	{
 		private static string copyright, title;
