@@ -133,7 +133,7 @@ namespace Reg2Run
 		#region Methods
 		public static void Import(ImportObject obj)
 		{
-			new RegistryWriteFlag[] { RegistryWriteFlag.HKCU, RegistryWriteFlag.HKLM }.ForEach(f => SetValue(Registry.LocalMachine, f, obj));
+			new[] { RegistryWriteFlag.HKCU, RegistryWriteFlag.HKLM }.ForEach(f => SetValue(Registry.LocalMachine, f, obj));
 		}
 
 		public static void Remove(ImportObject obj)
