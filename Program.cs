@@ -96,7 +96,7 @@ namespace Reg2Run
 					Console.WriteLine("Error:");
 					Console.WriteLine(ex.Message);
 				}
-				if (Core.KeepConsole)
+				if (Core.KeepConsole && !Core.Settings.RunFlag)
 				{
 					Console.ReadKey(true);
 				}
