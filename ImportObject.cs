@@ -63,7 +63,7 @@ namespace Reg2Run
 			{
 				if (settings.SelfFlag)
 				{
-					path = Core.Assembly.Location;
+					path = System.Reflection.Assembly.GetEntryAssembly().Location;
 				}
 				else
 				{

@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 
 using Microsoft.Win32;
 
@@ -11,15 +12,8 @@ namespace Reg2Run
 {
 	public static class Core
 	{
-		private static string copyright, title;
-
-		private static System.Collections.Generic.HashSet<string> setProcess = new System.Collections.Generic.HashSet<string>
-		{
-			"explorer",
-			"rundll32"
-		};
-
 		#region Properties
+		private static string copyright;
 		public static string ApplicationCopyright
 		{
 			get
@@ -28,11 +22,10 @@ namespace Reg2Run
 				{
 					try
 					{
-						var customAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-						if (customAttributes != null && customAttributes.Length > 0)
-						{
-							copyright = ((AssemblyCopyrightAttribute)customAttributes[0]).Copyright;
-						}
+						copyright = ((AssemblyCopyrightAttribute)Assembly
+							.GetEntryAssembly()
+							.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0])
+								.Copyright;
 					}
 					catch
 					{
@@ -59,6 +52,7 @@ namespace Reg2Run
 			}
 		}
 
+		private static string title;
 		public static string ApplicationTitle
 		{
 			get
@@ -67,11 +61,10 @@ namespace Reg2Run
 				{
 					try
 					{
-						var customAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-						if (customAttributes != null && customAttributes.Length > 0)
-						{
-							title = ((AssemblyTitleAttribute)customAttributes[0]).Title;
-						}
+						title = ((AssemblyTitleAttribute)Assembly
+							.GetEntryAssembly()
+							.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0])
+								.Title;
 					}
 					catch
 					{
@@ -82,30 +75,31 @@ namespace Reg2Run
 			}
 		}
 
-		public static Assembly Assembly
-		{
-			get
-			{
-				return Assembly.GetEntryAssembly();
-			}
-		}
-
 		public static bool IsConsole
 		{
 			set
 			{
 				if (value)
 				{
+					var keep = new System.Collections.Generic.HashSet<string>
+					{
+						"explorer",
+						"rundll32",
+						"far",
+						"cmd"
+					}.Contains(GetParentProcess().ProcessName.ToLower());
+
 					switch (Environment.OSVersion.Version.Major)
 					{
 						case 5: // windows xp, server 2003
 							{
-								KeepConsole = setProcess.Contains(ParentProcess.ProcessName.ToLower());
+								KeepConsole = keep;
 								break;
 							}
 						case 6: // windows vista, windows server 2008, 7
 							{
-								KeepConsole = true;
+								// TODO: исправить
+								KeepConsole = !(IsElevated && keep) || !keep || (keep && !IsElevated);
 								break;
 							}
 					}
@@ -117,23 +111,45 @@ namespace Reg2Run
 			}
 		}
 
-		public static bool KeepConsole { get; private set; }
-
-		public static Process ParentProcess
+		private static bool? isElevated;
+		public static bool IsElevated
 		{
 			get
 			{
-				return Process.GetProcessById((int)new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName).NextValue());
+				if (!isElevated.HasValue)
+				{
+					try
+					{
+						isElevated = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+					}
+					catch
+					{
+						isElevated = false;
+					}
+				}
+				return isElevated.Value;
 			}
 		}
+
+		public static bool KeepConsole { get; private set; }
 
 		internal static ApplicationSettings Settings { get; set; }
 		#endregion
 
 		#region Methods
+		public static Process GetParentProcess()
+		{
+			return Process.GetProcessById((int)new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName).NextValue());
+		}
+
 		public static void Import(ImportObject obj)
 		{
-			new[] { RegistryWriteFlag.HKCU, RegistryWriteFlag.HKLM }.ForEach(f => SetValue(Registry.LocalMachine, f, obj));
+			new System.Collections.Generic.Dictionary<RegistryWriteFlag, RegistryKey>
+			{
+				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
+				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
+			}
+			.ForEach(pair => SetValue(pair, obj));
 		}
 
 		public static void Remove(ImportObject obj)
@@ -142,19 +158,18 @@ namespace Reg2Run
 			throw new NotImplementedException();
 		}
 
-		private static void SetValue(RegistryKey hive, RegistryWriteFlag flag, ImportObject obj)
+		private static void SetValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
 		{
 			try
 			{
-				if ((Settings.RegistryWriteMode & flag) == flag)
+				if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
 				{
-					var appPaths = hive.OpenSubKey("Software")
+					var key = pair.Value
+						.OpenSubKey("Software")
 						.OpenSubKey("Microsoft")
 						.OpenSubKey("Windows")
 						.OpenSubKey("CurrentVersion")
-						.OpenSubKey("App Paths", true);
-
-					var key = appPaths.CreateSubKey(obj.FileName);
+						.OpenSubKey("App Paths", true).CreateSubKey(obj.FileName);
 					key.SetValue(String.Empty, obj.FullPath);
 					key.SetValue("Path", obj.WorkingDirectory);
 					key.Flush();

@@ -1,6 +1,7 @@
 // Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Reg2Run
@@ -63,30 +64,33 @@ namespace Reg2Run
 					else
 					{
 						var obj = ImportObject.Parse(Core.Settings);
-						// removing from registry
-						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Remove) == ActionTypeFlag.Remove)
+						new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
 						{
-							Console.WriteLine("Deleting: '{0}'", obj.FileName);
-							Core.Remove(obj);
-							Console.WriteLine("Done.");
-						}
-
-						// adding to registry
-						if ((Core.Settings.ActionTypeMode |= ActionTypeFlag.Add) == ActionTypeFlag.Add)
-						{
-
-							Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
-							Core.Import(obj);
-							Console.WriteLine("Done.");
-							if (obj.Run)
-							{
-								Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
-								System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
+							// removing from registry
+							{ ActionTypeFlag.Remove, delegate
+								{
+									Console.WriteLine("Deleting: '{0}'", obj.FileName);
+									Core.Remove(obj);
+									Console.WriteLine("Done.");
+								}
+							},
+							// adding to registry
+							{ ActionTypeFlag.Add, delegate
+								{
+									Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
+									Core.Import(obj);
+									Console.WriteLine("Done.");
+									if (obj.Run)
+									{
+										Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
+										System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
+									}
+								}
 							}
 						}
+						.Where(p => (Core.Settings.ActionTypeMode & p.Key) == p.Key).ForEach(p => p.Value(obj));
 					}
 				}
-				// TODO: test
 				catch (NullReferenceException)
 				{
 					throw new Exception("No object to import");
