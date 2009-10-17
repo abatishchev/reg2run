@@ -81,10 +81,8 @@ namespace Reg2Run
 			{
 				if (value)
 				{
-					var keep = new System.Collections.Generic.HashSet<string>
+					var isInDic = new System.Collections.Generic.HashSet<string>
 					{
-						"explorer",
-						"rundll32",
 						"far",
 						"cmd"
 					}.Contains(GetParentProcess().ProcessName.ToLower());
@@ -93,13 +91,14 @@ namespace Reg2Run
 					{
 						case 5: // windows xp, server 2003
 							{
-								KeepConsole = keep;
+								KeepConsole = !isInDic;
 								break;
 							}
 						case 6: // windows vista, windows server 2008, 7
 							{
-								// TODO: исправить
-								KeepConsole = !(IsElevated && keep) || !keep || (keep && !IsElevated);
+								// TODO: fix
+								// KeepConsole = isInDic ? !IsElevated : true;
+								KeepConsole = true;
 								break;
 							}
 					}
@@ -111,23 +110,11 @@ namespace Reg2Run
 			}
 		}
 
-		private static bool? isElevated;
 		public static bool IsElevated
 		{
 			get
 			{
-				if (!isElevated.HasValue)
-				{
-					try
-					{
-						isElevated = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-					}
-					catch
-					{
-						isElevated = false;
-					}
-				}
-				return isElevated.Value;
+				return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 			}
 		}
 
