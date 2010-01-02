@@ -122,7 +122,7 @@ namespace Reg2Run
 							}
 							catch (IndexOutOfRangeException)
 							{
-								settings.RunFlag = true;
+								settings.RunFlag = false;
 							}
 							break;
 						}
