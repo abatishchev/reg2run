@@ -1,4 +1,4 @@
-// Copyright (C) 2005-2009 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
+// Copyright (C) 2005-2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
 using System.Linq;
@@ -100,7 +100,7 @@ namespace Reg2Run
 					Console.WriteLine("Error:");
 					Console.WriteLine(ex.Message);
 				}
-				if (Core.KeepConsole && !Core.Settings.RunFlag)
+				if ((Core.Settings != null) ? Core.KeepConsole && !Core.Settings.RunFlag : Core.KeepConsole)
 				{
 					Console.ReadKey(true);
 				}
