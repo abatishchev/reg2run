@@ -115,14 +115,14 @@ namespace Reg2Run
 						}
 					case "-r":
 						{
+							settings.RunFlag = true;
 							try
 							{
-								settings.RunFlag = true;
 								settings.RunString = args.GetValue(++i) as string;
 							}
-							catch (IndexOutOfRangeException)
+							catch
 							{
-								settings.RunFlag = false;
+								// do nothing
 							}
 							break;
 						}
