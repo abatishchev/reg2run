@@ -155,7 +155,8 @@ namespace Reg2Run
 						.OpenSubKey("Microsoft")
 						.OpenSubKey("Windows")
 						.OpenSubKey("CurrentVersion")
-						.OpenSubKey("App Paths", true).CreateSubKey(obj.FileName);
+						.OpenSubKey("App Paths", true)
+						.CreateSubKey(obj.FileName);
 					key.SetValue(String.Empty, obj.FullPath);
 					key.SetValue("Path", obj.WorkingDirectory);
 					key.Flush();

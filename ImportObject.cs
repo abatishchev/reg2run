@@ -14,6 +14,7 @@ namespace Reg2Run
 		{
 			this.FileName = Path.GetFileName(fileName);
 			this.FullPath = Path.GetFullPath(fileName);
+			this.WorkingDirectory = Path.GetDirectoryName(fileName);
 		}
 		#endregion
 
