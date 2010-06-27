@@ -21,10 +21,7 @@ namespace Reg2Run
 				{
 					try
 					{
-						copyright = ((AssemblyCopyrightAttribute)Assembly
-							.GetEntryAssembly()
-							.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0])
-								.Copyright;
+						copyright = ((AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyCopyrightAttribute))).Copyright;
 					}
 					catch
 					{
@@ -60,10 +57,7 @@ namespace Reg2Run
 				{
 					try
 					{
-						title = ((AssemblyTitleAttribute)Assembly
-							.GetEntryAssembly()
-							.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0])
-								.Title;
+						title = ((AssemblyTitleAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyTitleAttribute))).Title;
 					}
 					catch
 					{
@@ -93,7 +87,7 @@ namespace Reg2Run
 								KeepConsole = !isInDic;
 								break;
 							}
-						case 6: // windows vista, windows server 2008, 7
+						case 6: // windows vista, windows server 2008, windows 7
 							{
 								// TODO: fix
 								// KeepConsole = isInDic ? !IsElevated : true;
