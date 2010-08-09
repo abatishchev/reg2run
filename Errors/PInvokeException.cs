@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Reg2Run
 {
 	[Serializable]
-	public class PInvokeException : Exception
+	class PInvokeException : Exception
 	{
 		public PInvokeException(string methodName)
 			: base(String.Format(CultureInfo.CurrentCulture, "An error occured while external method '{0}' call", methodName)) { }

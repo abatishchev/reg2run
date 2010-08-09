@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Reg2Run
 {
 	[Serializable]
-	public class UnknownParameterException : ArgumentException
+	class UnknownParameterException : ArgumentException
 	{
 		public UnknownParameterException(string name)
 			: base(String.Format(CultureInfo.CurrentCulture, "Unknown parameter '{0}' was specified", name), name) { }

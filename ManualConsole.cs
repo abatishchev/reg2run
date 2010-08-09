@@ -42,7 +42,7 @@ namespace Reg2Run
 
 		#region Methods
 		/*
-		internal static void Create()
+		public static void Create()
 		{
 			var ptr = GetStdHandle(-11);
 			if (!AllocConsole())
@@ -61,7 +61,7 @@ namespace Reg2Run
 		}
 		*/
 
-		internal static void Hide()
+		public static void Hide()
 		{
 			var ptr = GetStdHandle(-11);
 			if (!CloseHandle(ptr))

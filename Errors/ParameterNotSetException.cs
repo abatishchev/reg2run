@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Reg2Run
 {
 	[Serializable]
-	public class ParameterNotSetException : ArgumentNullException
+	class ParameterNotSetException : ArgumentNullException
 	{
 		public ParameterNotSetException(string name)
 			: base(name, String.Format(CultureInfo.CurrentCulture, "Parameter '{0}' was provided without assigning it's value", name)) { }

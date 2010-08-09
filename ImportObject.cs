@@ -7,7 +7,7 @@ using Reg2Run;
 
 namespace Reg2Run
 {
-	public class ImportObject
+	class ImportObject
 	{
 		#region Constructors
 		public ImportObject(string fileName)
@@ -31,7 +31,7 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		internal static ImportObject Parse(ApplicationSettings settings)
+		public static ImportObject Parse(ApplicationSettings settings)
 		{
 			var path = settings.FilePath;
 			if (!String.IsNullOrEmpty(path))

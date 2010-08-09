@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace Reg2Run
 {
-	public static class Core
+	static class Core
 	{
 		#region Properties
 		private static string copyright;
@@ -113,7 +113,7 @@ namespace Reg2Run
 
 		public static bool KeepConsole { get; private set; }
 
-		internal static ApplicationSettings Settings { get; set; }
+		public static ApplicationSettings Settings { get; set; }
 		#endregion
 
 		#region Methods
