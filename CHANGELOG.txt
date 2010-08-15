@@ -1,12 +1,13 @@
 Reg2Run Tool Changelog
 
-2.1.9 (?)
+2.1.9 (2010.08.16)
 
 [+] New parameters added: '--add' indicates writing to registry, '--remove' - removing from registry
 
 [~] Both Windows 5.x and Windows 6.x simultaneous support improvement
 [~] Minor perfomance impovement
 [~] Code tree refactoring
+[~] Target .NET Framework changed to 4.0 (30319)
 
 2.1.8 (2009.09.27)
 
