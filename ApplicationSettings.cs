@@ -2,8 +2,6 @@
 
 using System;
 
-using Reg2Run;
-
 namespace Reg2Run
 {
 	class ApplicationSettings

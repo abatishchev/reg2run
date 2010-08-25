@@ -1,10 +1,8 @@
 ﻿// Copyright (C) 2005-2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
-using System.Reflection;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
-
-using Reg2Run;
 
 namespace Reg2Run
 {
@@ -47,12 +45,12 @@ namespace Reg2Run
 			var ptr = GetStdHandle(-11);
 			if (!AllocConsole())
 			{
-				throw new PInvokeException("AllocConsole");
+				throw new Win32Exception("AllocConsole");
 			}
 			ptr = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
 			if (!SetStdHandle(-11, ptr))
 			{
-				throw new PInvokeException("SetStdHandle");
+				throw new Win32Exception("SetStdHandle");
 			}
 			var newOut = new StreamWriter(Console.OpenStandardOutput());
 			newOut.AutoFlush = true;
@@ -66,12 +64,12 @@ namespace Reg2Run
 			var ptr = GetStdHandle(-11);
 			if (!CloseHandle(ptr))
 			{
-				throw new PInvokeException("CloseHandle");
+				throw new Win32Exception();
 			}
 			ptr = IntPtr.Zero;
 			if (!FreeConsole())
 			{
-				throw new PInvokeException("FreeConsole");
+				throw new Win32Exception();
 			}
 		}
 		#endregion

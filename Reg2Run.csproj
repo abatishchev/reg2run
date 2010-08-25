@@ -58,7 +58,6 @@
     <Compile Include="Errors\NotExecutableException.cs" />
     <Compile Include="Errors\ParameterMissedException.cs" />
     <Compile Include="Errors\ParameterNotSetException.cs" />
-    <Compile Include="Errors\PInvokeException.cs" />
     <Compile Include="Errors\UnknownParameterException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ImportObject.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="RegistryWriteFlag.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="App.manifest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

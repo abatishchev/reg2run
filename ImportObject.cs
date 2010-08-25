@@ -3,8 +3,6 @@
 using System;
 using System.IO;
 
-using Reg2Run;
-
 namespace Reg2Run
 {
 	class ImportObject
