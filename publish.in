@@ -1,0 +1,35 @@
+rem Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
+
+set RARPATH=D:\Program Files\WinRar
+set PATH=%PATH%;%WINDIR%\Microsoft.NET\Framework\v4.0.30319;%RARPATH%
+
+set RARCMD=A -afzip -o+ -s -ibck -t -m5
+
+set PROJECT=reg2run
+
+set FILES=Reg2Run.csproj Reg2Run.sln
+set SOURCES=ActionTypeFlag.cs ApplicationSettings.cs ApplicationSettingsParser.cs Core.cs Extensions.cs ImportObject.cs ImportObjectParser.cs ManualConsole.cs Program.cs RegistryWriteFlag.cs Errors\ImportCanceledException.cs Errors\NotExecutableException.cs Errors\ParameterMissedException.cs Errors\ParameterNotSetException.cs Errors\UnknownParameterException.cs Properties\AssemblyInfo.cs
+set DOCS=Documents\CHANGELOG.txt Documents\LICENSE.txt Documents\TODO.txt
+set FILES=%FILES% %SOURCES% %DOCS%
+
+set BINARY=bin\Release\reg2run.exe
+
+set MAJOR=2
+set MINOR=2
+set BUILD=10
+set REVISION=$WCREV$
+set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
+
+set DIST=..\release
+mkdir %DIST%
+
+msbuild /nologo %PROJECT%.sln /t:Clean /p:Configuration=Release
+msbuild /nologo %PROJECT%.sln /t:Build /p:Configuration=Release
+
+set NAME=%PROJECT%-%VERSION%-source.zip
+winrar.exe %RARCMD% %NAME% %FILES%
+move /y %NAME% %DIST%
+
+set NAME=%PROJECT%-%VERSION%-binary.zip
+winrar.exe -ep %RARCMD% %NAME% %BINARY%
+move /y %NAME% %DIST%
