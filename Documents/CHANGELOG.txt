@@ -1,0 +1,65 @@
+Reg2Run Tool Changelog
+
+2.2.10 (?)
+
+[+] Elevating privileges on demand
+
+[~] Improving exception handling while P/Invokes execution
+[~] No more registry action enumeration as a flag; the last given is significant
+
+2.1.9 (2010.08.16)
+
+[+] New parameters added: '--add' indicates writing to registry, '--remove' - removing from registry
+
+[~] Both Windows 5.x and Windows 6.x simultaneous support improvement
+[~] Minor perfomance impovement
+[~] Code tree refactoring
+[~] Target .NET Framework changed to 4.0 (30319)
+
+2.1.8 (2009.09.27)
+
+[~] Major bug fixed
+
+2.1.7 (2009.07.21)
+
+[+] Parameter '-f' skips given file path existence check
+[+] If single specified parameter is an existed application path, it will be imported, all other parameters are ignored
+
+2.0.6 (2009.03.06)
+
+[+] UAC support added
+[+] New parameters added: '--hkcu' indicates writing to HKEY_CURRENT_USER registry hive, '--hklm' to HKEY_LOCAL_MACHINE
+
+[~] Parameter to set working directory '-w' renamed to '-d'
+[~] Fixed a bug when importing failed if target application extension contains capital letters
+[~] Output is more verbose now
+
+2.0.5 (2009.02.16)
+
+[~] Fixed an error causing UnauthorizedAccessException on HKLM registry hive write
+
+2.0.4 (2009.02.03)
+
+[+] Now both keys in HKLM and HKCU are being created on import
+
+2.0.3 (2009.01.12)
+
+[+] Now it's possible to specify only application name (without extension indication) for import, i.e. 'reg2run -p foo' while being in foo.exe's root directory
+[+] Console would not be closed if application was called from Windows Explorer, Run As.. or Run menu
+
+[~] Release file names contains revision number
+[~] Default filter into the open file dialog is *.exe
+
+[-] Removed unused DllImport calls
+
+2.0.2 (2008.12.22)
+
+[+] Exceptions serialization
+[+] Parameter '-r' can be set either as a single flag or key-value pair. Flag indicates to start specified application on successful import; whenever pair key will be passed as argument the application being started
+[+] Parameter '/?' means the same as '-?'
+
+[~] Adding and running notifications contains full path
+
+2.0.1 (2008.12.13)
+
+[+] Initial public release
