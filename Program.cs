@@ -77,7 +77,6 @@ namespace Reg2Run
 						{
 							EnableRaisingEvents = true,
 							StartInfo = info
-
 						};
 
 						Action<object, DataReceivedEventArgs> actionWrite = (sender, e) =>
@@ -105,27 +104,27 @@ namespace Reg2Run
 						Action<ImportObject> action;
 						if (new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
 						{
-							// removing from registry
-							{
-								ActionTypeFlag.Remove, delegate
-								{
-									Console.WriteLine("Deleting: '{0}'", obj.FileName);
-									Core.Remove(obj);
-									Console.WriteLine("Done.");
-								}
-							},
 							// adding to registry
 							{
-								ActionTypeFlag.Add, delegate
+								ActionTypeFlag.Add, (o) =>
 								{
 									Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
 									Core.Import(obj);
 									Console.WriteLine("Done.");
-									if (obj.Run)
+									if (o.Run)
 									{
 										Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
 										Process.Start(obj.FullPath, obj.RunArg);
 									}
+								}
+							},
+							// removing from registry
+							{
+								ActionTypeFlag.Remove, (o) =>
+								{
+									Console.WriteLine("Deleting: '{0}'", o.FileName);
+									Core.Remove(obj);
+									Console.WriteLine("Done.");
 								}
 							}
 						}
