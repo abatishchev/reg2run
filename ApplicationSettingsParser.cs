@@ -9,12 +9,11 @@ namespace Reg2Run
 		#region Methods
 		public static ApplicationSettings Parse(string[] args)
 		{
-			var settings = new ApplicationSettings();
 			if (args.Length == 1 && (!args[0].StartsWith("/") || !args[0].StartsWith("-")) && System.IO.File.Exists(args[0]))
 			{
-				settings.FilePath = args[0];
-				return settings;
+				return new ApplicationSettings { FilePath = args[0] };
 			}
+			var settings = new ApplicationSettings();
 			for (int i = 0; i < args.Length; i++)
 			{
 				var param = args[i];

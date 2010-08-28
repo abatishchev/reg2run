@@ -6,3 +6,4 @@ Reg2Run Tool TODO List
 [ ] Store log messages into a resource file
 [ ] Implement removing from registry file specified
 [ ] Improve keeping console open for elevated process
+[ ] Add unit testing
