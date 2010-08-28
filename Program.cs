@@ -61,7 +61,18 @@ namespace Reg2Run
 					{
 						PrintUsage();
 					}
-					else
+					else if (!Core.Settings.EngageFlag)
+					{
+						System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(
+							System.Reflection.Assembly.GetExecutingAssembly().FullName,
+							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" })))
+						{
+							CreateNoWindow = true,
+							Verb = "runas"
+						});
+						return;
+					}
+					else if (Core.Settings.EngageFlag)
 					{
 						var obj = ImportObject.Parse(Core.Settings);
 						new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
@@ -95,14 +106,12 @@ namespace Reg2Run
 				{
 					throw new Exception("No object to import");
 				}
-				catch (Exception ex)
+				finally
 				{
-					Console.WriteLine("Error:");
-					Console.WriteLine(ex.Message);
-				}
-				if ((Core.Settings != null) ? Core.KeepConsole && !Core.Settings.RunFlag : Core.KeepConsole)
-				{
-					Console.ReadKey(true);
+					if ((Core.Settings != null) ? Core.KeepConsole && !Core.Settings.RunFlag : Core.KeepConsole)
+					{
+						Console.ReadKey(true);
+					}
 				}
 			}
 		}

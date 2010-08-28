@@ -9,6 +9,7 @@ namespace Reg2Run
 		#region Constructors
 		public ApplicationSettings()
 		{
+			// default settings
 			this.ActionTypeMode = ActionTypeFlag.Add;
 			this.RegistryWriteMode = RegistryWriteFlag.HKCU | RegistryWriteFlag.HKLM;
 		}
@@ -16,6 +17,8 @@ namespace Reg2Run
 
 		#region Properties
 		public ActionTypeFlag ActionTypeMode { get; set; }
+
+		public bool EngageFlag { get; set; }
 
 		public string FileName { get; set; }
 
@@ -57,10 +60,10 @@ namespace Reg2Run
 						}
 					case "--add":
 						{
-							settings.ActionTypeMode |= ActionTypeFlag.Add;
+							settings.ActionTypeMode = ActionTypeFlag.Add;
 							break;
 						}
-					case "-d":
+					case "--d":
 						{
 							try
 							{
@@ -70,6 +73,11 @@ namespace Reg2Run
 							{
 								throw new ParameterNotSetException("Application working directory");
 							}
+							break;
+						}
+					case "--engage":
+						{
+							settings.EngageFlag = true;
 							break;
 						}
 					case "-f":
@@ -126,7 +134,7 @@ namespace Reg2Run
 						}
 					case "--remove":
 						{
-							settings.ActionTypeMode |= ActionTypeFlag.Remove;
+							settings.ActionTypeMode = ActionTypeFlag.Remove;
 							break;
 						}
 					case "-s":

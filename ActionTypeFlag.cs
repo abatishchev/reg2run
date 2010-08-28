@@ -4,7 +4,6 @@ using System;
 
 namespace Reg2Run
 {
-	[Flags]
 	enum ActionTypeFlag
 	{
 		Add = 1,
