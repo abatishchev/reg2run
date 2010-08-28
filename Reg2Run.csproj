@@ -61,6 +61,7 @@
     <Compile Include="Errors\UnknownParameterException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ImportObject.cs" />
+    <Compile Include="ImportObjectParser.cs" />
     <Compile Include="ManualConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (C) 2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
+
+using System;
 
 namespace Reg2Run
 {

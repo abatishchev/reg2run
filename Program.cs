@@ -96,7 +96,7 @@ namespace Reg2Run
 					}
 					else if (Core.Settings.EngageFlag)
 					{
-						var obj = ImportObject.Parse(Core.Settings);
+						var obj = ImportObjectParser.Parse(Core.Settings);
 						new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
 						{
 							// removing from registry
