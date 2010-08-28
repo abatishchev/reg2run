@@ -61,7 +61,7 @@ namespace Reg2Run
 					{
 						PrintUsage();
 					}
-					else if (!Core.Settings.EngageFlag)
+					else if (!Core.Settings.EngageFlag && !Core.IsElevated)
 					{
 						var info = new ProcessStartInfo(
 							System.Reflection.Assembly.GetEntryAssembly().Location,
@@ -134,7 +134,7 @@ namespace Reg2Run
 		private static void PrintUsage()
 		{
 			string format;
-			Console.WriteLine("Usage: reg2run [PATH] | -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] | -s | -?");
+			Console.WriteLine("Usage: reg2run [PATH] | -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] [--engage] | -s | -?");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
 			format = "\t{0}\t\t{1}";
@@ -146,6 +146,7 @@ namespace Reg2Run
 			Console.WriteLine(format, "-s", "Add tool itself to the registry");
 			Console.WriteLine(format, "--hkcu", "Write into HKEY_CURRENT_USER registry hive");
 			Console.WriteLine(format, "--hklm", "Write into HKEY_LOCAL_MACHINE registry hive");
+			Console.WriteLine(format, "--engage", "Perform an registry action implying elevated privileges obtained");
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
 			format = "\t{0}";

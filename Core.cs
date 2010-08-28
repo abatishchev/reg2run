@@ -97,8 +97,26 @@ namespace Reg2Run
 
 		public static void Remove(ImportObject obj)
 		{
-			// TODO: implement
-			throw new NotImplementedException();
+			new System.Collections.Generic.Dictionary<RegistryWriteFlag, RegistryKey>
+			{
+				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
+				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
+			}
+			.ForEach(pair => RemoveValue(pair, obj));
+		}
+
+		private static void RemoveValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		{
+			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
+			{
+				pair.Value
+					.OpenSubKey("Software")
+					.OpenSubKey("Microsoft")
+					.OpenSubKey("Windows")
+					.OpenSubKey("CurrentVersion")
+					.OpenSubKey("App Paths", true)
+					.DeleteSubKeyTree(obj.FileName, false);
+			}
 		}
 
 		private static void SetValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
