@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionTypeFlag.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="ApplicationSettingsParser.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Errors\ImportCanceledException.cs" />
     <Compile Include="Errors\NotExecutableException.cs" />

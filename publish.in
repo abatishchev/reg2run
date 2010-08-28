@@ -8,15 +8,15 @@ set RARCMD=A -afzip -o+ -s -ibck -t -m5
 set PROJECT=reg2run
 
 set FILES=Reg2Run.csproj Reg2Run.sln App.manifest
-set SOURCES=ActionTypeFlag.cs ApplicationSettings.cs Core.cs Extensions.cs ImportObject.cs ManualConsole.cs Program.cs RegistryWriteFlag.cs Errors\ImportCanceledException.cs Errors\NotExecutableException.cs Errors\ParameterMissedException.cs Errors\ParameterNotSetException.cs Errors\PInvokeException.cs Errors\UnknownParameterException.cs Properties\AssemblyInfo.cs
+set SOURCES=ActionTypeFlag.cs ApplicationSettings.cs ApplicationSettingsParser.cs Core.cs Extensions.cs ImportObject.cs ManualConsole.cs Program.cs RegistryWriteFlag.cs Errors\ImportCanceledException.cs Errors\NotExecutableException.cs Errors\ParameterMissedException.cs Errors\ParameterNotSetException.cs Errors\PInvokeException.cs Errors\UnknownParameterException.cs Properties\AssemblyInfo.cs
 set DOCS=CHANGELOG.txt LICENSE.txt TODO.txt
 set FILES=%FILES% %SOURCES% %DOCS%
 
 set BINARY=bin\Release\reg2run.exe
 
 set MAJOR=2
-set MINOR=1
-set BUILD=9
+set MINOR=2
+set BUILD=10
 set REVISION=$WCREV$
 set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
 

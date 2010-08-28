@@ -56,7 +56,7 @@ namespace Reg2Run
 				Console.WriteLine();
 				try
 				{
-					Core.Settings = ApplicationSettings.Parse(args);
+					Core.Settings = ApplicationSettingsParser.Parse(args);
 					if (Core.Settings.UsageFlag)
 					{
 						PrintUsage();
