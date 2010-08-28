@@ -69,6 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Publish\publish.bat" />
+    <None Include="Publish\publish.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Documents\CHANGELOG.txt" />
+    <Content Include="Documents\LICENSE.txt" />
+    <Content Include="Documents\TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
