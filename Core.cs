@@ -80,6 +80,20 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
+		private static void DeleteValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		{
+			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
+			{
+				pair.Value
+					.OpenSubKey("Software")
+					.OpenSubKey("Microsoft")
+					.OpenSubKey("Windows")
+					.OpenSubKey("CurrentVersion")
+					.OpenSubKey("App Paths", true)
+					.DeleteSubKeyTree(obj.FileName, false);
+			}
+		}
+
 		public static Process GetParentProcess()
 		{
 			return Process.GetProcessById((int)new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName).NextValue());
@@ -102,21 +116,7 @@ namespace Reg2Run
 				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
 				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
 			}
-			.ForEach(pair => RemoveValue(pair, obj));
-		}
-
-		private static void RemoveValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
-		{
-			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
-			{
-				pair.Value
-					.OpenSubKey("Software")
-					.OpenSubKey("Microsoft")
-					.OpenSubKey("Windows")
-					.OpenSubKey("CurrentVersion")
-					.OpenSubKey("App Paths", true)
-					.DeleteSubKeyTree(obj.FileName, false);
-			}
+			.ForEach(pair => DeleteValue(pair, obj));
 		}
 
 		private static void SetValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)

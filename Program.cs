@@ -97,10 +97,12 @@ namespace Reg2Run
 					else if (Core.Settings.EngageFlag)
 					{
 						var obj = ImportObjectParser.Parse(Core.Settings);
-						new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
+						Action<ImportObject> action;
+						if (new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
 						{
 							// removing from registry
-							{ ActionTypeFlag.Remove, delegate
+							{
+								ActionTypeFlag.Remove, delegate
 								{
 									Console.WriteLine("Deleting: '{0}'", obj.FileName);
 									Core.Remove(obj);
@@ -108,7 +110,8 @@ namespace Reg2Run
 								}
 							},
 							// adding to registry
-							{ ActionTypeFlag.Add, delegate
+							{
+								ActionTypeFlag.Add, delegate
 								{
 									Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
 									Core.Import(obj);
@@ -121,7 +124,10 @@ namespace Reg2Run
 								}
 							}
 						}
-						.Where(p => (Core.Settings.ActionTypeMode & p.Key) == p.Key).ForEach(p => p.Value(obj));
+						.TryGetValue(Core.Settings.ActionTypeMode, out action))
+						{
+							action(obj);
+						}
 					}
 				}
 				catch (NullReferenceException)
