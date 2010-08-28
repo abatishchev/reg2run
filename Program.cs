@@ -1,6 +1,7 @@
 // Copyright (C) 2005-2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -63,13 +64,35 @@ namespace Reg2Run
 					}
 					else if (!Core.Settings.EngageFlag)
 					{
-						System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(
-							System.Reflection.Assembly.GetExecutingAssembly().FullName,
+						var info = new ProcessStartInfo(
+							System.Reflection.Assembly.GetEntryAssembly().Location,
 							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" })))
 						{
 							CreateNoWindow = true,
-							Verb = "runas"
-						});
+							RedirectStandardError = true,
+							RedirectStandardOutput = true,
+							UseShellExecute = false,
+							Verb = "runas",
+						};
+						var process = new Process
+						{
+							EnableRaisingEvents = true,
+							StartInfo = info
+
+						};
+						process.ErrorDataReceived += (sender, e) =>
+						{
+							Console.WriteLine(e.Data);
+						};
+						process.OutputDataReceived += (sender, e) =>
+						{
+							Console.WriteLine(e.Data);
+						};
+
+						process.Start();
+						process.BeginOutputReadLine();
+						process.BeginErrorReadLine();
+						process.WaitForExit();
 						return;
 					}
 					else if (Core.Settings.EngageFlag)
@@ -94,7 +117,7 @@ namespace Reg2Run
 									if (obj.Run)
 									{
 										Console.WriteLine(String.IsNullOrEmpty(obj.RunArg) ? "Running: '{0}'" : "Running: '{0} {1}'", obj.FullPath, obj.RunArg);
-										System.Diagnostics.Process.Start(obj.FullPath, obj.RunArg);
+										Process.Start(obj.FullPath, obj.RunArg);
 									}
 								}
 							}
@@ -110,7 +133,7 @@ namespace Reg2Run
 				{
 					if ((Core.Settings != null) ? Core.KeepConsole && !Core.Settings.RunFlag : Core.KeepConsole)
 					{
-						Console.ReadKey(true);
+						//Console.ReadKey();
 					}
 				}
 			}
