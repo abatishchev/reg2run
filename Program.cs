@@ -14,7 +14,7 @@ namespace Reg2Run
 		{
 			if (args.Length == 0)
 			{
-				Core.IsConsole = false;
+				ManualConsole.Hide();
 				try
 				{
 					var dialog = new OpenFileDialog();
@@ -51,7 +51,6 @@ namespace Reg2Run
 			}
 			else
 			{
-				Core.IsConsole = true;
 				Console.WriteLine("{0} version {1}", Core.ApplicationTitle, Core.ApplicationVersion);
 				Console.WriteLine(Core.ApplicationCopyright);
 				Console.WriteLine();
@@ -68,26 +67,26 @@ namespace Reg2Run
 							System.Reflection.Assembly.GetEntryAssembly().Location,
 							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" })))
 						{
-							CreateNoWindow = true,
 							RedirectStandardError = true,
 							RedirectStandardOutput = true,
 							UseShellExecute = false,
 							Verb = "runas",
 						};
+
 						var process = new Process
 						{
 							EnableRaisingEvents = true,
 							StartInfo = info
 
 						};
-						process.ErrorDataReceived += (sender, e) =>
+
+						Action<object, DataReceivedEventArgs> actionWrite = (sender, e) =>
 						{
 							Console.WriteLine(e.Data);
 						};
-						process.OutputDataReceived += (sender, e) =>
-						{
-							Console.WriteLine(e.Data);
-						};
+
+						process.ErrorDataReceived += (sender, e) => actionWrite(sender, e);
+						process.OutputDataReceived += (sender, e) => actionWrite(sender, e);
 
 						process.Start();
 						process.BeginOutputReadLine();
@@ -128,13 +127,6 @@ namespace Reg2Run
 				catch (NullReferenceException)
 				{
 					throw new Exception("No object to import");
-				}
-				finally
-				{
-					if ((Core.Settings != null) ? Core.KeepConsole && !Core.Settings.RunFlag : Core.KeepConsole)
-					{
-						//Console.ReadKey();
-					}
 				}
 			}
 		}

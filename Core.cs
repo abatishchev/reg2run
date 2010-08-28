@@ -68,41 +68,6 @@ namespace Reg2Run
 			}
 		}
 
-		public static bool IsConsole
-		{
-			set
-			{
-				if (value)
-				{
-					var isInDic = new System.Collections.Generic.HashSet<string>
-					{
-						"far",
-						"cmd"
-					}.Contains(GetParentProcess().ProcessName.ToLower());
-
-					switch (Environment.OSVersion.Version.Major)
-					{
-						case 5: // windows xp, server 2003
-							{
-								KeepConsole = !isInDic;
-								break;
-							}
-						case 6: // windows vista, windows server 2008, windows 7
-							{
-								// TODO: fix
-								// KeepConsole = isInDic ? !IsElevated : true;
-								KeepConsole = true;
-								break;
-							}
-					}
-				}
-				else
-				{
-					ManualConsole.Hide();
-				}
-			}
-		}
-
 		public static bool IsElevated
 		{
 			get
@@ -110,8 +75,6 @@ namespace Reg2Run
 				return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 			}
 		}
-
-		public static bool KeepConsole { get; private set; }
 
 		public static ApplicationSettings Settings { get; set; }
 		#endregion
