@@ -96,6 +96,11 @@ namespace Reg2Run
 					}
 					else if (Core.Settings.EngageFlag)
 					{
+						if (!Core.IsElevated)
+						{
+							Console.WriteLine("Implying elevated privileges not obtained");
+						}
+
 						var obj = ImportObjectParser.Parse(Core.Settings);
 						Action<ImportObject> action;
 						if (new System.Collections.Generic.Dictionary<ActionTypeFlag, Action<ImportObject>>
