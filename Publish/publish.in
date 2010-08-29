@@ -1,4 +1,4 @@
-rem Copyright (C) 2007-2008 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
+rem Copyright (C) 2007-2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 set RARPATH=D:\Program Files\WinRar
 set PATH=%PATH%;%WINDIR%\Microsoft.NET\Framework\v4.0.30319;%RARPATH%
