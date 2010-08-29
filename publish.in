@@ -20,10 +20,8 @@ set BUILD=10
 set REVISION=$WCREV$
 set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
 
-set DIST="%CD%\..\..\release"
+set DIST="..\release"
 mkdir %DIST%
-
-CD ..\
 
 msbuild /nologo %PROJECT%.sln /t:Clean /p:Configuration=Release
 msbuild /nologo %PROJECT%.sln /t:Build /p:Configuration=Release
