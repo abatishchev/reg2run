@@ -1,6 +1,7 @@
 // Copyright (C) 2005-2010 Alexander M. Batishchev aka Godfather (abatishchev at gmail.com)
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
@@ -80,7 +81,7 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
-		private static void DeleteValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		private static void DeleteValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
 		{
 			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
 			{
@@ -101,7 +102,7 @@ namespace Reg2Run
 
 		public static void Import(ImportObject obj)
 		{
-			new System.Collections.Generic.Dictionary<RegistryWriteFlag, RegistryKey>
+			new Dictionary<RegistryWriteFlag, RegistryKey>
 			{
 				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
 				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
@@ -111,7 +112,7 @@ namespace Reg2Run
 
 		public static void Remove(ImportObject obj)
 		{
-			new System.Collections.Generic.Dictionary<RegistryWriteFlag, RegistryKey>
+			new Dictionary<RegistryWriteFlag, RegistryKey>
 			{
 				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
 				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
@@ -119,7 +120,7 @@ namespace Reg2Run
 			.ForEach(pair => DeleteValue(pair, obj));
 		}
 
-		private static void SetValue(System.Collections.Generic.KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		private static void SetValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
 		{
 			try
 			{

@@ -137,6 +137,11 @@ namespace Reg2Run
 				{
 					throw new Exception("No object to import");
 				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Error:");
+					Console.WriteLine(ex.Message);
+				}
 			}
 		}
 
