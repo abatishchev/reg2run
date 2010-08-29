@@ -79,13 +79,9 @@ namespace Reg2Run
 							StartInfo = info
 						};
 
-						Action<object, DataReceivedEventArgs> actionWrite = (sender, e) =>
-						{
-							Console.WriteLine(e.Data);
-						};
-
-						process.ErrorDataReceived += (sender, e) => actionWrite(sender, e);
-						process.OutputDataReceived += (sender, e) => actionWrite(sender, e);
+						DataReceivedEventHandler actionWrite = (sender, e) => { Console.WriteLine(e.Data); };
+						process.ErrorDataReceived += actionWrite;
+						process.OutputDataReceived += actionWrite;
 
 						process.Start();
 						process.BeginOutputReadLine();
