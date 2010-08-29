@@ -69,8 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Publish\publish.bat" />
-    <None Include="Publish\publish.in" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\CHANGELOG.txt" />
