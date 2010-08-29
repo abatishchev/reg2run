@@ -91,7 +91,6 @@ namespace Reg2Run
 						process.BeginOutputReadLine();
 						process.BeginErrorReadLine();
 						process.WaitForExit();
-						return;
 					}
 					else if (Core.Settings.EngageFlag)
 					{
