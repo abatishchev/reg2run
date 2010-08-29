@@ -12,6 +12,14 @@ namespace Reg2Run
 {
 	static class Core
 	{
+		#region Fields
+		private static IDictionary<RegistryWriteFlag, RegistryKey> registryKeyDictionary = new Dictionary<RegistryWriteFlag, RegistryKey>
+		{
+			{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
+			{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
+		};
+		#endregion
+
 		#region Properties
 		private static string copyright;
 		public static string ApplicationCopyright
@@ -81,6 +89,22 @@ namespace Reg2Run
 		#endregion
 
 		#region Methods
+		public static void Add(ImportObject obj)
+		{
+			int count = 0;
+			foreach (var pair in registryKeyDictionary)
+			{
+				try
+				{
+					SetValue(pair, obj);
+				}
+				catch (System.Security.SecurityException)
+				{
+					count++;
+				}
+			}
+		}
+
 		private static void DeleteValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
 		{
 			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
@@ -95,52 +119,36 @@ namespace Reg2Run
 			}
 		}
 
-		public static Process GetParentProcess()
-		{
-			return Process.GetProcessById((int)new PerformanceCounter("Process", "Creating Process ID", Process.GetCurrentProcess().ProcessName).NextValue());
-		}
-
-		public static void Import(ImportObject obj)
-		{
-			new Dictionary<RegistryWriteFlag, RegistryKey>
-			{
-				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
-				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
-			}
-			.ForEach(pair => SetValue(pair, obj));
-		}
-
 		public static void Remove(ImportObject obj)
 		{
-			new Dictionary<RegistryWriteFlag, RegistryKey>
+			int count = 0;
+			foreach (var pair in registryKeyDictionary)
 			{
-				{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
-				{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
+				try
+				{
+					DeleteValue(pair, obj);
+				}
+				catch (System.Security.SecurityException)
+				{
+					count++;
+				}
 			}
-			.ForEach(pair => DeleteValue(pair, obj));
 		}
 
 		private static void SetValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
 		{
-			try
+			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
 			{
-				if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
-				{
-					var key = pair.Value
-						.OpenSubKey("Software")
-						.OpenSubKey("Microsoft")
-						.OpenSubKey("Windows")
-						.OpenSubKey("CurrentVersion")
-						.OpenSubKey("App Paths", true)
-						.CreateSubKey(obj.FileName);
-					key.SetValue(String.Empty, obj.FullPath);
-					key.SetValue("Path", obj.WorkingDirectory);
-					key.Flush();
-				}
-			}
-			catch
-			{
-				// do nothing; just skip
+				var key = pair.Value
+					.OpenSubKey("Software")
+					.OpenSubKey("Microsoft")
+					.OpenSubKey("Windows")
+					.OpenSubKey("CurrentVersion")
+					.OpenSubKey("App Paths", true)
+					.CreateSubKey(obj.FileName);
+				key.SetValue(String.Empty, obj.FullPath);
+				key.SetValue("Path", obj.WorkingDirectory);
+				key.Flush();
 			}
 		}
 		#endregion

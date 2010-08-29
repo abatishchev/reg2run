@@ -31,7 +31,7 @@ namespace Reg2Run
 						if (MessageBox.Show(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 						{
 							Core.Settings = new ApplicationSettings();
-							Core.Import(obj);
+							Core.Add(obj);
 							MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
 						else
@@ -108,7 +108,7 @@ namespace Reg2Run
 								ActionTypeFlag.Add, (o) =>
 								{
 									Console.WriteLine(String.Equals(System.IO.Path.GetFileName(obj.FullPath), obj.FileName, StringComparison.OrdinalIgnoreCase) ? "Adding: '{0}'" : "Adding: '{0}' as '{1}'", obj.FullPath, obj.FileName);
-									Core.Import(obj);
+									Core.Add(obj);
 									Console.WriteLine("Done.");
 									if (o.Run)
 									{
