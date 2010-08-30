@@ -129,10 +129,6 @@ namespace Reg2Run
 						}
 					}
 				}
-				catch (NullReferenceException)
-				{
-					throw new Exception("No object to import");
-				}
 				catch (Exception ex)
 				{
 					Console.WriteLine("Error:");
@@ -144,7 +140,11 @@ namespace Reg2Run
 		private static void PrintUsage()
 		{
 			string format;
-			Console.WriteLine("Usage: reg2run [PATH] | -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] [--engage] | -s | -?");
+			Console.WriteLine("Usage:");
+			Console.WriteLine("reg2run [PATH]");
+			Console.WriteLine("reg2run -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] [--engage]");
+			Console.WriteLine("reg2run -s [-n NAME] [-r [PARAM]]");
+			Console.WriteLine("reg2run -?");
 			Console.WriteLine();
 			Console.WriteLine("Options:");
 			format = "\t{0}\t\t{1}";
@@ -156,7 +156,8 @@ namespace Reg2Run
 			Console.WriteLine(format, "-s", "Add tool itself to the registry");
 			Console.WriteLine(format, "--hkcu", "Write into HKEY_CURRENT_USER registry hive");
 			Console.WriteLine(format, "--hklm", "Write into HKEY_LOCAL_MACHINE registry hive");
-			Console.WriteLine(format, "--engage", "Perform an registry action implying elevated privileges obtained");
+			format = "\t{0}\t{1}"; // formatting workaround
+			Console.WriteLine(format, "--engage", "Perform an action implying elevated privileges obtained");
 			Console.WriteLine();
 			Console.WriteLine("Remarks:");
 			format = "\t{0}";

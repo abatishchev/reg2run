@@ -139,13 +139,19 @@ namespace Reg2Run
 		{
 			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
 			{
-				var key = pair.Value
+				var currentVersion = pair.Value
 					.OpenSubKey("Software")
 					.OpenSubKey("Microsoft")
 					.OpenSubKey("Windows")
-					.OpenSubKey("CurrentVersion")
-					.OpenSubKey("App Paths", true)
-					.CreateSubKey(obj.FileName);
+					.OpenSubKey("CurrentVersion", true);
+
+				var appPaths = currentVersion.OpenSubKey("App Paths", true);
+				if (appPaths == null)
+				{
+					appPaths.CreateSubKey("App Paths");
+				}
+
+				var key = appPaths.CreateSubKey(obj.FileName);
 				key.SetValue(String.Empty, obj.FullPath);
 				key.SetValue("Path", obj.WorkingDirectory);
 				key.Flush();
