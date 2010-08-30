@@ -67,9 +67,9 @@ namespace Reg2Run
 							System.Reflection.Assembly.GetEntryAssembly().Location,
 							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" })))
 						{
-							RedirectStandardError = true,
-							RedirectStandardOutput = true,
-							UseShellExecute = false,
+							//RedirectStandardError = true,
+							//RedirectStandardOutput = true,
+							UseShellExecute = true,
 							Verb = "runas",
 						};
 
@@ -79,13 +79,13 @@ namespace Reg2Run
 							StartInfo = info
 						};
 
-						DataReceivedEventHandler actionWrite = (sender, e) => { Console.WriteLine(e.Data); };
-						process.ErrorDataReceived += actionWrite;
-						process.OutputDataReceived += actionWrite;
+						//DataReceivedEventHandler actionWrite = (sender, e) => { Console.WriteLine(e.Data); };
+						//process.ErrorDataReceived += actionWrite;
+						//process.OutputDataReceived += actionWrite;
 
 						process.Start();
-						process.BeginOutputReadLine();
-						process.BeginErrorReadLine();
+						//process.BeginOutputReadLine();
+						//process.BeginErrorReadLine();
 						process.WaitForExit();
 					}
 					else if (Core.Settings.EngageFlag)
@@ -127,6 +127,7 @@ namespace Reg2Run
 						{
 							action(obj);
 						}
+						Console.ReadKey(true);
 					}
 				}
 				catch (Exception ex)
