@@ -4,8 +4,9 @@ Reg2Run Tool Changelog
 
 [+] Elevating privileges on demand
 
-[~] Improving exception handling while P/Invokes execution
+[~] Improved exception handling while P/Invokes execution
 [~] No more registry action enumeration as a flag; the last given is significant
+[~] Improved exception handling while registry writing
 
 2.1.9 (2010.08.16)
 
