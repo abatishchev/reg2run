@@ -7,10 +7,11 @@ set RARCMD=A -afzip -o+ -s -ibck -t -m5
 
 set PROJECT=reg2run
 
-set FILES=Reg2Run.csproj Reg2Run.sln
 set SOURCES=ActionTypeFlag.cs ApplicationSettings.cs ApplicationSettingsParser.cs Core.cs Extensions.cs ImportObject.cs ImportObjectParser.cs ManualConsole.cs Program.cs RegistryWriteFlag.cs Errors\ImportCanceledException.cs Errors\NotExecutableException.cs Errors\ParameterMissedException.cs Errors\ParameterNotSetException.cs Errors\UnknownParameterException.cs Properties\AssemblyInfo.cs
+set VS_FILES=Reg2Run.csproj Reg2Run.sln
+set CONFIG=App.config
 set DOCS=Documents\CHANGELOG.txt Documents\LICENSE.txt Documents\TODO.txt
-set FILES=%FILES% %SOURCES% %DOCS%
+set FILES=%SOURCES% %VS_FILES% %CONFIG% %DOCS%
 
 set BINARY=bin\Release\reg2run.exe
 
