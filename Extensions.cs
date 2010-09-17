@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (C) 2009-2010 Alexander M. Batishchev (abatishchev at gmail.com)
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
