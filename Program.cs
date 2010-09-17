@@ -61,11 +61,11 @@ namespace Reg2Run
 					{
 						PrintUsage();
 					}
-					else if (!Core.Settings.EngageFlag && !Core.IsElevated)
+					else if (!Core.Settings.EngageFlag)
 					{
 						var info = new ProcessStartInfo(
 							System.Reflection.Assembly.GetEntryAssembly().Location,
-							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" })))
+							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" }).Escape()))
 						{
 							//RedirectStandardError = true,
 							//RedirectStandardOutput = true,

@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Reg2Run
 {
-	public static class Extensions
+	static class Extensions
 	{
-		public static void ForEach<T>(this System.Collections.Generic.IEnumerable<T> collection, Action<T> action)
+		public static IEnumerable<string> Escape(this IEnumerable<string> arr)
+		{
+			return arr.Select(s => s.Contains(" ") ? String.Format("\"{0}\"", s) : s);
+		}
+
+		public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
 		{
 			foreach (var item in collection)
 			{

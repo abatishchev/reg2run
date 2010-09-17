@@ -3,9 +3,7 @@ Reg2Run Tool TODO List
 [x] Elevate privileges on demand
 [x] Examine first parameter being a path to executable even '-p' is not specified
 [x] Indicate StringComparison in logging messages on import
-[ ] Store log messages into a resource file
 [ ] Implement removing from registry file specified
-[ ] Improve keeping console open for elevated process
 [ ] Add unit testing
 [ ] Don't show child process window; hide window, grab output and redirect instead
-[ ] Preservce path escaping while passing it to elevated process as command line argument
+[x] Preservce path escaping while passing it to elevated process as command line argument
