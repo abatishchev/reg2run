@@ -8,3 +8,4 @@ Reg2Run Tool TODO List
 [ ] Improve keeping console open for elevated process
 [ ] Add unit testing
 [ ] Don't show child process window; hide window, grab output and redirect instead
+[ ] Preservce path escaping while passing it to elevated process as command line argument
