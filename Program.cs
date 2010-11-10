@@ -17,31 +17,31 @@ namespace Reg2Run
 				ManualConsole.Hide();
 				try
 				{
-					var dialog = new OpenFileDialog();
-					dialog.DefaultExt = "exe";
-					dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
-					dialog.InitialDirectory = Application.StartupPath;
-					dialog.Title = "Choose a file to import..";
-
-					var dialogResult = dialog.ShowDialog();
-					dialog.Dispose();
-					if (dialogResult == DialogResult.OK)
+					using (var dialog = new OpenFileDialog())
 					{
-						var obj = new ImportObject(dialog.FileName);
-						if (MessageBox.Show(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+						dialog.DefaultExt = "exe";
+						dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
+						dialog.Title = "Choose file to import..";
+
+						var dialogResult = dialog.ShowDialog();
+						if (dialogResult == DialogResult.OK)
 						{
-							Core.Settings = new ApplicationSettings();
-							Core.Add(obj);
-							MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							var obj = new ImportObject(dialog.FileName);
+							if (MessageBox.Show(String.Format(System.Globalization.CultureInfo.CurrentCulture, "Are you shure want to import specified file: '{0}'?", obj.FullPath), Core.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+							{
+								Core.Settings = new ApplicationSettings();
+								Core.Add(obj);
+								MessageBox.Show("Done!", Core.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+							else
+							{
+								throw new ImportCanceledException();
+							}
 						}
 						else
 						{
 							throw new ImportCanceledException();
 						}
-					}
-					else
-					{
-						throw new ImportCanceledException();
 					}
 				}
 				catch (Exception ex)
@@ -65,10 +65,8 @@ namespace Reg2Run
 					{
 						var info = new ProcessStartInfo(
 							System.Reflection.Assembly.GetEntryAssembly().Location,
-							String.Join(" ", Enumerable.Concat(args, new[] { "--engage" }).Escape()))
+							String.Join(" ", Enumerable.Concat(new[] { "--engage" }, args).Escape()))
 						{
-							//RedirectStandardError = true,
-							//RedirectStandardOutput = true,
 							UseShellExecute = true,
 							Verb = "runas",
 						};
@@ -79,13 +77,7 @@ namespace Reg2Run
 							StartInfo = info
 						};
 
-						//DataReceivedEventHandler actionWrite = (sender, e) => { Console.WriteLine(e.Data); };
-						//process.ErrorDataReceived += actionWrite;
-						//process.OutputDataReceived += actionWrite;
-
 						process.Start();
-						//process.BeginOutputReadLine();
-						//process.BeginErrorReadLine();
 						process.WaitForExit();
 					}
 					else if (Core.Settings.EngageFlag)
@@ -127,13 +119,17 @@ namespace Reg2Run
 						{
 							action(obj);
 						}
-						Console.ReadKey(true);
+						if (!obj.Run)
+						{
+							Console.ReadKey(true);
+						}
 					}
 				}
 				catch (Exception ex)
 				{
 					Console.WriteLine("Error:");
 					Console.WriteLine(ex.Message);
+					Console.ReadKey(true);
 				}
 			}
 		}
