@@ -139,7 +139,7 @@ namespace Reg2Run
 			string format;
 			Console.WriteLine("Usage:");
 			Console.WriteLine("reg2run [PATH]");
-			Console.WriteLine("reg2run -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [-r [PARAM]] [--engage]");
+			Console.WriteLine("reg2run -p PATH [-n NAME] [-d DIR] [--hkcu] [--hklm] [--engage] [-r [PARAM]]");
 			Console.WriteLine("reg2run -s [-n NAME] [-r [PARAM]]");
 			Console.WriteLine("reg2run -?");
 			Console.WriteLine();
