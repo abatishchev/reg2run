@@ -13,10 +13,10 @@ namespace Reg2Run
 	static class Core
 	{
 		#region Fields
-		private static IDictionary<RegistryWriteFlag, RegistryKey> registryKeyDictionary = new Dictionary<RegistryWriteFlag, RegistryKey>
+		private static IEnumerable<Tuple<RegistryWriteFlag, RegistryKey>> registryKeyDictionary = new[]
 		{
-			{ RegistryWriteFlag.HKLM, Registry.LocalMachine },
-			{ RegistryWriteFlag.HKCU, Registry.CurrentUser }
+			new Tuple<RegistryWriteFlag, RegistryKey>( RegistryWriteFlag.HKLM, Registry.LocalMachine ),
+			new Tuple<RegistryWriteFlag, RegistryKey>(RegistryWriteFlag.HKCU, Registry.CurrentUser )
 		};
 		#endregion
 
@@ -91,7 +91,6 @@ namespace Reg2Run
 		#region Methods
 		public static void Add(ImportObject obj)
 		{
-			int count = 0;
 			foreach (var pair in registryKeyDictionary)
 			{
 				try
@@ -100,16 +99,15 @@ namespace Reg2Run
 				}
 				catch (System.Security.SecurityException)
 				{
-					count++;
 				}
 			}
 		}
 
-		private static void DeleteValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		private static void DeleteValue(Tuple<RegistryWriteFlag, RegistryKey> tuple, ImportObject obj)
 		{
-			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
+			if ((Settings.RegistryWriteMode & tuple.Item1) == tuple.Item1)
 			{
-				pair.Value
+				tuple.Item2
 					.OpenSubKey("Software")
 					.OpenSubKey("Microsoft")
 					.OpenSubKey("Windows")
@@ -122,11 +120,11 @@ namespace Reg2Run
 		public static void Remove(ImportObject obj)
 		{
 			int count = 0;
-			foreach (var pair in registryKeyDictionary)
+			foreach (var tuple in registryKeyDictionary)
 			{
 				try
 				{
-					DeleteValue(pair, obj);
+					DeleteValue(tuple, obj);
 				}
 				catch (System.Security.SecurityException)
 				{
@@ -135,11 +133,11 @@ namespace Reg2Run
 			}
 		}
 
-		private static void SetValue(KeyValuePair<RegistryWriteFlag, RegistryKey> pair, ImportObject obj)
+		private static void SetValue(Tuple<RegistryWriteFlag, RegistryKey> tuple, ImportObject obj)
 		{
-			if ((Settings.RegistryWriteMode & pair.Key) == pair.Key)
+			if ((Settings.RegistryWriteMode & tuple.Item1) == tuple.Item1)
 			{
-				var currentVersion = pair.Value
+				var currentVersion = tuple.Item2
 					.OpenSubKey("Software")
 					.OpenSubKey("Microsoft")
 					.OpenSubKey("Windows")
@@ -148,7 +146,7 @@ namespace Reg2Run
 				var appPaths = currentVersion.OpenSubKey("App Paths", true);
 				if (appPaths == null)
 				{
-					appPaths.CreateSubKey("App Paths");
+					currentVersion.CreateSubKey("App Paths");
 				}
 
 				var key = appPaths.CreateSubKey(obj.FileName);
