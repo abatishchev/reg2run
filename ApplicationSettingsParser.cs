@@ -64,7 +64,7 @@ namespace Reg2Run
 					case "-l":
 						{
 							System.Windows.Forms.MessageBox.Show(Environment.CurrentDirectory, Core.ApplicationName);
-							System.Windows.Forms.Application.Exit();
+							Environment.Exit(0);
 							break;
 						}
 					case "-n":
