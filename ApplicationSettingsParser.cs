@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2010 Alexander M. Batishchev (abatishchev at gmail.com)
+﻿// Copyright (C) 2005-2011 Alexander M. Batishchev (abatishchev at gmail.com)
 
 using System;
 
@@ -59,6 +59,12 @@ namespace Reg2Run
 					case "--hklm":
 						{
 							settings.RegistryWriteMode |= RegistryWriteFlag.HKLM;
+							break;
+						}
+					case "-l":
+						{
+							System.Windows.Forms.MessageBox.Show(Environment.CurrentDirectory, Core.ApplicationName);
+							System.Windows.Forms.Application.Exit();
 							break;
 						}
 					case "-n":
