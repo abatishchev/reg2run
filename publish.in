@@ -16,7 +16,7 @@ set BINARY=bin\Release\reg2run.exe
 
 set MAJOR=2
 set MINOR=2
-set BUILD=10
+set BUILD=11
 set REVISION=$WCREV$
 set VERSION=%MAJOR%.%MINOR%.%BUILD%.%REVISION%
 
