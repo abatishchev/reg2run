@@ -147,6 +147,7 @@ namespace Reg2Run
 				if (appPaths == null)
 				{
 					currentVersion.CreateSubKey("App Paths");
+					appPaths = currentVersion.OpenSubKey("App Paths", true);
 				}
 
 				var key = appPaths.CreateSubKey(obj.FileName);
