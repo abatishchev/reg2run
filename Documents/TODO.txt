@@ -7,3 +7,4 @@ Reg2Run Tool TODO List
 [ ] Add unit testing
 [ ] Don't show child process window; hide window, grab output and redirect instead
 [x] Preservce path escaping while passing it to elevated process as command line argument
+[ ] Context menu to add
