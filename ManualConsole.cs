@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2005-2011 Alexander M. Batishchev (abatishchev at gmail.com)
+﻿// Copyright (C) 2005-2015 Alexander Batishchev (abatishchev at gmail.com)
 
 using System;
 using System.ComponentModel;
